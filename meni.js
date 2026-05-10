@@ -405,42 +405,18 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
 const burger = document.getElementById('burger');
 const navCenter = document.querySelector('.nav__center');
 
-// iOS-compatible scroll lock: body { position: fixed } is the only reliable approach
-let _savedScrollY = 0;
-
-function menuLock() {
-  _savedScrollY = window.scrollY;
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${_savedScrollY}px`;
-  document.body.style.width = '100%';
-  document.body.style.overflow = 'hidden';
-}
-
-function menuUnlock() {
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
-  document.body.style.overflow = '';
-  window.scrollTo(0, _savedScrollY);
-}
-
 burger?.addEventListener('click', () => {
   const open = burger.classList.toggle('open');
   navCenter?.classList.toggle('open', open);
-  open ? menuLock() : menuUnlock();
+  // Zaključaj scroll tela dok je meni otvoren
+  document.body.style.overflow = open ? 'hidden' : '';
 });
 
 navCenter?.querySelectorAll('.nav__tab').forEach(tab => {
   tab.addEventListener('click', () => {
     burger?.classList.remove('open');
     navCenter.classList.remove('open');
-    // Unlock body first, then restore position so smooth scroll
-    // calculates the correct getBoundingClientRect offset
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
     document.body.style.overflow = '';
-    window.scrollTo(0, _savedScrollY);
   });
 });
 
@@ -472,28 +448,51 @@ sections.forEach(s => tabObs.observe(s));
 
 /* ─── Sub-nav scroll-spy ─── */
 const subNavLinks = document.querySelectorAll('.sub-nav__item[data-target]');
+const subNavInner = document.querySelector('.sub-nav__inner');
+
+function centerActiveSubNavItem(id) {
+  const active = subNavInner?.querySelector(`.sub-nav__item[data-target="${id}"]`);
+  if (!active || !subNavInner) return;
+  // Izračunaj offset da bude u centru sub-nav-a
+  const containerW = subNavInner.offsetWidth;
+  const itemLeft   = active.offsetLeft;
+  const itemW      = active.offsetWidth;
+  const target     = itemLeft - containerW / 2 + itemW / 2;
+  subNavInner.scrollTo({ left: target, behavior: 'smooth' });
+}
 
 const subNavObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     const id = entry.target.id;
     subNavLinks.forEach(l => l.classList.toggle('active', l.dataset.target === id));
-    // auto-scroll sub-nav item into view
-    const active = document.querySelector(`.sub-nav__item[data-target="${id}"]`);
-    if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    centerActiveSubNavItem(id);
   });
-}, { rootMargin: '-30% 0px -60% 0px' });
+}, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
 
 sections.forEach(s => subNavObs.observe(s));
 
 /* ─── Smooth scroll for sub-nav links ─── */
+// Računamo total sticky offset: nav + sub-nav visina
+function getStickyOffset() {
+  const navH    = document.querySelector('.nav')?.offsetHeight    || 68;
+  const subNavH = document.querySelector('.sub-nav')?.offsetHeight || 90;
+  return navH + subNavH + 8; // 8px extra breathing room
+}
+
+// Postavi scroll-padding-top dinamicki
+function updateScrollPadding() {
+  document.documentElement.style.scrollPaddingTop = getStickyOffset() + 'px';
+}
+updateScrollPadding();
+window.addEventListener('resize', updateScrollPadding);
+
 subNavLinks.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const target = document.getElementById(link.dataset.target);
     if (!target) return;
-    const navH = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68) + 44;
-    const offset = target.getBoundingClientRect().top + window.scrollY - navH;
+    const offset = target.getBoundingClientRect().top + window.scrollY - getStickyOffset();
     window.scrollTo({ top: offset, behavior: 'smooth' });
   });
 });
