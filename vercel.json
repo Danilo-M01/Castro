@@ -3,44 +3,45 @@
   "builds": [
     {
       "src": "server.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "index.html",
+          "meni.html",
+          "dashboard.html",
+          "track.html",
+          "style.css",
+          "script.js",
+          "meni.css",
+          "meni.js",
+          "dashboard.css",
+          "dashboard.js",
+          "logo.png",
+          "logo.svg",
+          "Logo za sajt.webp",
+          "Hero sekcija pozadina dekstop.png",
+          "Herosekcija pozadina telefon.png",
+          "havana-car.jpg.webp",
+          "havana-ulica.jpg.webp",
+          "castro-margherita.jpg.png",
+          "pizza-restoran.jpg.png",
+          "baner1.webp",
+          "baner2.webp",
+          "baner3.webp",
+          "cat-obroci.webp",
+          "cat-paste.webp",
+          "cat-pizze.webp",
+          "cat-salate.webp",
+          "cat-sendvici.webp",
+          "cat-slana-palacinka.webp",
+          "cat-slatka-palacinka.webp",
+          "cat-tortilje.webp",
+          "olivia_parker-chime-alert-demo-309545.mp3"
+        ]
+      }
     }
   ],
   "routes": [
-    {
-      "src": "/style\\.css",
-      "dest": "/style.css",
-      "headers": { "Content-Type": "text/css; charset=utf-8" }
-    },
-    {
-      "src": "/script\\.js",
-      "dest": "/script.js",
-      "headers": { "Content-Type": "application/javascript; charset=utf-8" }
-    },
-    {
-      "src": "/meni\\.css",
-      "dest": "/meni.css",
-      "headers": { "Content-Type": "text/css; charset=utf-8" }
-    },
-    {
-      "src": "/meni\\.js",
-      "dest": "/meni.js",
-      "headers": { "Content-Type": "application/javascript; charset=utf-8" }
-    },
-    {
-      "src": "/dashboard\\.css",
-      "dest": "/dashboard.css",
-      "headers": { "Content-Type": "text/css; charset=utf-8" }
-    },
-    {
-      "src": "/dashboard\\.js",
-      "dest": "/dashboard.js",
-      "headers": { "Content-Type": "application/javascript; charset=utf-8" }
-    },
-    {
-      "src": "/(.*\\.(png|jpg|jpeg|webp|svg|ico|gif|mp3|mp4|woff|woff2|ttf|otf))",
-      "dest": "/$1"
-    },
     {
       "src": "/(.*)",
       "dest": "/server.js"
