@@ -53,12 +53,13 @@ function playAlert(leftMs) {
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.type = "sine";
-  if (leftMs > 120000)      { osc.frequency.value = 520;  gain.gain.value = 0.05; }
-  else if (leftMs > 60000)  { osc.frequency.value = 700;  gain.gain.value = 0.08; }
-  else if (leftMs > 30000)  { osc.frequency.value = 880;  gain.gain.value = 0.12; }
-  else                      { osc.frequency.value = 1020; gain.gain.value = 0.18; }
+  // Povecan intenzitet i volumen kako vreme istice
+  if (leftMs > 120000)      { osc.frequency.value = 520;  gain.gain.value = 0.15; }
+  else if (leftMs > 60000)  { osc.frequency.value = 700;  gain.gain.value = 0.35; }
+  else if (leftMs > 30000)  { osc.frequency.value = 880;  gain.gain.value = 0.60; }
+  else                      { osc.frequency.value = 1020; gain.gain.value = 0.95; }
   osc.connect(gain); gain.connect(ctx.destination);
-  osc.start(); osc.stop(ctx.currentTime + 0.18);
+  osc.start(); osc.stop(ctx.currentTime + 0.25);
 }
 
 function fmtTime(ms) {
@@ -118,7 +119,7 @@ function renderStats() {
   const total   = orders.length;
   const pending = orders.filter(o => o.status === "new").length;
   const rev     = orders.filter(o => !["rejected","missed"].includes(o.status))
-                        .reduce((a,o) => a + o.items.reduce((s,i) => s + i.qty*i.price, 0), 0);
+                        .reduce((a,o) => a + o.items.reduce((s,i) => s + i.qty*(i.price + (i.addons||[]).reduce((as,ad)=>as+ad.price*ad.qty,0)), 0), 0);
 
   // Missed today — deduplicate across active orders + history
   const today = new Date().toISOString().split("T")[0];
@@ -149,8 +150,15 @@ function renderIncoming() {
   document.title = `🔔 ${incoming.length} novih`;
   incomingOrdersEl.innerHTML = incoming.map(o => {
     const leftMs = Math.max(3*60000 - (Date.now() - new Date(o.createdAt).getTime()), 0);
-    const total  = o.items.reduce((s,i) => s + i.price*i.qty, 0);
-    const items  = o.items.map(i => `${i.qty}× ${escapeHtml(i.name)}`).join("<br>");
+    const total  = o.items.reduce((s,i) => s + i.qty*(i.price + (i.addons||[]).reduce((as,ad)=>as+ad.price*ad.qty,0)), 0);
+    const items  = o.items.map(i => {
+      let str = `${i.qty}× ${escapeHtml(i.name)}`;
+      if (i.addons && i.addons.length) {
+        const addonStr = i.addons.map(a => `${escapeHtml(a.name)}${a.qty > 1 ? ' x'+a.qty : ''}`).join(', ');
+        str += `<br><small style="color:#aaa;padding-left:12px;">+ ${addonStr}</small>`;
+      }
+      return str;
+    }).join("<br>");
     const addr   = o.type === "Dostava" && o.address ? `<span>📍 ${escapeHtml(o.address)}</span>` : "";
     const note   = o.note ? `<span>📝 ${escapeHtml(o.note)}</span>` : "";
     return `
@@ -268,7 +276,7 @@ function renderHistory() {
   if (statsRow) {
     const totalRev = filtered
       .filter(o => o.status === "completed")
-      .reduce((a,o) => a + (Array.isArray(o.items) ? o.items.reduce((s,i) => s+(i.price||0)*(i.qty||1),0) : 0), 0);
+      .reduce((a,o) => a + (Array.isArray(o.items) ? o.items.reduce((s,i) => s+(i.qty||1)*((i.price||0) + (i.addons||[]).reduce((as,ad)=>as+(ad.price||0)*(ad.qty||1),0)),0) : 0), 0);
     const completed = filtered.filter(o => o.status === "completed").length;
     const rejected  = filtered.filter(o => ["rejected","missed"].includes(o.status)).length;
     statsRow.innerHTML = `
@@ -284,8 +292,14 @@ function renderHistory() {
   }
 
   orderHistoryList.innerHTML = filtered.slice(0,60).map(o => {
-    const total = Array.isArray(o.items) ? o.items.reduce((s,i) => s+(i.price||0)*(i.qty||1),0) : 0;
-    const itemsList = Array.isArray(o.items) ? o.items.map(i => `${i.qty}× ${escapeHtml(i.name)}`).join(", ") : "";
+    const total = Array.isArray(o.items) ? o.items.reduce((s,i) => s+(i.qty||1)*((i.price||0) + (i.addons||[]).reduce((as,ad)=>as+(ad.price||0)*(ad.qty||1),0)),0) : 0;
+    const itemsList = Array.isArray(o.items) ? o.items.map(i => {
+      let str = `${i.qty}× ${escapeHtml(i.name)}`;
+      if (i.addons && i.addons.length) {
+        str += ` (+ ${i.addons.map(a => a.name).join(', ')})`;
+      }
+      return str;
+    }).join(", ") : "";
     const createdStr = o.createdAt ? new Date(o.createdAt).toLocaleString("sr-RS") : "—";
     const updatedStr = o.updatedAt ? new Date(o.updatedAt).toLocaleString("sr-RS") : "—";
     const sCls = o.status === "completed" ? "s-completed" : o.status === "rejected" ? "s-rejected" : "s-missed";

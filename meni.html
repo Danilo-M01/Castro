@@ -66,6 +66,7 @@
 <nav class="sub-nav" id="subNav" aria-label="Kategorije">
   <div class="sub-nav__inner">
     <a href="#dorucak" class="sub-nav__item" data-target="dorucak"><span class="sn-emoji">🍳</span><span class="sn-label">Doručak</span></a>
+    <a href="#corbe" class="sub-nav__item" data-target="corbe"><span class="sn-emoji">🍲</span><span class="sn-label">Čorbe</span></a>
     <a href="#pizze" class="sub-nav__item" data-target="pizze"><span class="sn-emoji">🍕</span><span class="sn-label">Pizze</span></a>
     <a href="#specijal" class="sub-nav__item" data-target="specijal"><span class="sn-emoji">⭐</span><span class="sn-label">Specijal</span></a>
     <a href="#piletina" class="sub-nav__item" data-target="piletina"><span class="sn-emoji">🍗</span><span class="sn-label">Piletina</span></a>
@@ -74,6 +75,7 @@
     <a href="#tortilje" class="sub-nav__item" data-target="tortilje"><span class="sn-emoji">🌯</span><span class="sn-label">Tortilje</span></a>
     <a href="#salate" class="sub-nav__item" data-target="salate"><span class="sn-emoji">🥗</span><span class="sn-label">Salate</span></a>
     <a href="#dezerti" class="sub-nav__item" data-target="dezerti"><span class="sn-emoji">🍰</span><span class="sn-label">Deserti</span></a>
+    <a href="#dodaci" class="sub-nav__item" data-target="dodaci"><span class="sn-emoji">🧂</span><span class="sn-label">Dodaci</span></a>
     <a href="#pica" class="sub-nav__item" data-target="pica"><span class="sn-emoji">🍺</span><span class="sn-label">Pića</span></a>
   </div>
 </nav>
@@ -129,21 +131,32 @@
             <div class="item item--breakfast" data-name="Pohovani štapići lignje" data-price="610"><span class="item__name">Pohovani štapići lignje<span class="item__desc">štapići lignje, pomfrit 120g, mix salata, limun</span></span><div class="item__right"><span class="item__price">610 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
             <div class="item item--breakfast" data-name="Castro brusketi" data-price="500"><span class="item__name">Castro brusketi<span class="item__desc">baget hleb, premaz, pečenica, gauda sir, bosiljak</span></span><div class="item__right"><span class="item__price">500 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
             <div class="item item--breakfast" data-name="Posni brusketi" data-price="520"><span class="item__name">Posni brusketi<span class="item__desc">baget hleb, posni premaz, kečap, iceberg salata, kukuruz, tuna</span></span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Gril pileće belo" data-price="750"><span class="item__name">Gril pileće belo<span class="item__desc">gril piletina 280g, Castro sos, pomfrit 140g</span></span><div class="item__right"><span class="item__price">750 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Mini pileće belo gril" data-price="470"><span class="item__name">Mini pileće belo — gril<span class="item__desc">gril piletina 140g, Castro sos, pomfrit 120g</span></span><div class="item__right"><span class="item__price">470 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Pohovano pileće belo u susamu" data-price="790"><span class="item__name">Pohovano pileće u susamu<span class="item__desc">piletina 300g, susam, pomfrit 140g, limun, tartar sos</span></span><div class="item__right"><span class="item__price">790 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Mini pileće belo pohovano u susamu" data-price="520"><span class="item__name">Mini pileće — pohovano u susamu<span class="item__desc">piletina 150g, susam, pomfrit 120g, limun, tartar sos</span></span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Pileći štapići u kornfleksu" data-price="820"><span class="item__name">Pileći štapići u kornfleksu<span class="item__desc">piletina 300g, kornfleks, pomfrit 140g, mix salata, čeri, tartar sos</span></span><div class="item__right"><span class="item__price">820 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Mini pileći štapići u kornfleksu" data-price="560"><span class="item__name">Mini pileći štapići u kornfleksu<span class="item__desc">piletina 150g, kornfleks, pomfrit 120g, mix salata, čeri, tartar sos</span></span><div class="item__right"><span class="item__price">560 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Gril piletina sa sosom od pečuraka" data-price="810"><span class="item__name">Gril piletina sa sosom od pečuraka ★<span class="item__desc">piletina 280g, sos od pečuraka, pomfrit 140g, Castro sos — NOVO</span></span><div class="item__right"><span class="item__price">810 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Mini gril piletina sa sosom od pečuraka" data-price="540"><span class="item__name">Mini gril piletina sa sosom<span class="item__desc">piletina 140g, sos od pečuraka, Castro sos — NOVO</span></span><div class="item__right"><span class="item__price">540 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Rolovano pileće belo" data-price="830"><span class="item__name">Rolovano pileće belo ★<span class="item__desc">piletina 280g, slanina, pomfrit 140g, mix salata, Castro sos — NOVO</span></span><div class="item__right"><span class="item__price">830 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Mini rolovano pileće belo" data-price="520"><span class="item__name">Mini rolovano pileće belo<span class="item__desc">piletina 140g, slanina, Castro sos — NOVO</span></span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Pomfrit 100g" data-price="170"><span class="item__name">Pomfrit 100g</span><div class="item__right"><span class="item__price">170 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item item--breakfast" data-name="Pomfrit 200g" data-price="280"><span class="item__name">Pomfrit 200g</span><div class="item__right"><span class="item__price">280 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--breakfast" data-name="Pomfrit 100/200g" data-price="170" data-sizes="100g:170|200g:280"><span class="item__name">Pomfrit 100/200g</span><div class="item__right"><span class="item__price">od 170 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
             <div class="item item--breakfast" data-name="Somun 150g" data-price="40"><span class="item__name">Somun (150g)</span><div class="item__right"><span class="item__price">40 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
             <div class="item item--breakfast" data-name="Tost hleb" data-price="40"><span class="item__name">Tost hleb</span><div class="item__right"><span class="item__price">40 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
             <div class="item item--breakfast" data-name="Hleb štapići 3 komada" data-price="75"><span class="item__name">Hleb štapići (3 komada)</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ČORBE I POTAŽI -->
+  <section class="cat" id="corbe">
+    <div class="cat__banner">
+      <img src="cat-salate.webp" alt="Čorbe" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Nešto toplo</span>
+        <h2 class="cat__title">Čorbe i potaži</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-group">
+          <div class="item-grid">
+            <div class="item" data-name="Tomato čorba" data-price="280"><span class="item__name">Tomato čorba<span class="item__desc">paradajz sos, povrće, gauda, začini</span></span><div class="item__right"><span class="item__price">280 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Potaž od pečurke" data-price="290"><span class="item__name">Potaž od pečurke<span class="item__desc">neutralna pavlaka, pečurke, začini</span></span><div class="item__right"><span class="item__price">290 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
           </div>
         </div>
       </div>
@@ -194,7 +207,7 @@
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
         <span class="cat__label">Castro Specijal ★</span>
-        <h2 class="cat__title">Specijal Pizze</h2>
+        <h2 class="cat__title">Special Pizze</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -248,22 +261,17 @@
     <div class="cat__body">
       <div class="wrap">
         <div class="item-grid">
-          <div class="item" data-name="Gril pileće belo" data-price="750"><span class="item__name">Gril pileće belo</span><div class="item__right"><span class="item__price">750 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Mini pileće belo gril" data-price="470"><span class="item__name">Mini pileće belo gril</span><div class="item__right"><span class="item__price">470 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Gril pileće belo" data-price="750"><span class="item__name">Gril pileće belo<span class="item__desc">gril piletina 280g, Castro sos, pomfrit 140g</span></span><div class="item__right"><span class="item__price">750 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini pileće belo gril" data-price="470"><span class="item__name">Mini pileće belo — gril<span class="item__desc">gril piletina 140g, Castro sos, pomfrit 120g</span></span><div class="item__right"><span class="item__price">470 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
           <div class="item" data-name="Piletina a la Castro" data-price="790"><span class="item__name">Piletina a la Castro</span><div class="item__right"><span class="item__price">790 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Pohovano pileće belo u susamu" data-price="790"><span class="item__name">Pohovano pileće u susamu</span><div class="item__right"><span class="item__price">790 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Mini pileće belo u susamu" data-price="520"><span class="item__name">Mini pileće u susamu</span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Pileći štapići u kornfleksu" data-price="820"><span class="item__name">Pileći štapići u kornfleksu</span><div class="item__right"><span class="item__price">820 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Mini pileći štapići u kornfleksu" data-price="560"><span class="item__name">Mini pileći štapići u kornfleksu</span><div class="item__right"><span class="item__price">560 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Punjene pečurke" data-price="620"><span class="item__name">Punjene pečurke</span><div class="item__right"><span class="item__price">620 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Pohovani kačkavalj" data-price="650"><span class="item__name">Pohovani kačkavalj</span><div class="item__right"><span class="item__price">650 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Pohovani štapići lignje" data-price="610"><span class="item__name">Pohovani štapići lignje</span><div class="item__right"><span class="item__price">610 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Castro brusketi" data-price="500"><span class="item__name">Castro brusketi</span><div class="item__right"><span class="item__price">500 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Posni brusketi" data-price="520"><span class="item__name">Posni brusketi</span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Pomfrit 100g" data-price="170"><span class="item__name">Pomfrit 100g</span><div class="item__right"><span class="item__price">170 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Somun" data-price="40"><span class="item__name">Somun</span><div class="item__right"><span class="item__price">40 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Tost hleb" data-price="75"><span class="item__name">Tost hleb</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Hleb štapići 3kom" data-price="75"><span class="item__name">Hleb štapići 3 kom</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Pohovano pileće belo u susamu" data-price="790"><span class="item__name">Pohovano pileće u susamu<span class="item__desc">piletina 300g, susam, pomfrit 140g, limun, tartar sos</span></span><div class="item__right"><span class="item__price">790 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini pileće belo pohovano u susamu" data-price="520"><span class="item__name">Mini pileće — pohovano u susamu<span class="item__desc">piletina 150g, susam, pomfrit 120g, limun, tartar sos</span></span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Pileći štapići u kornfleksu" data-price="820"><span class="item__name">Pileći štapići u kornfleksu<span class="item__desc">piletina 300g, kornfleks, pomfrit 140g, mix salata, čeri, tartar sos</span></span><div class="item__right"><span class="item__price">820 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini pileći štapići u kornfleksu" data-price="560"><span class="item__name">Mini pileći štapići u kornfleksu<span class="item__desc">piletina 150g, kornfleks, pomfrit 120g, mix salata, čeri, tartar sos</span></span><div class="item__right"><span class="item__price">560 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Gril piletina sa sosom od pečuraka" data-price="810"><span class="item__name">Gril piletina sa sosom od pečuraka ★<span class="item__desc">piletina 280g, sos od pečuraka, pomfrit 140g, Castro sos — NOVO</span></span><div class="item__right"><span class="item__price">810 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini gril piletina sa sosom od pečuraka" data-price="540"><span class="item__name">Mini gril piletina sa sosom<span class="item__desc">piletina 140g, sos od pečuraka, Castro sos — NOVO</span></span><div class="item__right"><span class="item__price">540 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Rolovano pileće belo" data-price="830"><span class="item__name">Rolovano pileće belo ★<span class="item__desc">piletina 280g, slanina, pomfrit 140g, mix salata, Castro sos — NOVO</span></span><div class="item__right"><span class="item__price">830 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini rolovano pileće belo" data-price="520"><span class="item__name">Mini rolovano pileće belo<span class="item__desc">piletina 140g, slanina, Castro sos — NOVO</span></span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
         </div>
       </div>
     </div>
@@ -333,20 +341,20 @@
     <div class="cat__body">
       <div class="wrap">
         <div class="item-grid">
-          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka" data-price="440"><span class="item__name">Pavlaka, kačkavalj, šunka</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Pavlaka, urnebes, kačkavalj, šunka" data-price="460"><span class="item__name">Pavlaka, urnebes, kačkavalj, šunka</span><div class="item__right"><span class="item__price">460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, kulen" data-price="460"><span class="item__name">Pavlaka, kačkavalj, šunka, kulen</span><div class="item__right"><span class="item__price">460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, slanina" data-price="450"><span class="item__name">Pavlaka, kačkavalj, šunka, slanina</span><div class="item__right"><span class="item__price">450 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, pečenica, pečurke" data-price="440"><span class="item__name">Pavlaka, kačkavalj, pečenica, pečurke</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Pavlaka, urnebes, kačkavalj, pečenica" data-price="440"><span class="item__name">Pavlaka, urnebes, kačkavalj, pečenica</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, sir, pečenica, susam" data-price="430"><span class="item__name">Pavlaka, kačkavalj, sir, pečenica, susam</span><div class="item__right"><span class="item__price">430 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, pečurke, pečenica" data-price="430"><span class="item__name">Kečap, kačkavalj, pečurke, pečenica</span><div class="item__right"><span class="item__price">430 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, pečenica, sir" data-price="440"><span class="item__name">Pavlaka, kačkavalj, šunka, pečenica, sir</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, šunka, pečurke" data-price="420"><span class="item__name">Kečap, kačkavalj, šunka, pečurke</span><div class="item__right"><span class="item__price">420 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, pečenica, pečurke, kulen" data-price="440"><span class="item__name">Kečap, kačkavalj, pečenica, pečurke, kulen</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka" data-price="440" data-sizes="Obična:440|Pohovana:520"><span class="item__name">Pavlaka, kačkavalj, šunka</span><div class="item__right"><span class="item__price">od 440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, urnebes, kačkavalj, šunka" data-price="460" data-sizes="Obična:460|Pohovana:540"><span class="item__name">Pavlaka, urnebes, kačkavalj, šunka</span><div class="item__right"><span class="item__price">od 460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, kulen" data-price="460" data-sizes="Obična:460|Pohovana:540"><span class="item__name">Pavlaka, kačkavalj, šunka, kulen</span><div class="item__right"><span class="item__price">od 460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, slanina" data-price="450" data-sizes="Obična:450|Pohovana:530"><span class="item__name">Pavlaka, kačkavalj, šunka, slanina</span><div class="item__right"><span class="item__price">od 450 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, pečenica, pečurke" data-price="440" data-sizes="Obična:440|Pohovana:520"><span class="item__name">Pavlaka, kačkavalj, pečenica, pečurke</span><div class="item__right"><span class="item__price">od 440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, urnebes, kačkavalj, pečenica" data-price="440" data-sizes="Obična:440|Pohovana:520"><span class="item__name">Pavlaka, urnebes, kačkavalj, pečenica</span><div class="item__right"><span class="item__price">od 440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, sir, pečenica, susam" data-price="430" data-sizes="Obična:430|Pohovana:510"><span class="item__name">Pavlaka, kačkavalj, sir, pečenica, susam</span><div class="item__right"><span class="item__price">od 430 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, pečurke, pečenica" data-price="430" data-sizes="Obična:430|Pohovana:510"><span class="item__name">Kečap, kačkavalj, pečurke, pečenica</span><div class="item__right"><span class="item__price">od 430 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, pečenica, sir" data-price="440" data-sizes="Obična:440|Pohovana:520"><span class="item__name">Pavlaka, kačkavalj, šunka, pečenica, sir</span><div class="item__right"><span class="item__price">od 440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, šunka, pečurke" data-price="420" data-sizes="Obična:420|Pohovana:500"><span class="item__name">Kečap, kačkavalj, šunka, pečurke</span><div class="item__right"><span class="item__price">od 420 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, pečenica, pečurke, kulen" data-price="440" data-sizes="Obična:440|Pohovana:520"><span class="item__name">Kečap, kačkavalj, pečenica, pečurke, kulen</span><div class="item__right"><span class="item__price">od 440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
           <div class="item" data-name="Slana palačinka — Pavlaka, feta sir, suvi vrat, kajmak" data-price="500"><span class="item__name">Pavlaka, feta sir, suvi vrat, kajmak</span><div class="item__right"><span class="item__price">500 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
           <div class="item" data-name="Slana palačinka — Pavlaka, gril piletina, pomfrit, kajmak" data-price="530"><span class="item__name">Pavlaka, gril piletina, pomfrit, kajmak</span><div class="item__right"><span class="item__price">530 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          <div class="item item--special" data-name="Castro slana palačinka" data-price="530"><span class="item__name">Castro slana palačinka ★</span><div class="item__right"><span class="item__price">530 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Castro slana palačinka" data-price="530" data-sizes="Obična:530|Pohovana:610"><span class="item__name">Castro slana palačinka ★</span><div class="item__right"><span class="item__price">od 530 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
           <div class="item" data-name="Mini pohovane palačinke" data-price="480"><span class="item__name">Mini pohovane palačinke</span><div class="item__right"><span class="item__price">480 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
         </div>
       </div>
@@ -462,6 +470,63 @@
     </div>
   </section>
 
+  <!-- DODACI -->
+  <section class="cat" id="dodaci">
+    <div class="cat__banner">
+      <img src="cat-dorucak.webp" alt="Dodaci" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Napravi po svom ukusu</span>
+        <h2 class="cat__title">Dodaci</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        
+        <div class="item-group">
+          <h3 class="group-label">Slani dodaci i prilozi</h3>
+          <div class="item-grid">
+            <div class="item" data-name="Pavlaka 50g" data-price="75"><span class="item__name">Pavlaka 50g</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Urnebes 50g" data-price="85"><span class="item__name">Urnebes 50g</span><div class="item__right"><span class="item__price">85 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Tartar sos 50g" data-price="75"><span class="item__name">Tartar sos 50g</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Kajmak 40g" data-price="115"><span class="item__name">Kajmak 40g</span><div class="item__right"><span class="item__price">115 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Feta sir 50g" data-price="85"><span class="item__name">Feta sir 50g</span><div class="item__right"><span class="item__price">85 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Pečurke u pavlaci 50g" data-price="85"><span class="item__name">Pečurke u pavlaci 50g</span><div class="item__right"><span class="item__price">85 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Ajvar 50g" data-price="75"><span class="item__name">Ajvar 50g</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Masline 8 kom." data-price="75"><span class="item__name">Masline 8 kom.</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Feferoni 2 kom." data-price="65"><span class="item__name">Feferoni 2 kom.</span><div class="item__right"><span class="item__price">65 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Kiseli krastavac 50g" data-price="75"><span class="item__name">Kiseli krastavac 50g</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Šunka 30g" data-price="75"><span class="item__name">Šunka 30g</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Pečenica 30g" data-price="105"><span class="item__name">Pečenica 30g</span><div class="item__right"><span class="item__price">105 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Kulen 30g" data-price="115"><span class="item__name">Kulen 30g</span><div class="item__right"><span class="item__price">115 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Pančeta 30g" data-price="125"><span class="item__name">Pančeta 30g</span><div class="item__right"><span class="item__price">125 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Pršuta 30g" data-price="155"><span class="item__name">Pršuta 30g</span><div class="item__right"><span class="item__price">155 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Suvi vrat 30g" data-price="115"><span class="item__name">Suvi vrat 30g</span><div class="item__right"><span class="item__price">115 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Viršla 1 kom." data-price="95"><span class="item__name">Viršla 1 kom.</span><div class="item__right"><span class="item__price">95 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Jaje 1 kom." data-price="55"><span class="item__name">Jaje 1 kom.</span><div class="item__right"><span class="item__price">55 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Tunjevina 70g" data-price="185"><span class="item__name">Tunjevina 70g</span><div class="item__right"><span class="item__price">185 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Kukuruz 50g" data-price="85"><span class="item__name">Kukuruz 50g</span><div class="item__right"><span class="item__price">85 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Čeri paradajz 4 kom." data-price="115"><span class="item__name">Čeri paradajz 4 kom.</span><div class="item__right"><span class="item__price">115 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Slatki dodaci</h3>
+          <div class="item-grid">
+            <div class="item" data-name="Med ili džem 30g" data-price="45"><span class="item__name">Med ili džem 30g</span><div class="item__right"><span class="item__price">45 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Orasi 30g" data-price="55"><span class="item__name">Orasi 30g</span><div class="item__right"><span class="item__price">55 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Eurokrem 40g" data-price="85"><span class="item__name">Eurokrem 40g</span><div class="item__right"><span class="item__price">85 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Nutela 40g" data-price="95"><span class="item__name">Nutela 40g</span><div class="item__right"><span class="item__price">95 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Lešnik, kikiriki ili Plazma 30g" data-price="55"><span class="item__name">Lešnik, kikiriki ili Plazma 30g</span><div class="item__right"><span class="item__price">55 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Puding 40g" data-price="85"><span class="item__name">Puding 40g</span><div class="item__right"><span class="item__price">85 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Banana, ananas, kivi ili višnja 40g" data-price="65"><span class="item__name">Banana, ananas, kivi ili višnja 40g</span><div class="item__right"><span class="item__price">65 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- PIĆA (info-only — bez naručivanja) -->
   <section class="cat cat--drinks" id="pica">
     <div class="cat__banner">
@@ -482,104 +547,103 @@
         <div class="item-group">
           <h3 class="group-label">Topli i hladni napitci</h3>
           <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Espresso macchiato</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Espresso sa mlekom</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Espresso Cappuccino</span><div class="item__right"><span class="item__price">190 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Espresso</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Espresso macchiato</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Espresso sa mlekom</span><div class="item__right"><span class="item__price">190 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Espresso Cappuccino</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
             <div class="item item--drink"><span class="item__name">Nescafe Classic (topli ili hladni)</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Nes cappuccino</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Topla čokolada</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Nes cappuccino</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Topla Čokolada (crna ili bela)</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
             <div class="item item--drink"><span class="item__name">Frappe Shake (jagoda ili vanila)</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Plazma Shake</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Kafa — domaća</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Čaj Milford</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Medić (12g)</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Mleko 0,2l</span><div class="item__right"><span class="item__price">40 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Plazma Shake</span><div class="item__right"><span class="item__price">280 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Kafa - domaća</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Čaj Milford (razni ukusi)</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Medić (12g)</span><div class="item__right"><span class="item__price">40 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Mleko 0,2 (toplo ili hladno)</span><div class="item__right"><span class="item__price">80 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Sladoled (kugla 40g)</span><div class="item__right"><span class="item__price">90 RSD</span></div></div>
           </div>
         </div>
 
         <div class="item-group">
           <h3 class="group-label">Gazirana pića</h3>
           <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Pepsi Cola 0,25l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Pepsi Max 0,25l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">7up 0,25l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Mirinda 0,25l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Evervess 0,25l tonic-bitter</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Ivi sok 0,33l breskva</span><div class="item__right"><span class="item__price">215 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Knjaz sa limunom 0,33l</span><div class="item__right"><span class="item__price">185 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Knjaz sa narandžom 0,33l</span><div class="item__right"><span class="item__price">185 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Knjaz remix 0,33l</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Knjaz Miloš 0,25l</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Cockta 0,275l</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Orangina 0,25l</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Limona 0,25l</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Energetska pića</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Guarana 0,25l</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Red Bull 0,25l</span><div class="item__right"><span class="item__price">420 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Pepsi Cola 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Pepsi Max 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">7up 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Mirinda 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Evervess 0,25 (tonic - bitter)</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Ivi sok 0,33 (breskva)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Knjaz sa limunom 0,33</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Knjaz sa narandžom 0,33</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Knjaz remix 0,33</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Knjaz Miloš 0,25</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Cockta 0,275</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Orangina 0,25</span><div class="item__right"><span class="item__price">280 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Limona 0,25</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
           </div>
         </div>
 
         <div class="item-group">
           <h3 class="group-label">Negazirana pića</h3>
           <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Aqua Viva voda 0,33l</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Gusto sok 0,2l</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Fuzetea 0,25l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Bravo sok 0,2l</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Cedevita 0,25l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Cedeni limun 0,3l</span><div class="item__right"><span class="item__price">190 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Cedena pomorandža 0,3l</span><div class="item__right"><span class="item__price">300 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Aloe Vera 0,24l</span><div class="item__right"><span class="item__price">285 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Aqua Viva voda 0,33</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Gusto sok 0,2 (razni ukusi)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Fuzetea 0,25 (breskva)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Bravo sok 0,2 (grožđe, višnja)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Cedevita 0,25</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Ceđeni limun 0,3</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Ceđena pomorandža 0,3</span><div class="item__right"><span class="item__price">330 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Aloe Vera 0,24</span><div class="item__right"><span class="item__price">310 RSD</span></div></div>
           </div>
         </div>
 
         <div class="item-group">
-          <h3 class="group-label">Točena piva</h3>
+          <h3 class="group-label">Energetska pića</h3>
           <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Carlsberg 0,3l</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Carlsberg 0,5l</span><div class="item__right"><span class="item__price">300 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Guarana 0,25</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Red Bull 0,25</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
           </div>
         </div>
 
         <div class="item-group">
-          <h3 class="group-label">Piva</h3>
+          <h3 class="group-label">Piva (točena i flaširana)</h3>
           <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Erdinger 0,33l</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">San Miguel 0,33l</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Budweiser 0,33l svetlo/tamno</span><div class="item__right"><span class="item__price">340 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Carlsberg 0,25l</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Kronenbourg blanc 0,33l</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Tuborg 0,33l</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Lav premium 0,33l</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Carlsberg (točeno) 0,3</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Carlsberg (točeno) 0,5</span><div class="item__right"><span class="item__price">350 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Erdinger 0,33</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">San Miguel 0,33</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Budweiser 0,33 (svetlo/tamno)</span><div class="item__right"><span class="item__price">340 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Carlsberg 0,25</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Kronenbourg blanc 0,33</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Tuborg 0,33</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Lav premium 0,33</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
           </div>
         </div>
 
         <div class="item-group">
           <h3 class="group-label">Cideri</h3>
           <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Somersby jabuka 0,33l</span><div class="item__right"><span class="item__price">295 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Somersby kruška 0,33l</span><div class="item__right"><span class="item__price">295 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Somersby borovnica 0,33l</span><div class="item__right"><span class="item__price">295 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Somersby mango 0,33l</span><div class="item__right"><span class="item__price">295 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Somersby malina 0,33l</span><div class="item__right"><span class="item__price">295 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Somersby jagoda 0,33l 0% alk.</span><div class="item__right"><span class="item__price">295 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Somersby zova 0,33l 0% alk.</span><div class="item__right"><span class="item__price">295 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Somersby 0,33 (svi ukusi)</span><div class="item__right"><span class="item__price">330 RSD</span></div></div>
           </div>
         </div>
 
         <div class="item-group">
           <h3 class="group-label">Vina</h3>
           <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Chardonnay Plantaže 0,187l</span><div class="item__right"><span class="item__price">365 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Rose Plantaže 0,187l</span><div class="item__right"><span class="item__price">365 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Vranac Plantaže 0,187l</span><div class="item__right"><span class="item__price">365 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Buteljka vina 0,7l Tikveš</span><div class="item__right"><span class="item__price">1.290 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Buteljka vina 0,7l Radovanović</span><div class="item__right"><span class="item__price">2.225 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Chardonay / Rose / Vranac Plantaže 0,187</span><div class="item__right"><span class="item__price">410 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Buteljka vina 0,7 Tikveš</span><div class="item__right"><span class="item__price">1.490 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Buteljka vina 0,7 Radovanović</span><div class="item__right"><span class="item__price">2.400 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Konjaci i žestoka pića</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Curvoisier 0,03</span><div class="item__right"><span class="item__price">245 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Napoleon 0,03</span><div class="item__right"><span class="item__price">195 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Stock 0,03</span><div class="item__right"><span class="item__price">185 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Vinjak 0,03 (Rubin)</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Konjak Babel</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
           </div>
         </div>
 
@@ -588,7 +652,6 @@
           <div class="item-grid">
             <div class="item item--drink"><span class="item__name">Bailey's 0,03l</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
             <div class="item item--drink"><span class="item__name">Malibu 0,03l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Kahlua 0,03l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
             <div class="item item--drink"><span class="item__name">Meduška 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
           </div>
         </div>
@@ -602,16 +665,6 @@
             <div class="item item--drink"><span class="item__name">Lozovača 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
             <div class="item item--drink"><span class="item__name">Viljamovka 0,03l</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
             <div class="item item--drink"><span class="item__name">Žuta osa 0,03l</span><div class="item__right"><span class="item__price">300 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Konjaci</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Courvoisier 0,03l</span><div class="item__right"><span class="item__price">245 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Napoleon 0,03l</span><div class="item__right"><span class="item__price">195 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Stock 0,03l</span><div class="item__right"><span class="item__price">185 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Vinjak 0,03l</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
           </div>
         </div>
 
@@ -713,6 +766,30 @@
   </div>
 </aside>
 
+<!-- ═══ MODALI ═══ -->
+<div class="overlay" id="addonPickerOverlay" onclick="closeAddonPicker()"></div>
+<div class="size-picker" id="addonPicker">
+  <button class="size-picker__close" onclick="closeAddonPicker()">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <h3 class="size-picker__title" id="addonPickerTitle">Izaberite dodatke</h3>
+  <p class="addon-picker__desc" id="addonPickerDesc"></p>
+  <div class="addon-picker__list" id="addonPickerOpts">
+    <!-- Generiše JS -->
+  </div>
+  <button class="btn btn--primary btn--full" style="margin-top:20px; background: rgba(230,57,70,0.1); color: #E63946; border: 1.5px solid #E63946;" onclick="confirmAddonsAndAdd()">Dodaj u korpu</button>
+</div>
+
+<div class="overlay" id="sizePickerOverlay" onclick="closeSizePicker()"></div>
+<div class="size-picker" id="sizePicker">
+  <div class="size-picker__head">
+    <span class="size-picker__title" id="sizePickerTitle">Izaberi veličinu</span>
+    <button class="size-picker__close" id="sizePickerClose">&times;</button>
+  </div>
+  <p class="size-picker__hint">Izaberi veličinu i dodaj u korpu</p>
+  <div class="size-picker__opts" id="sizePickerOpts"></div>
+</div>
+
 <!-- ═══ ORDER MODAL ═══ -->
 <div class="modal-overlay" id="modalOverlay"></div>
 <div class="modal" id="orderModal">
@@ -767,14 +844,6 @@
   <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
 
-<!-- ═══ SIZE PICKER (velicina pice) ═══ -->
-<div class="size-picker-overlay" id="sizePickerOverlay"></div>
-<div class="size-picker" id="sizePicker">
-  <div class="size-picker__head">
-    <span class="size-picker__title" id="sizePickerTitle">Izaberi veličinu</span>
-    <button class="size-picker__close" id="sizePickerClose">&times;</button>
-  </div>
-  <p class="size-picker__hint">Izaberi veličinu i dodaj u korpu</p>
   <div class="size-picker__opts" id="sizePickerOpts"></div>
 </div>
 

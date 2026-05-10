@@ -1063,6 +1063,71 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .size-opt__cm { font-size: 16px; font-weight: 600; color: #fff; }
 .size-opt__price { font-size: 16px; font-weight: 700; color: var(--accent); }
 
+/* ─── ADDON PICKER ─── */
+.addon-picker__desc {
+  font-size: 13px;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 16px;
+}
+.addon-picker__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.addon-picker__list::-webkit-scrollbar { width: 4px; }
+.addon-picker__list::-webkit-scrollbar-track { background: rgba(255,255,255,.02); }
+.addon-picker__list::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 4px; }
+
+.addon-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(255,255,255,.05);
+  border: 1.5px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  transition: background .2s;
+}
+.addon-opt__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.addon-opt__name { font-size: 15px; font-weight: 600; color: #fff; }
+.addon-opt__price { font-size: 12px; font-weight: 700; color: var(--primary); }
+
+.addon-opt__ctrl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2px 6px;
+}
+.addon-opt__ctrl button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: rgba(255,255,255,.6);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .2s, background .2s;
+  border: none;
+}
+.addon-opt__ctrl button:hover { color: #fff; background: rgba(255,255,255,.1); }
+.addon-opt__ctrl span {
+  min-width: 18px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
 /* ─── CUSTOMER ORDER PILL ─── */
 .order-status-pill {
   position: fixed;
