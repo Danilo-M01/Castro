@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Castro meni — pizze, paste, obroci, palačinke, salate, sendviči. Naruči online direktno sa sajta.">
+  <title>Meni | Castro Restoran</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="meni.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <img src="logo.png" alt="Castro" width="46" height="46">
+    </a>
+    <div class="nav__center">
+      <a href="#pizze" class="nav__tab">Pizze</a>
+      <a href="#obroci" class="nav__tab">Obroci</a>
+      <a href="#paste" class="nav__tab">Paste</a>
+      <a href="#tortilje" class="nav__tab">Tortilje</a>
+      <a href="#palacinka" class="nav__tab">Palačinke</a>
+      <a href="#salate" class="nav__tab">Salate</a>
+      <a href="#sendvici" class="nav__tab">Sendviči</a>
+      <a href="#dezerti" class="nav__tab">Dezerti</a>
+    </div>
+    <div class="nav__right">
+      <button class="cart-btn" id="cartBtn" aria-label="Otvori korpu">
+        <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="nav__burger" id="burger" aria-label="Meni">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="meni-hero">
+  <div class="meni-hero__slides">
+    <img src="baner1.webp" alt="" class="meni-hero__slide active" fetchpriority="high">
+    <img src="baner2.webp" alt="" class="meni-hero__slide" loading="lazy">
+    <img src="baner3.webp" alt="" class="meni-hero__slide" loading="lazy">
+  </div>
+  <div class="meni-hero__overlay"></div>
+  <div class="meni-hero__content">
+    <p class="meni-hero__label">Castro Restoran</p>
+    <h1 class="meni-hero__title">NAŠA<br>PONUDA</h1>
+    <p class="meni-hero__sub">Odaberi, dodaj u korpu i naruči — bez čekanja.</p>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main class="meni-main">
+
+  <!-- PIZZE -->
+  <section class="cat" id="pizze">
+    <div class="cat__banner">
+      <img src="cat-pizze.webp" alt="Pizze" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Naša specijalnost</span>
+        <h2 class="cat__title">Pizze</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-group">
+          <h3 class="group-label">Standardne</h3>
+          <div class="item-grid">
+            <div class="item" data-name="Margarita" data-price="410" data-sizes="22:410|30:830|50:1350"><span class="item__name">Margarita</span><div class="item__right"><span class="item__price">od 410 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Vesuvio" data-price="430" data-sizes="22:430|30:870|50:1450"><span class="item__name">Vesuvio</span><div class="item__right"><span class="item__price">od 430 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Capricciosa" data-price="440" data-sizes="22:440|30:900|50:1460"><span class="item__name">Capricciosa</span><div class="item__right"><span class="item__price">od 440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Primavera" data-price="460" data-sizes="22:460|30:930|50:1490"><span class="item__name">Primavera</span><div class="item__right"><span class="item__price">od 460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Chilli" data-price="450" data-sizes="22:450|30:910|50:1530"><span class="item__name">Chilli</span><div class="item__right"><span class="item__price">od 450 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Fortuna" data-price="470" data-sizes="22:470|30:940|50:1510"><span class="item__name">Fortuna</span><div class="item__right"><span class="item__price">od 470 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Hawaii" data-price="460" data-sizes="22:460|30:930|50:1500"><span class="item__name">Hawaii</span><div class="item__right"><span class="item__price">od 460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Porto" data-price="420" data-sizes="22:420|30:860|50:1380"><span class="item__name">Porto</span><div class="item__right"><span class="item__price">od 420 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Posna pica" data-price="440" data-sizes="22:440|30:940|50:1490"><span class="item__name">Posna pica</span><div class="item__right"><span class="item__price">od 440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Mexicana" data-price="560" data-sizes="22:560|30:1070|50:1700"><span class="item__name">Mexicana</span><div class="item__right"><span class="item__price">od 560 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Cardinalle" data-price="470" data-sizes="22:470|30:940|50:1510"><span class="item__name">Cardinalle</span><div class="item__right"><span class="item__price">od 470 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Quatro Stagione" data-price="500" data-sizes="22:500|30:970|50:1540"><span class="item__name">Quatro Stagione</span><div class="item__right"><span class="item__price">od 500 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Carpie" data-price="460" data-sizes="22:460|30:930|50:1500"><span class="item__name">Carpie</span><div class="item__right"><span class="item__price">od 460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Diavola" data-price="500" data-sizes="22:500|30:970|50:1570"><span class="item__name">Diavola</span><div class="item__right"><span class="item__price">od 500 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Pizza auf Kubanisch" data-price="550" data-sizes="22:550|30:1060|50:1690"><span class="item__name">Pizza auf Kubanisch</span><div class="item__right"><span class="item__price">od 550 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Napolitana" data-price="540" data-sizes="22:540|30:1050|50:1680"><span class="item__name">Napolitana</span><div class="item__right"><span class="item__price">od 540 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Castro pica" data-price="560" data-sizes="22:560|30:1070|50:1700"><span class="item__name">Castro pica</span><div class="item__right"><span class="item__price">od 560 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+        <div class="item-group">
+          <h3 class="group-label group-label--special">Castro Specijal ★</h3>
+          <div class="item-grid item-grid--special">
+            <div class="item item--special" data-name="Quatro Formaggi - 30cm" data-price="1050"><span class="item__name">Quatro Formaggi - 30cm</span><div class="item__right"><span class="item__price">1.050 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Piccante - 30cm" data-price="1050"><span class="item__name">Piccante - 30cm</span><div class="item__right"><span class="item__price">1.050 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Srpska pica - 30cm" data-price="1080"><span class="item__name">Srpska pica - 30cm</span><div class="item__right"><span class="item__price">1.080 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Chicken pica - 30cm" data-price="1100"><span class="item__name">Chicken pica - 30cm</span><div class="item__right"><span class="item__price">1.100 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+        <div class="item-group">
+          <h3 class="group-label group-label--special">Punjene Ivice Special</h3>
+          <div class="item-grid">
+            <div class="item item--special" data-name="Margarita punjene ivice - 30cm" data-price="960"><span class="item__name">Margarita - 30cm</span><div class="item__right"><span class="item__price">960 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Vesuvio punjene ivice - 30cm" data-price="1050"><span class="item__name">Vesuvio - 30cm</span><div class="item__right"><span class="item__price">1.050 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Cardinalle punjene ivice - 30cm" data-price="1070"><span class="item__name">Cardinalle - 30cm</span><div class="item__right"><span class="item__price">1.070 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+        <div class="item-group">
+          <h3 class="group-label group-label--special">Mozzarella Special</h3>
+          <div class="item-grid">
+            <div class="item item--special" data-name="Capricciosa mozzarella - 30cm" data-price="1130"><span class="item__name">Capricciosa - 30cm</span><div class="item__right"><span class="item__price">1.130 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Diavola mozzarella - 30cm" data-price="1160"><span class="item__name">Diavola - 30cm</span><div class="item__right"><span class="item__price">1.160 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Napolitana mozzarella - 30cm" data-price="1190"><span class="item__name">Napolitana - 30cm</span><div class="item__right"><span class="item__price">1.190 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OBROCI -->
+  <section class="cat" id="obroci">
+    <div class="cat__banner">
+      <img src="cat-obroci.webp" alt="Obroci" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Topla kuhinja</span>
+        <h2 class="cat__title">Obroci</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-grid">
+          <div class="item" data-name="Punjene pečurke" data-price="620"><span class="item__name">Punjene pečurke</span><div class="item__right"><span class="item__price">620 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Pohovani kačkavalj" data-price="650"><span class="item__name">Pohovani kačkavalj</span><div class="item__right"><span class="item__price">650 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Pohovani štapići lignje" data-price="610"><span class="item__name">Pohovani štapići lignje</span><div class="item__right"><span class="item__price">610 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Castro brusketi" data-price="500"><span class="item__name">Castro brusketi</span><div class="item__right"><span class="item__price">500 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Posni brusketi" data-price="520"><span class="item__name">Posni brusketi</span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Gril pileće belo" data-price="750"><span class="item__name">Gril pileće belo</span><div class="item__right"><span class="item__price">750 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Piletina a la Castro" data-price="790"><span class="item__name">Piletina a la Castro</span><div class="item__right"><span class="item__price">790 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini pileće belo gril" data-price="470"><span class="item__name">Mini pileće belo gril</span><div class="item__right"><span class="item__price">470 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Pohovano pileće belo u susamu" data-price="790"><span class="item__name">Pohovano pileće u susamu</span><div class="item__right"><span class="item__price">790 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini pileće belo u susamu" data-price="520"><span class="item__name">Mini pileće u susamu</span><div class="item__right"><span class="item__price">520 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Pileći štapići u kornfleksu" data-price="820"><span class="item__name">Pileći štapići u kornfleksu</span><div class="item__right"><span class="item__price">820 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini pileći štapići u kornfleksu" data-price="560"><span class="item__name">Mini pileći štapići u kornfleksu</span><div class="item__right"><span class="item__price">560 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Pomfrit 100g" data-price="170"><span class="item__name">Pomfrit 100g</span><div class="item__right"><span class="item__price">170 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Somun" data-price="40"><span class="item__name">Somun</span><div class="item__right"><span class="item__price">40 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Tost hleb" data-price="75"><span class="item__name">Tost hleb</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Hleb štapići 3kom" data-price="75"><span class="item__name">Hleb štapići 3 kom</span><div class="item__right"><span class="item__price">75 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASTE -->
+  <section class="cat" id="paste">
+    <div class="cat__banner">
+      <img src="cat-paste.webp" alt="Paste" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Italijanska kuhinja</span>
+        <h2 class="cat__title">Paste</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-grid">
+          <div class="item" data-name="Spaghetti Bolognese" data-price="670"><span class="item__name">Spaghetti Bolognese</span><div class="item__right"><span class="item__price">670 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Spaghetti Carbonara" data-price="660"><span class="item__name">Spaghetti Carbonara</span><div class="item__right"><span class="item__price">660 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Spaghetti con Funghi" data-price="620"><span class="item__name">Spaghetti con Funghi</span><div class="item__right"><span class="item__price">620 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Macarone Milaneze" data-price="700"><span class="item__name">Macarone Milaneze</span><div class="item__right"><span class="item__price">700 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Macarone Quatro Formaggi" data-price="630"><span class="item__name">Macarone Quatro Formaggi</span><div class="item__right"><span class="item__price">630 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Macarone Vegetariana" data-price="565"><span class="item__name">Macarone Vegetariana</span><div class="item__right"><span class="item__price">565 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Tagliatelle Castro" data-price="990"><span class="item__name">Tagliatelle Castro ★</span><div class="item__right"><span class="item__price">990 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TORTILJE -->
+  <section class="cat" id="tortilje">
+    <div class="cat__banner">
+      <img src="cat-tortilje.webp" alt="Tortilje" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Wraps & više</span>
+        <h2 class="cat__title">Tortilje</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-grid">
+          <div class="item item--special" data-name="Calcona (presavijena pica)" data-price="850"><span class="item__name">Calcona (presavijena pica)</span><div class="item__right"><span class="item__price">850 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Italijanska piroška" data-price="820"><span class="item__name">Italijanska piroška</span><div class="item__right"><span class="item__price">820 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini italijanska piroška" data-price="490"><span class="item__name">Mini italijanska piroška</span><div class="item__right"><span class="item__price">490 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini Castro piroška" data-price="510"><span class="item__name">Mini Castro piroška</span><div class="item__right"><span class="item__price">510 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Minjon" data-price="540"><span class="item__name">Minjon</span><div class="item__right"><span class="item__price">540 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Rolovana tortilja 1" data-price="430"><span class="item__name">Rolovana tortilja 1</span><div class="item__right"><span class="item__price">430 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Rolovana tortilja 2" data-price="450"><span class="item__name">Rolovana tortilja 2</span><div class="item__right"><span class="item__price">450 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Tortilja a la Castro" data-price="660"><span class="item__name">Tortilja a la Castro ★</span><div class="item__right"><span class="item__price">660 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PALAČINKE (slane) -->
+  <section class="cat" id="palacinka">
+    <div class="cat__banner">
+      <img src="cat-slana-palacinka.webp" alt="Slane palačinke" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Slano i zasitno</span>
+        <h2 class="cat__title">Palačinke</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-grid">
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka" data-price="440"><span class="item__name">Pavlaka, kačkavalj, šunka</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, urnebes, kačkavalj, šunka" data-price="460"><span class="item__name">Pavlaka, urnebes, kačkavalj, šunka</span><div class="item__right"><span class="item__price">460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, kulen" data-price="460"><span class="item__name">Pavlaka, kačkavalj, šunka, kulen</span><div class="item__right"><span class="item__price">460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, slanina" data-price="450"><span class="item__name">Pavlaka, kačkavalj, šunka, slanina</span><div class="item__right"><span class="item__price">450 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, pečenica, pečurke" data-price="440"><span class="item__name">Pavlaka, kačkavalj, pečenica, pečurke</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, urnebes, kačkavalj, pečenica" data-price="440"><span class="item__name">Pavlaka, urnebes, kačkavalj, pečenica</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, sir, pečenica, susam" data-price="430"><span class="item__name">Pavlaka, kačkavalj, sir, pečenica, susam</span><div class="item__right"><span class="item__price">430 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, pečurke, pečenica" data-price="430"><span class="item__name">Kečap, kačkavalj, pečurke, pečenica</span><div class="item__right"><span class="item__price">430 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, kačkavalj, šunka, pečenica, sir" data-price="440"><span class="item__name">Pavlaka, kačkavalj, šunka, pečenica, sir</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, šunka, pečurke" data-price="420"><span class="item__name">Kečap, kačkavalj, šunka, pečurke</span><div class="item__right"><span class="item__price">420 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Kečap, kačkavalj, pečenica, pečurke, kulen" data-price="440"><span class="item__name">Kečap, kačkavalj, pečenica, pečurke, kulen</span><div class="item__right"><span class="item__price">440 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, feta sir, suvi vrat, kajmak" data-price="500"><span class="item__name">Pavlaka, feta sir, suvi vrat, kajmak</span><div class="item__right"><span class="item__price">500 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Slana palačinka — Pavlaka, gril piletina, pomfrit, kajmak" data-price="530"><span class="item__name">Pavlaka, gril piletina, pomfrit, kajmak</span><div class="item__right"><span class="item__price">530 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Castro slana palačinka" data-price="530"><span class="item__name">Castro slana palačinka ★</span><div class="item__right"><span class="item__price">530 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mini pohovane palačinke" data-price="480"><span class="item__name">Mini pohovane palačinke</span><div class="item__right"><span class="item__price">480 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALATE -->
+  <section class="cat" id="salate">
+    <div class="cat__banner">
+      <img src="cat-salate.webp" alt="Salate" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Sveže i lagano</span>
+        <h2 class="cat__title">Salate</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-grid">
+          <div class="item item--special" data-name="Cezar salata" data-price="720"><span class="item__name">Cezar salata ★</span><div class="item__right"><span class="item__price">720 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Chicken gril salata" data-price="700"><span class="item__name">Chicken gril salata</span><div class="item__right"><span class="item__price">700 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Biftek salata" data-price="1020"><span class="item__name">Biftek salata ★</span><div class="item__right"><span class="item__price">1.020 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Tuna salata (posno)" data-price="695"><span class="item__name">Tuna salata (posno)</span><div class="item__right"><span class="item__price">695 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Grčka salata" data-price="490"><span class="item__name">Grčka salata</span><div class="item__right"><span class="item__price">490 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Castro salata" data-price="605"><span class="item__name">Castro salata ★</span><div class="item__right"><span class="item__price">605 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Calamari (lignje) salata" data-price="770"><span class="item__name">Calamari (lignje) salata</span><div class="item__right"><span class="item__price">770 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mozzarela salata" data-price="480"><span class="item__name">Mozzarela salata</span><div class="item__right"><span class="item__price">480 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Mix mini salata" data-price="180"><span class="item__name">Mix mini salata</span><div class="item__right"><span class="item__price">180 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SENDVIČI -->
+  <section class="cat" id="sendvici">
+    <div class="cat__banner">
+      <img src="cat-sendvici.webp" alt="Sendviči" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Brzo i ukusno</span>
+        <h2 class="cat__title">Sendviči</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-grid">
+          <div class="item item--special" data-name="Panini sendvič" data-price="510"><span class="item__name">Panini sendvič ★</span><div class="item__right"><span class="item__price">510 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Italijanski sendvič 1" data-price="490"><span class="item__name">Italijanski sendvič 1</span><div class="item__right"><span class="item__price">490 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Italijanski sendvič 2" data-price="500"><span class="item__name">Italijanski sendvič 2</span><div class="item__right"><span class="item__price">500 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Club sendvič" data-price="580"><span class="item__name">Club sendvič ★</span><div class="item__right"><span class="item__price">580 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Castro sendvič" data-price="250"><span class="item__name">Castro sendvič</span><div class="item__right"><span class="item__price">250 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Sendvič sa kulenom" data-price="200"><span class="item__name">Sendvič sa kulenom</span><div class="item__right"><span class="item__price">200 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Sendvič sa pečenicom" data-price="190"><span class="item__name">Sendvič sa pečenicom</span><div class="item__right"><span class="item__price">190 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Sendvič mix" data-price="230"><span class="item__name">Sendvič mix</span><div class="item__right"><span class="item__price">230 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Zapečeni sendvič 1" data-price="320"><span class="item__name">Zapečeni sendvič 1</span><div class="item__right"><span class="item__price">320 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Zapečeni sendvič 2" data-price="330"><span class="item__name">Zapečeni sendvič 2</span><div class="item__right"><span class="item__price">330 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Tost sendvič 1" data-price="260"><span class="item__name">Tost sendvič 1</span><div class="item__right"><span class="item__price">260 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Tost sendvič 2" data-price="280"><span class="item__name">Tost sendvič 2</span><div class="item__right"><span class="item__price">280 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Hot Dog" data-price="160"><span class="item__name">Hot Dog</span><div class="item__right"><span class="item__price">160 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Sendvič sa šunkom" data-price="160"><span class="item__name">Sendvič sa šunkom</span><div class="item__right"><span class="item__price">160 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item" data-name="Posni sendvič" data-price="260"><span class="item__name">Posni sendvič</span><div class="item__right"><span class="item__price">260 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          <div class="item item--special" data-name="Castro kari sendvič" data-price="570"><span class="item__name">Castro kari sendvič ★</span><div class="item__right"><span class="item__price">570 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEZERTI -->
+  <section class="cat" id="dezerti">
+    <div class="cat__banner">
+      <img src="cat-slatka-palacinka.webp" alt="Dezerti" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Slatki završetak</span>
+        <h2 class="cat__title">Dezerti</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="item-group">
+          <h3 class="group-label group-label--special">Pizza deserti</h3>
+          <div class="item-grid">
+            <div class="item item--special" data-name="Pizza sa nutelom" data-price="450"><span class="item__name">Pizza sa nutelom ★</span><div class="item__right"><span class="item__price">450 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+        <div class="item-group">
+          <h3 class="group-label">Slatke palačinke</h3>
+          <div class="item-grid">
+            <div class="item" data-name="Palačinka — Med, orah/lešnik" data-price="310"><span class="item__name">Med, orah ili lešnik</span><div class="item__right"><span class="item__price">310 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Džem" data-price="330"><span class="item__name">Džem</span><div class="item__right"><span class="item__price">330 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Marmelada" data-price="330"><span class="item__name">Marmelada</span><div class="item__right"><span class="item__price">330 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Eurokrem" data-price="340"><span class="item__name">Eurokrem</span><div class="item__right"><span class="item__price">340 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Eurokrem i orah" data-price="340"><span class="item__name">Eurokrem, orah/lešnik/kikiriki</span><div class="item__right"><span class="item__price">340 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Eurokrem i plazma" data-price="360"><span class="item__name">Eurokrem i plazma</span><div class="item__right"><span class="item__price">360 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Eurokrem, plazma i mleko" data-price="390"><span class="item__name">Eurokrem, plazma i mleko</span><div class="item__right"><span class="item__price">390 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Eurokrem, plazma i voće" data-price="370"><span class="item__name">Eurokrem, plazma i voće</span><div class="item__right"><span class="item__price">370 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Eurokrem, plazma i puding" data-price="390"><span class="item__name">Eurokrem, plazma i puding</span><div class="item__right"><span class="item__price">390 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Nutela" data-price="360"><span class="item__name">Nutela</span><div class="item__right"><span class="item__price">360 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Nutela i orah" data-price="370"><span class="item__name">Nutela, orah/lešnik/kikiriki</span><div class="item__right"><span class="item__price">370 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Nutela i plazma" data-price="390"><span class="item__name">Nutela i plazma</span><div class="item__right"><span class="item__price">390 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Nutela, plazma i mleko" data-price="420"><span class="item__name">Nutela, plazma i mleko</span><div class="item__right"><span class="item__price">420 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Nutela, plazma i voće" data-price="390"><span class="item__name">Nutela, plazma i voće</span><div class="item__right"><span class="item__price">390 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Palačinka — Nutela, plazma i puding" data-price="420"><span class="item__name">Nutela, plazma i puding</span><div class="item__right"><span class="item__price">420 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Castro slatka palačinka (nutela, plazma, puding, jafa keks)" data-price="460"><span class="item__name">Castro palačinka ★</span><div class="item__right"><span class="item__price">460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Čipi-činka" data-price="460"><span class="item__name">Čipi-činka</span><div class="item__right"><span class="item__price">460 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Hladna palačinka — Kivi" data-price="490"><span class="item__name">Hladna — Kivi</span><div class="item__right"><span class="item__price">490 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Hladna palačinka — Ananas" data-price="490"><span class="item__name">Hladna — Ananas</span><div class="item__right"><span class="item__price">490 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Hladna palačinka — Višnja" data-price="490"><span class="item__name">Hladna — Višnja</span><div class="item__right"><span class="item__price">490 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item item--special" data-name="Castro hladna palačinka" data-price="510"><span class="item__name">Castro hladna ★</span><div class="item__right"><span class="item__price">510 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <img src="logo.png" alt="Castro" width="48" height="48" style="border-radius:10px;margin-bottom:12px;">
+        <p style="color:rgba(255,255,255,0.5);font-size:14px;">Pravi ukus. Bez kompromisa.</p>
+      </div>
+      <div>
+        <h4>Radno vreme</h4>
+        <p style="font-size:13px;line-height:2;color:rgba(255,255,255,0.5)">
+          Pon – Čet &nbsp;&nbsp; 07:00 – 23:30<br>
+          Petak &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 07:00 – 00:00<br>
+          Subota &nbsp;&nbsp;&nbsp;&nbsp; 07:00 – 00:00<br>
+          Nedelja &nbsp;&nbsp;&nbsp; 07:00 – 23:30
+        </p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <a href="tel:012531010">012 531010</a><br>
+        <a href="https://www.instagram.com/castro.pizzeria.caffe/" target="_blank" rel="noopener">Instagram</a><br>
+        <a href="https://www.facebook.com/castro.caffepizzeria/" target="_blank" rel="noopener">Facebook</a><br>
+        <span style="color:rgba(255,255,255,0.35);font-size:13px;">TC Novi Dom, Moše Pijade 16</span>
+      </div>
+      <div>
+        <h4>Navigacija</h4>
+        <a href="index.html">Početna</a><br>
+        <a href="meni.html">Meni</a><br>
+        <a href="index.html#rezervacija">Rezervacija</a>
+      </div>
+    </div>
+    <p class="footer__copy">&copy; 2026 Castro Restoran · Moše Pijade bb, TC Novi Dom, Požarevac</p>
+  </div>
+</footer>
+
+<!-- ═══ CART PANEL ═══ -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-panel__head">
+    <h2>Vaša korpa</h2>
+    <button class="cart-close" id="cartClose">&times;</button>
+  </div>
+  <div class="cart-panel__items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">
+      <svg viewBox="0 0 48 48" fill="none" width="48" height="48"><path d="M6 4L3 12v28a2 2 0 002 2h34a2 2 0 002-2V12L38 4H6z" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="12" x2="45" y2="12" stroke="currentColor" stroke-width="1.5"/><path d="M32 20a8 8 0 01-16 0" stroke="currentColor" stroke-width="1.5"/></svg>
+      <p>Korpa je prazna</p>
+    </div>
+  </div>
+  <div class="cart-panel__foot">
+    <div class="cart-total">
+      <span>Ukupno</span>
+      <span id="cartTotal">0 RSD</span>
+    </div>
+    <button class="order-btn" id="orderBtn" disabled>Naruči &rarr;</button>
+  </div>
+</aside>
+
+<!-- ═══ ORDER MODAL ═══ -->
+<div class="modal-overlay" id="modalOverlay"></div>
+<div class="modal" id="orderModal">
+  <button class="modal-close" id="modalClose">&times;</button>
+  <h2 class="modal__title">Potvrdi narudžbinu</h2>
+  <p class="modal__sub">Popuni podatke — narudžbina stiže direktno na naš WhatsApp.</p>
+  <form class="modal__form" id="orderForm" novalidate>
+    <div class="field">
+      <label for="oName">Ime i prezime</label>
+      <input type="text" id="oName" placeholder="Vaše ime" required>
+    </div>
+    <div class="field">
+      <label for="oPhone">Telefon</label>
+      <input type="tel" id="oPhone" value="+381" placeholder="+3816XXXXXXXX" inputmode="tel" required>
+    </div>
+    <div class="field">
+      <label>Tip narudžbine</label>
+      <div class="radio-group">
+        <label class="radio"><input type="radio" name="type" value="Preuzimanje" checked><span>Preuzimanje</span></label>
+        <label class="radio"><input type="radio" name="type" value="Dostava"><span>Dostava</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label for="oTime">Vreme preuzimanja/dostave</label>
+      <select id="oTime" class="modal-select" required>
+        <!-- Punimo iz JS -->
+      </select>
+    </div>
+    <div class="field" id="addrField" style="display:none">
+      <label for="oAddr">Adresa dostave</label>
+      <input type="text" id="oAddr" placeholder="Ulica i broj">
+    </div>
+    <div class="field">
+      <label for="oNote">Napomena <span style="font-weight:400;color:#888">(opciono)</span></label>
+      <textarea id="oNote" rows="2" placeholder="Alergije, posebni zahtevi..."></textarea>
+    </div>
+    <button type="submit" class="order-submit">
+      <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="currentColor" stroke-width="1.8"/></svg>
+      Pošalji narudžbinu
+    </button>
+  </form>
+  <a href="tel:012531010" class="call-alt">
+    <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.5"/></svg>
+    Ili pozovite: 012 531010
+  </a>
+</div>
+
+<!-- ═══ FLOATING CART BTN (mobile) ═══ -->
+<button class="fab-cart" id="fabCart" aria-label="Korpa">
+  <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.8"/><path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.8"/></svg>
+  <span class="fab-badge" id="fabBadge">0</span>
+</button>
+
+<!-- ═══ MOBILNI CHECKOUT FAB ═══ -->
+<button class="checkout-fab" id="checkoutFab" aria-label="Završi kupovinu">
+  <span class="checkout-fab__text">Završi kupovinu</span>
+  <span class="checkout-fab__total"></span>
+  <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- ═══ SIZE PICKER (velicina pice) ═══ -->
+<div class="size-picker-overlay" id="sizePickerOverlay"></div>
+<div class="size-picker" id="sizePicker">
+  <div class="size-picker__head">
+    <span class="size-picker__title" id="sizePickerTitle">Izaberi veličinu</span>
+    <button class="size-picker__close" id="sizePickerClose">&times;</button>
+  </div>
+  <p class="size-picker__hint">Izaberi veličinu i dodaj u korpu</p>
+  <div class="size-picker__opts" id="sizePickerOpts"></div>
+</div>
+
+<!-- ═══ CUSTOMER ORDER STATUS ═══ -->
+<div class="order-status-overlay" id="orderStatusOverlay"></div>
+<div class="order-detail-popup" id="orderDetailPopup">
+  <div class="odp-head">
+    <div>
+      <span class="odp-label">Vaša porudžbina</span>
+      <span class="odp-id" id="odpOrderId"></span>
+    </div>
+    <button class="odp-close" id="odpClose">&times;</button>
+  </div>
+  <div class="odp-status" id="odpStatus">Čeka se potvrda...</div>
+  <div class="odp-msg" id="odpMsg"></div>
+  <div class="odp-timer" id="odpTimer" style="display:none">
+    <div class="odp-timer-label">Preostalo vreme:</div>
+    <div class="odp-timer-val" id="odpTimerVal">--:--</div>
+  </div>
+</div>
+<button class="order-status-pill" id="orderStatusPill" style="display:none">
+  <span class="osp-pulse"></span>
+  <span id="osPillText">Porudžbina</span>
+  <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="meni.js"></script>
+</body>
+</html>

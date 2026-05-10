@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/style\\.css",
+      "dest": "/style.css",
+      "headers": { "Content-Type": "text/css; charset=utf-8" }
+    },
+    {
+      "src": "/script\\.js",
+      "dest": "/script.js",
+      "headers": { "Content-Type": "application/javascript; charset=utf-8" }
+    },
+    {
+      "src": "/meni\\.css",
+      "dest": "/meni.css",
+      "headers": { "Content-Type": "text/css; charset=utf-8" }
+    },
+    {
+      "src": "/meni\\.js",
+      "dest": "/meni.js",
+      "headers": { "Content-Type": "application/javascript; charset=utf-8" }
+    },
+    {
+      "src": "/dashboard\\.css",
+      "dest": "/dashboard.css",
+      "headers": { "Content-Type": "text/css; charset=utf-8" }
+    },
+    {
+      "src": "/dashboard\\.js",
+      "dest": "/dashboard.js",
+      "headers": { "Content-Type": "application/javascript; charset=utf-8" }
+    },
+    {
+      "src": "/(.*\\.(png|jpg|jpeg|webp|svg|ico|gif|mp3|mp4|woff|woff2|ttf|otf))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ]
+}

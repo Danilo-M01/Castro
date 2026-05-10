@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Praćenje porudžbine</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f5f7fb; color: #111827; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 20px; }
+    .card { background: #fff; border-radius: 14px; padding: 18px; box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+    .status { font-size: 28px; font-weight: 700; margin: 6px 0 14px; }
+    .muted { color: #6b7280; font-size: 13px; }
+    .progress { height: 12px; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 10px 0; }
+    .progress > div { height: 100%; background: #2563eb; width: 0%; transition: width .4s ease; }
+    ul { margin: 8px 0; padding-left: 18px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🍕 Castro Restaurant</h1>
+    <div class="card">
+      <div id="orderId" class="muted"></div>
+      <div id="status" class="status">Učitavanje...</div>
+      <div class="muted" id="eta"></div>
+      <div class="progress"><div id="bar"></div></div>
+      <div class="muted">Stanje se ažurira u realnom vremenu</div>
+      <h3>Stavke</h3>
+      <ul id="items"></ul>
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const statusLabels = {
+      new: "Na čekanju",
+      accepted: "Prihvaćena",
+      preparing: "U pripremi",
+      almost_ready: "Skoro spremna",
+      ready: "Spremna za preuzimanje",
+      completed: "Završena",
+      rejected: "Odbijena",
+      missed: "Propuštena"
+    };
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    const orderId = window.location.pathname.split("/").pop();
+    let orderData = null;
+
+    function progressForStatus(status) {
+      const map = { new: 10, accepted: 25, preparing: 55, almost_ready: 80, ready: 100, completed: 100, rejected: 100, missed: 100 };
+      return map[status] || 0;
+    }
+
+    function render(order) {
+      orderData = order;
+      document.getElementById("orderId").textContent = "Porudžbina " + order.id;
+      document.getElementById("status").textContent = statusLabels[order.status] || order.status;
+      document.getElementById("bar").style.width = progressForStatus(order.status) + "%";
+      const eta = order.acceptedAt
+        ? new Date(new Date(order.acceptedAt).getTime() + order.prepMinutes * 60000).toLocaleTimeString("sr-RS", { hour: "2-digit", minute: "2-digit" })
+        : "-";
+      document.getElementById("eta").textContent = "Procenjeno vreme: " + eta;
+      document.getElementById("items").innerHTML = order.items.map((item) => `<li>${item.qty}x ${item.name}</li>`).join("");
+    }
+
+    fetch(`/api/track/${orderId}?token=${encodeURIComponent(token || "")}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.order) {
+          render(data.order);
+          socket.emit("order:subscribe", { orderId: data.order.id, customerToken: token });
+        }
+      });
+
+    socket.on("order:notification", ({ order }) => {
+      if (orderData && order.id === orderData.id) {
+        fetch(`/api/track/${order.id}?token=${encodeURIComponent(token || "")}`)
+          .then((res) => res.json())
+          .then((data) => data.order && render(data.order));
+      }
+    });
+  </script>
+</body>
+</html>

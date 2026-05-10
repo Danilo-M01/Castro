@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Castro Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+<main id="app">
+
+  <!-- LOGIN -->
+  <section id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <img src="/logo.png" alt="Castro" class="login-logo" width="56" height="56">
+      <h1>Castro</h1>
+      <p class="login-sub">Upravljanje restoranom</p>
+      <form id="loginForm">
+        <input id="password" type="password" placeholder="Lozinka" required autocomplete="current-password">
+        <button type="submit">Prijavi se</button>
+        <p id="loginError" class="error"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboardScreen" class="dashboard hidden">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <img src="/logo.png" alt="Castro" class="topbar-logo" width="34" height="34">
+        <span class="topbar-brand">Castro</span>
+        <span class="topbar-tag">Dashboard</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat-pill"><span class="dot dot--blue"></span><span id="statOrders">0 porudžbina</span></div>
+        <div class="stat-pill"><span class="dot dot--orange"></span><span id="statPending">0 na čekanju</span></div>
+        <div class="stat-pill"><span class="dot dot--red"></span><span id="statMissed">0 propuštene</span></div>
+        <div class="stat-pill"><span class="dot dot--green"></span><span id="statRevenue">0 RSD</span></div>
+      </div>
+      <div class="topbar-actions">
+        <button class="gl-btn" id="menuManageBtn">
+          <svg viewBox="0 0 24 24" fill="none" width="15" height="15"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Meni
+        </button>
+        <button class="gl-btn" id="muteBtn">
+          <svg viewBox="0 0 24 24" fill="none" width="15" height="15" id="muteIcon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Zvuk
+        </button>
+        <button class="gl-btn gl-btn--danger" id="logoutBtn">Odjavi se</button>
+      </div>
+    </header>
+
+    <div class="main-grid">
+      <div class="col">
+        <div class="col-head">
+          <div class="col-title"><span class="col-dot col-dot--new"></span>Nove porudžbine</div>
+          <span class="col-badge" id="incomingCount">0</span>
+        </div>
+        <div id="incomingOrders" class="orders-list"></div>
+      </div>
+      <div class="col">
+        <div class="col-head">
+          <div class="col-title"><span class="col-dot col-dot--active"></span>U pripremi</div>
+          <span class="col-badge col-badge--active" id="activeCount">0</span>
+        </div>
+        <div id="activeOrders" class="orders-list"></div>
+      </div>
+    </div>
+
+    <section class="history-section">
+      <div class="history-head">
+        <h2 class="section-title">Istorija porudžbina</h2>
+        <div class="history-filters">
+          <select class="f-select" id="filterYear">
+            <option value="">Sve godine</option>
+            <option value="2025">2025</option>
+            <option value="2026" selected>2026</option>
+          </select>
+          <select class="f-select" id="filterMonth">
+            <option value="">Svi meseci</option>
+            <option value="1">Januar</option><option value="2">Februar</option>
+            <option value="3">Mart</option><option value="4">April</option>
+            <option value="5">Maj</option><option value="6">Jun</option>
+            <option value="7">Jul</option><option value="8">Avgust</option>
+            <option value="9">Septembar</option><option value="10">Oktobar</option>
+            <option value="11">Novembar</option><option value="12">Decembar</option>
+          </select>
+          <input type="date" class="f-select" id="filterDay">
+          <input type="text" class="f-select f-search" id="filterItem" placeholder="🔍 Jelo...">
+          <button class="gl-btn" id="clearFiltersBtn">✕ Poništi</button>
+        </div>
+      </div>
+      <div class="history-stats-row" id="historyStatsRow"></div>
+      <div id="orderHistoryList" class="history-list"></div>
+    </section>
+
+  </section>
+</main>
+
+<!-- MENU MODAL -->
+<div id="menuModal" class="modal hidden">
+  <div class="modal-card modal-card--wide">
+    <div class="modal-head">
+      <h3>Dostupnost menija</h3>
+      <button class="modal-x" data-close-modal="menuModal">✕</button>
+    </div>
+    <input id="menuSearch" type="search" placeholder="Pretraži artikal..." class="modal-search">
+    <div id="categoryBulkActions" class="category-bulk-actions"></div>
+    <div id="menuAvailabilityList" class="availability-list"></div>
+  </div>
+</div>
+
+<!-- ACCEPT MODAL -->
+<div id="acceptModal" class="modal hidden">
+  <div class="modal-card modal-card--sm">
+    <div class="modal-head">
+      <h3>Prihvati porudžbinu</h3>
+      <button class="modal-x" data-close-modal="acceptModal">✕</button>
+    </div>
+    <p class="modal-order-id" id="acceptOrderLabel"></p>
+    <p class="modal-hint">Vreme pripreme:</p>
+    <div class="time-grid">
+      <button class="t-chip" data-min="10">10 min</button>
+      <button class="t-chip" data-min="15">15 min</button>
+      <button class="t-chip" data-min="25">25 min</button>
+      <button class="t-chip" data-min="30">30 min</button>
+      <button class="t-chip" data-min="45">45 min</button>
+      <button class="t-chip t-chip--custom" data-min="60">45+ min</button>
+    </div>
+    <div class="custom-time">
+      <label>Prilagođeno:</label>
+      <input id="acceptPrepInput" type="number" min="5" max="240" value="20">
+      <span>min</span>
+    </div>
+    <button class="confirm-btn confirm-btn--green" id="confirmAcceptBtn">✓ Potvrdi prihvatanje</button>
+  </div>
+</div>
+
+<!-- REJECT MODAL -->
+<div id="rejectModal" class="modal hidden">
+  <div class="modal-card modal-card--sm">
+    <div class="modal-head">
+      <h3>Odbij porudžbinu</h3>
+      <button class="modal-x" data-close-modal="rejectModal">✕</button>
+    </div>
+    <p class="modal-hint">Razlog:</p>
+    <select id="rejectReason" class="modal-select">
+      <option value="Trenutno preoptereceni">Trenutno preopterećeni</option>
+      <option value="Artikal nije na stanju">Artikal nije na stanju</option>
+      <option value="Kuhinja se zatvara">Kuhinja se zatvara</option>
+      <option value="Problem sa dostavom">Problem sa dostavom</option>
+    </select>
+    <input id="rejectReasonOther" type="text" class="modal-input" placeholder="Drugi razlog (opciono)">
+    <button class="confirm-btn confirm-btn--red" id="confirmRejectBtn">✗ Potvrdi odbijanje</button>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/dashboard.js"></script>
+</body>
+</html>
