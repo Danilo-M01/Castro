@@ -1152,3 +1152,113 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-variant-numeric: tabular-nums;
   letter-spacing: 1px;
 }
+
+/* ══════════════════════════════════════
+   NOVO — Sub-nav, opisi, pića, clean UI
+══════════════════════════════════════ */
+
+/* ─── STICKY SUB-NAV ─── */
+.sub-nav {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 190;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--divider);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.sub-nav__inner {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 20px;
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.sub-nav__inner::-webkit-scrollbar { display: none; }
+.sub-nav__item {
+  flex-shrink: 0;
+  padding: 10px 13px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  border-bottom: 2.5px solid transparent;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+  text-decoration: none;
+  display: block;
+}
+.sub-nav__item:hover { color: var(--text); }
+.sub-nav__item.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+
+/* ─── ITEM DESCRIPTION ─── */
+.item__name {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.item__desc {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+/* ─── COMPACT BANNER ─── */
+.cat__banner { height: 26vh !important; min-height: 180px !important; }
+
+/* ─── DRINK ITEMS ─── */
+.item--drink { background: #f7f8fa !important; border-left: none !important; cursor: default; }
+.item--drink:hover { background: #f0f2f5 !important; }
+.item--drink .item__price { color: var(--text) !important; font-weight: 600; }
+
+/* ─── DRINKS INFO NOTE ─── */
+.drinks-info-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(46,196,182,0.08);
+  border: 1px solid rgba(46,196,182,0.25);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 32px;
+  font-size: 13px;
+  color: #1a7a73;
+  font-weight: 500;
+}
+.drinks-info-note svg { flex-shrink: 0; stroke: #2EC4B6; }
+
+/* ─── CAT DRINKS ─── */
+.cat--drinks .cat__label { color: #2EC4B6; }
+
+/* ─── MOBILE SUB-NAV ─── */
+@media (max-width: 768px) {
+  .sub-nav { top: var(--nav-h); }
+  .sub-nav__item { padding: 10px 11px; font-size: 11.5px; }
+}
+
+/* ─── DORUČAK — cutoff banner & disabled state ─── */
+.breakfast-closed-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 149, 0, 0.1);
+  border: 1px solid rgba(255, 149, 0, 0.35);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 16px 20px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #b36200;
+}
+.breakfast-closed-banner svg { flex-shrink: 0; stroke: #ff9500; }
+
+.item--breakfast.item--breakfast-closed {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.item--breakfast.item--breakfast-closed .add-btn { display: none; }

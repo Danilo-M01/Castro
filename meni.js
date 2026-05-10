@@ -314,7 +314,6 @@ function generateTimeSlots() {
 }
 
 function openModal() {
-  generateTimeSlots();
   document.getElementById('orderModal').classList.add('open');
   document.getElementById('modalOverlay').classList.add('open');
 }
@@ -364,7 +363,6 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
   if (!valid) return;
 
   const type = document.querySelector('input[name="type"]:checked').value;
-  const scheduledTime = document.getElementById('oTime')?.value || 'asap';
   const addr = document.getElementById('oAddr')?.value || '';
   const note = document.getElementById('oNote')?.value || '';
   const btn = e.target.querySelector('button[type="submit"]');
@@ -378,7 +376,6 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
       customerName: name.value.trim(),
       phone: phone.value.trim(),
       type,
-      scheduledTime,
       address: addr,
       note
     })
@@ -473,6 +470,34 @@ const tabObs = new IntersectionObserver(entries => {
 
 sections.forEach(s => tabObs.observe(s));
 
+/* ─── Sub-nav scroll-spy ─── */
+const subNavLinks = document.querySelectorAll('.sub-nav__item[data-target]');
+
+const subNavObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const id = entry.target.id;
+    subNavLinks.forEach(l => l.classList.toggle('active', l.dataset.target === id));
+    // auto-scroll sub-nav item into view
+    const active = document.querySelector(`.sub-nav__item[data-target="${id}"]`);
+    if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+
+sections.forEach(s => subNavObs.observe(s));
+
+/* ─── Smooth scroll for sub-nav links ─── */
+subNavLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.getElementById(link.dataset.target);
+    if (!target) return;
+    const navH = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68) + 44;
+    const offset = target.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  });
+});
+
 /* ─── Hero slideshow ─── */
 const heroSlides = document.querySelectorAll('.meni-hero__slide');
 if (heroSlides.length > 1) {
@@ -486,7 +511,17 @@ if (heroSlides.length > 1) {
 
 
 
-/* ─── Init ─── */
+/* ─── Init: proveri expiry pre svega ─── */
+(function checkExpiry() {
+  if (!liveOrder) return;
+  const expiresAt = Number(localStorage.getItem('castro-live-order-expires-at') || 0);
+  if (expiresAt && Date.now() > expiresAt) {
+    localStorage.removeItem('castro-live-order');
+    localStorage.removeItem('castro-live-order-expires-at');
+    liveOrder = null;
+  }
+})();
+
 cart.render();
 
 fetch("/api/menu-availability")
@@ -497,8 +532,22 @@ socket.on("menu:availability", (payload) => {
   renderAvailability(payload.menuAvailability || {});
 });
 
+// Ako korisnik vrati stranicu a ima aktivan order — prikaži pill odmah
 if (liveOrder?.orderId && liveOrder?.customerToken) {
   socket.emit("order:subscribe", liveOrder);
+  // Obnovi prikaz pilla sa poslednjim poznatim statusom
+  const lastStatus = liveOrder.status || 'pending';
+  const statusMap = {
+    pending: '⏳ Čeka se potvrda',
+    accepted: '✅ Prihvaćena',
+    preparing: '👨‍🍳 U pripremi',
+    ready: '🟢 Spremna!',
+    completed: '✓ Završena',
+    rejected: '❌ Odbijena',
+    missed: '⚠️ Propuštena',
+  };
+  const displayStatus = statusMap[lastStatus] || '⏳ Čeka se potvrda';
+  updateCustomerStatus(`Vraćen na praćenje porudžbine ${liveOrder.orderId}. Status: ${displayStatus}`);
 }
 
 socket.on("order:notification", ({ order, message }) => {
@@ -508,18 +557,19 @@ socket.on("order:notification", ({ order, message }) => {
   }
   updateCustomerStatus(`${message} (${order.id})`);
   if (order.status === "completed") {
-    const keepUntil = Date.now() + 10 * 60 * 1000;
+    const keepUntil = Date.now() + 10 * 60 * 1000; // 10 minuta
     localStorage.setItem("castro-live-order-expires-at", String(keepUntil));
     setTimeout(() => {
       localStorage.removeItem("castro-live-order");
       localStorage.removeItem("castro-live-order-expires-at");
       liveOrder = null;
+      const pill = document.getElementById('orderStatusPill');
+      if (pill) pill.style.display = 'none';
     }, 10 * 60 * 1000);
   }
   if (order.status === "rejected" || order.status === "missed") {
     localStorage.removeItem("castro-live-order");
     localStorage.removeItem("castro-live-order-expires-at");
-    liveOrder = null;
     liveOrder = null;
   }
 });
@@ -573,16 +623,41 @@ if (phoneInputEl) {
 
 
 
-if (liveOrder) {
-  const expiresAt = Number(localStorage.getItem("castro-live-order-expires-at") || 0);
-  if (expiresAt && Date.now() > expiresAt) {
-    localStorage.removeItem("castro-live-order");
-    localStorage.removeItem("castro-live-order-expires-at");
-    liveOrder = null;
-  }
+/* ═════════════════════════════════════════
+   DORUČAK — Beograd timezone cutoff u 13:00
+═════════════════════════════════════════ */
+function isBreakfastOpen() {
+  // Beograd = Europe/Belgrade = UTC+1 zimi, UTC+2 leti
+  const now = new Date();
+  const belgradeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Belgrade' }));
+  const h = belgradeTime.getHours();
+  const m = belgradeTime.getMinutes();
+  return h < 13 || (h === 13 && m === 0);
 }
 
-/* ─── Inline qty kontrole na stavkama menija ─── */
+function applyBreakfastCutoff() {
+  const open = isBreakfastOpen();
+  const banner = document.getElementById('dorucakUnavailableBanner');
+  if (banner) banner.style.display = open ? 'none' : 'flex';
+
+  document.querySelectorAll('.item--breakfast-only').forEach(el => {
+    el.classList.toggle('item--breakfast-closed', !open);
+    // ako je zatvoreno, označi kao nedostupno za cart.add
+    if (!open) el.classList.add('item--unavailable');
+    else el.classList.remove('item--unavailable');
+  });
+}
+
+// Primeni odmah pri učitavanju
+applyBreakfastCutoff();
+
+// Re-proveri svakih 60s (za slučaj da je stranica otvorena pre i posle 13:00)
+setInterval(applyBreakfastCutoff, 60000);
+
+/* ═════════════════════════════════════════
+   ORDER TRACKING PERSISTENCE (po ulasku/izlasku)
+═════════════════════════════════════════ */
+// Proveri expiry pri učitavanju
 function renderItemControls() {
   document.querySelectorAll('.item').forEach(itemEl => {
     if (itemEl.classList.contains('item--unavailable')) return;

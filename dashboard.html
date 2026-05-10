@@ -14,7 +14,17 @@
   <!-- LOGIN -->
   <section id="loginScreen" class="login-screen">
     <div class="login-card">
-      <img src="/logo.png" alt="Castro" class="login-logo" width="56" height="56">
+      <div class="login-logo-wrap">
+        <img src="/logo.png" alt="Castro" class="login-logo" width="72" height="72"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="logo-svg-fallback" style="display:none">
+          <svg viewBox="0 0 72 72" width="72" height="72" xmlns="http://www.w3.org/2000/svg">
+            <rect width="72" height="72" rx="16" fill="#E63946"/>
+            <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+              font-family="Anton, Impact, sans-serif" font-size="40" fill="white" letter-spacing="1">C</text>
+          </svg>
+        </div>
+      </div>
       <h1>Castro</h1>
       <p class="login-sub">Upravljanje restoranom</p>
       <form id="loginForm">
@@ -30,7 +40,17 @@
 
     <header class="topbar">
       <div class="topbar-left">
-        <img src="/logo.png" alt="Castro" class="topbar-logo" width="34" height="34">
+        <div class="topbar-logo-wrap">
+          <img src="/logo.png" alt="Castro" class="topbar-logo" width="36" height="36"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-svg-fallback logo-svg-fallback--sm" style="display:none">
+            <svg viewBox="0 0 36 36" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+              <rect width="36" height="36" rx="8" fill="#E63946"/>
+              <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                font-family="Anton, Impact, sans-serif" font-size="20" fill="white">C</text>
+            </svg>
+          </div>
+        </div>
         <span class="topbar-brand">Castro</span>
         <span class="topbar-tag">Dashboard</span>
       </div>
