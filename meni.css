@@ -906,6 +906,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
+.checkout-fab.temp-hidden {
+  transform: translateX(-50%) translateY(100px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 .checkout-fab:hover {
   background: #c62f3c;
   box-shadow: 0 12px 40px rgba(230,57,70,.55);

@@ -310,11 +310,13 @@ function openCart() {
   document.getElementById('cartPanel').classList.add('open');
   document.getElementById('cartOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.getElementById('checkoutFab')?.classList.add('temp-hidden');
 }
 function closeCart() {
   document.getElementById('cartPanel').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
   document.body.style.overflow = '';
+  document.getElementById('checkoutFab')?.classList.remove('temp-hidden');
 }
 function generateTimeSlots() {
   const select = document.getElementById('oTime');
@@ -628,7 +630,7 @@ socket.on("order:notification", ({ order, message }) => {
   }
   updateCustomerStatus(`${message} (${order.id})`);
   if (order.status === "completed") {
-    const keepUntil = Date.now() + 10 * 60 * 1000; // 10 minuta
+    const keepUntil = Date.now() + 5 * 60 * 1000; // 5 minuta
     localStorage.setItem("castro-live-order-expires-at", String(keepUntil));
     setTimeout(() => {
       localStorage.removeItem("castro-live-order");
@@ -636,7 +638,7 @@ socket.on("order:notification", ({ order, message }) => {
       liveOrder = null;
       const pill = document.getElementById('orderStatusPill');
       if (pill) pill.style.display = 'none';
-    }, 10 * 60 * 1000);
+    }, 5 * 60 * 1000);
   }
   if (order.status === "rejected" || order.status === "missed") {
     localStorage.removeItem("castro-live-order");
@@ -647,13 +649,23 @@ socket.on("order:notification", ({ order, message }) => {
 
 if (liveOrder?.orderId && liveOrder?.customerToken) {
   fetch(`/api/track/${encodeURIComponent(liveOrder.orderId)}?token=${encodeURIComponent(liveOrder.customerToken)}`)
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error("Order not found");
+      return res.json();
+    })
     .then(data => {
       if (data.order) {
         Object.assign(liveOrder, data.order);
         localStorage.setItem("castro-live-order", JSON.stringify(liveOrder));
       }
-    }).catch(e => console.error(e));
+    }).catch(e => {
+      console.error(e);
+      localStorage.removeItem("castro-live-order");
+      localStorage.removeItem("castro-live-order-expires-at");
+      liveOrder = null;
+      const pill = document.getElementById('orderStatusPill');
+      if (pill) pill.style.display = 'none';
+    });
 }
 
 function updateTimer() {
@@ -835,12 +847,14 @@ function openSizePicker(itemEl, needsAddons = null) {
   document.getElementById('sizePickerOverlay').classList.add('open');
   document.getElementById('sizePicker').classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.getElementById('checkoutFab')?.classList.add('temp-hidden');
 }
 
 function closeSizePicker() {
   document.getElementById('sizePickerOverlay').classList.remove('open');
   document.getElementById('sizePicker').classList.remove('open');
   document.body.style.overflow = '';
+  document.getElementById('checkoutFab')?.classList.remove('temp-hidden');
   _sizePickerItem = null;
 }
 
@@ -920,12 +934,14 @@ function openAddonPicker(itemEl, baseName, basePrice, type) {
   document.getElementById('addonPickerOverlay').classList.add('open');
   document.getElementById('addonPicker').classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.getElementById('checkoutFab')?.classList.add('temp-hidden');
 }
 
 function closeAddonPicker() {
   document.getElementById('addonPickerOverlay').classList.remove('open');
   document.getElementById('addonPicker').classList.remove('open');
   document.body.style.overflow = '';
+  document.getElementById('checkoutFab')?.classList.remove('temp-hidden');
   _addonPickerItem = null;
 }
 

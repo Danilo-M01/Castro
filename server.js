@@ -14,7 +14,7 @@ const DASHBOARD_PASSWORD = process.env.DASHBOARD_PASSWORD || "Castro12@!?poZareV
 const SESSION_SECRET = process.env.SESSION_SECRET || "castro-session-secret-change-me";
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000;
 const ACCEPT_TIMEOUT_MS = 3 * 60 * 1000;
-const COMPLETED_KEEP_MS = 10 * 60 * 1000;
+const COMPLETED_KEEP_MS = 5 * 60 * 1000;
 
 const SUPABASE_URL = process.env.SUPABASE_URL || "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
