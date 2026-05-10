@@ -18,13 +18,25 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Poppins', sans-serif; background: var(--bg-page); color: var(--text); overflow-x: hidden; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip; /* clip ne utice na sticky pozicioniranje, za razliku od hidden */
+  scroll-padding-top: calc(var(--nav-h) + 90px);
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-page);
+  color: var(--text);
+  overflow-x: clip;
+  max-width: 100%;
+  /* Ukloni plavi flash pri tapkanju linkova na iOS/Android */
+  -webkit-tap-highlight-color: transparent;
+}
 img { display: block; max-width: 100%; }
 a { text-decoration: none; color: inherit; }
 button { cursor: pointer; border: none; background: none; font: inherit; }
 
-.wrap { width: min(1200px, 100% - 40px); margin-inline: auto; }
+.wrap { width: min(1200px, 100% - 32px); margin-inline: auto; }
 
 /* ─── NAV ─── */
 .nav {
@@ -709,9 +721,12 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 /* ═══ RESPONSIVE ═══ */
+
+/* Tablet (768–1024px) */
 @media (max-width: 1024px) {
   .item-grid { grid-template-columns: repeat(2, 1fr); }
   .footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .wrap { width: min(1200px, 100% - 32px); }
 }
 
 @media (max-width: 768px) {
@@ -724,29 +739,35 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     -webkit-backdrop-filter: none !important;
   }
 
-  /* Mobile nav drawer
-     position: absolute (not fixed!) jer backdrop-filter na .nav
-     pravi containing block za fixed descendante — iOS bug */
+  /* Mobile nav drawer */
   .nav__center {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0; right: 0;
-    height: calc(100vh - var(--nav-h));
-    height: calc(100svh - var(--nav-h));
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: #111111;
-    z-index: 999;
+    z-index: 198; /* ispod nav-a koji je z-index:200 */
     justify-content: center;
     align-items: center;
     gap: 6px;
     padding: 32px 24px;
-    transform: translateX(100%);
-    transition: transform 0.35s var(--ease);
+    /* Koristimo opacity+visibility umesto translateX(100%) da nema horizontalnog overflow-a */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s var(--ease), visibility 0.3s;
     overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
-  .nav__center.open { transform: translateX(0); }
+  .nav__center.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
 
   .nav__tab {
     font-size: 17px;
@@ -767,27 +788,58 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   .fab-cart { display: flex; }
   .cart-btn { display: none; }
 
-  .cat__banner { height: 34vh; min-height: 220px; }
-  .cat__banner-text { padding: 24px 20px; }
-  .cat__title { font-size: clamp(36px, 9vw, 60px); }
+  /* Baneri */
+  .cat__banner { height: 28vh; min-height: 180px; }
+  .cat__banner-text { padding: 20px 16px; }
+  .cat__title { font-size: clamp(32px, 9vw, 56px); }
 
+  /* Item grid — jedna kolona na mobailu */
   .item-grid { grid-template-columns: 1fr; border-radius: 12px; }
-  .item { padding: 16px 18px; min-height: 60px; }
-  .item__name { font-size: 13.5px; }
-  .item__price { font-size: 13.5px; }
+  .item {
+    padding: 16px 16px;
+    min-height: 64px; /* veci touch target */
+    gap: 12px;
+  }
+  .item__name { font-size: 14px; }
+  .item__price { font-size: 14px; }
+  .add-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+  }
+  .item-qty-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+  }
 
-  .cat__body { padding: 28px 0 44px; }
+  .cat__body { padding: 20px 0 40px; }
+  .wrap { width: min(1200px, 100% - 24px); }
 
   .footer__grid { grid-template-columns: 1fr; gap: 28px; }
 
   .modal { padding: 28px 20px 24px; border-radius: 16px; }
+
+  /* Sprečava horizontalni overflow — clip ne utiče na sticky pozicioniranje */
+  .cat, .meni-hero, .meni-main, .footer {
+    max-width: 100%;
+    overflow-x: clip;
+  }
 }
 
 @media (max-width: 480px) {
-  .meni-hero { height: 46vh; min-height: 300px; }
-  .meni-hero__title { font-size: 58px; }
+  .meni-hero { height: 42vh; min-height: 260px; }
+  .meni-hero__title { font-size: clamp(44px, 14vw, 64px); }
+  .meni-hero__sub { font-size: 13px; }
   .cart-panel { width: 100vw; }
-  .item { padding: 14px 16px; }
+  .item { padding: 14px 14px; min-height: 62px; }
+  .item__name { font-size: 13.5px; }
+  /* Veci dugme + za starije korisnike */
+  .add-btn { width: 38px; height: 38px; font-size: 24px; }
+  .item-qty-btn { width: 36px; height: 36px; font-size: 22px; }
+  .item__price { font-size: 14px; font-weight: 700; }
+  /* Group labels */
+  .group-label { font-size: 10px; letter-spacing: .12em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1011,6 +1063,71 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .size-opt__cm { font-size: 16px; font-weight: 600; color: #fff; }
 .size-opt__price { font-size: 16px; font-weight: 700; color: var(--accent); }
 
+/* ─── ADDON PICKER ─── */
+.addon-picker__desc {
+  font-size: 13px;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 16px;
+}
+.addon-picker__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.addon-picker__list::-webkit-scrollbar { width: 4px; }
+.addon-picker__list::-webkit-scrollbar-track { background: rgba(255,255,255,.02); }
+.addon-picker__list::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 4px; }
+
+.addon-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(255,255,255,.05);
+  border: 1.5px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  transition: background .2s;
+}
+.addon-opt__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.addon-opt__name { font-size: 15px; font-weight: 600; color: #fff; }
+.addon-opt__price { font-size: 12px; font-weight: 700; color: var(--primary); }
+
+.addon-opt__ctrl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 2px 6px;
+}
+.addon-opt__ctrl button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: rgba(255,255,255,.6);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .2s, background .2s;
+  border: none;
+}
+.addon-opt__ctrl button:hover { color: #fff; background: rgba(255,255,255,.1); }
+.addon-opt__ctrl span {
+  min-width: 18px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
 /* ─── CUSTOMER ORDER PILL ─── */
 .order-status-pill {
   position: fixed;
@@ -1152,3 +1269,147 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-variant-numeric: tabular-nums;
   letter-spacing: 1px;
 }
+
+/* ══════════════════════════════════════
+   NOVO — Sub-nav, opisi, pića, clean UI
+══════════════════════════════════════ */
+
+/* ─── STICKY SUB-NAV ─── */
+.sub-nav {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 190;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--divider);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  /* VAZNO: overflow:hidden bi unistio position:sticky! Ne koristimo ga ovde. */
+}
+.sub-nav__inner {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 6px 8px 0;
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  /* Samo horizontalni swipe unutar sub-nav-a, vertikalni scroll ide stranici */
+  touch-action: pan-x;
+}
+.sub-nav__inner::-webkit-scrollbar { display: none; }
+.sub-nav__item {
+  flex-shrink: 0;
+  padding: 8px 12px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  transition: color .2s, border-color .2s, background .2s;
+  white-space: nowrap;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 60px;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+  scroll-snap-align: start;
+  line-height: 1.2;
+}
+.sub-nav__item .sn-emoji {
+  font-size: 26px;
+  line-height: 1;
+  display: block;
+  transition: transform .2s;
+}
+.sub-nav__item .sn-label {
+  font-size: 11px;
+  font-weight: 600;
+  display: block;
+  line-height: 1.2;
+}
+.sub-nav__item:hover { color: var(--text); background: rgba(0,0,0,0.04); }
+.sub-nav__item:hover .sn-emoji { transform: scale(1.12); }
+.sub-nav__item.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(46,196,182,0.07); }
+.sub-nav__item.active .sn-emoji { transform: scale(1.08); }
+
+/* ─── ITEM DESCRIPTION ─── */
+.item__name {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.item__desc {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+/* ─── COMPACT BANNER ─── */
+.cat__banner { height: 26vh !important; min-height: 180px !important; }
+
+/* ─── DRINK ITEMS ─── */
+.item--drink { background: #f7f8fa !important; border-left: none !important; cursor: default; }
+.item--drink:hover { background: #f0f2f5 !important; }
+.item--drink .item__price { color: var(--text) !important; font-weight: 600; }
+
+/* ─── DRINKS INFO NOTE ─── */
+.drinks-info-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(46,196,182,0.08);
+  border: 1px solid rgba(46,196,182,0.25);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 32px;
+  font-size: 13px;
+  color: #1a7a73;
+  font-weight: 500;
+}
+.drinks-info-note svg { flex-shrink: 0; stroke: #2EC4B6; }
+
+/* ─── CAT DRINKS ─── */
+.cat--drinks .cat__label { color: #2EC4B6; }
+
+/* ─── MOBILE SUB-NAV ─── */
+@media (max-width: 768px) {
+  .sub-nav { top: var(--nav-h); }
+  .sub-nav__inner { padding: 4px 4px 0; gap: 0; }
+  .sub-nav__item {
+    padding: 6px 8px 8px;
+    min-width: 54px;
+  }
+  .sub-nav__item .sn-emoji { font-size: 28px; }
+  .sub-nav__item .sn-label { font-size: 10px; }
+}
+
+/* ─── DORUČAK — cutoff banner & disabled state ─── */
+.breakfast-closed-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 149, 0, 0.1);
+  border: 1px solid rgba(255, 149, 0, 0.35);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 16px 20px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #b36200;
+}
+.breakfast-closed-banner svg { flex-shrink: 0; stroke: #ff9500; }
+
+.item--breakfast.item--breakfast-closed {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.item--breakfast.item--breakfast-closed .add-btn { display: none; }

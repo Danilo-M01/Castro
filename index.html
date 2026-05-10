@@ -37,7 +37,6 @@
         <li><a href="#o-nama" class="nav__link">O nama</a></li>
         <li><a href="meni.html" class="nav__link">Meni</a></li>
         <li><a href="meni.html" class="nav__link nav__link--order">Poruči Online</a></li>
-        <li><a href="#rezervacija" class="nav__link nav__link--cta">Rezervacija</a></li>
       </ul>
     </div>
   </nav>
@@ -55,8 +54,7 @@
       <h1 class="hero__headline reveal-up delay-1">HRANA KAKVA<br>TREBA DA BUDE.</h1>
       <p class="hero__sub reveal-up delay-2">Sveži sastojci. Autentični recepti. Svaki put.</p>
       <div class="hero__actions reveal-up delay-3">
-        <a href="#meni" class="btn btn--primary">Vidi meni</a>
-        <a href="#rezervacija" class="btn btn--ghost">Rezerviši sto</a>
+        <a href="meni.html" class="btn btn--primary">Vidi meni</a>
       </div>
     </div>
 
@@ -86,7 +84,6 @@
           <span class="story__label">Naš duh</span>
           <h2 class="story__title">Duh Havane<br>u srcu Požarevca.</h2>
           <p class="story__sub">Topao ambijent koji ne zaboravljaš.</p>
-          <a href="#rezervacija" class="btn btn--primary story__cta">Rezervišite sto</a>
         </div>
       </div>
 
@@ -113,7 +110,6 @@
             Biramo lokalne namirnice, kuvamo s pažnjom i serviramo s ponosom.
             Svaki dan, svaki sto, svaki zalogaj.
           </p>
-          <a href="#rezervacija" class="btn btn--outline reveal-up delay-3">Dođite da probate</a>
         </div>
         <div class="about__visual reveal-right">
           <img src="castro-margherita.jpg.png" alt="Castro pizza" class="about__photo">
@@ -232,44 +228,9 @@
             </a>
           </div>
         </div>
-
-        <form class="reservation__form reveal-right" id="reservationForm" novalidate>
-          <div class="form-group">
-            <label for="name">Ime i prezime</label>
-            <input type="text" id="name" name="name" placeholder="Vaše ime" required>
-          </div>
-          <div class="form-group">
-            <label for="phone">Telefon</label>
-            <input type="tel" id="phone" name="phone" placeholder="+381..." required>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="date">Datum</label>
-              <input type="date" id="date" name="date" required>
-            </div>
-            <div class="form-group">
-              <label for="guests">Broj gostiju</label>
-              <select id="guests" name="guests" required>
-                <option value="" disabled selected>Odaberite</option>
-                <option value="1">1 osoba</option>
-                <option value="2">2 osobe</option>
-                <option value="3">3 osobe</option>
-                <option value="4">4 osobe</option>
-                <option value="5+">5+ osoba</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="note">Napomena <span>(opciono)</span></label>
-            <textarea id="note" name="note" placeholder="Posebni zahtevi, alergije..." rows="3"></textarea>
-          </div>
-          <button type="submit" class="btn btn--primary btn--full">Rezervišite sto &rarr;</button>
-          <p class="form-note">Potvrdićemo rezervaciju putem telefona u roku od 30 minuta.</p>
-        </form>
       </div>
     </div>
   </section>
-
   <!-- ═══ FOOTER ═══ -->
   <footer class="footer">
     <div class="container">
@@ -284,7 +245,6 @@
           <ul>
             <li><a href="#o-nama">O nama</a></li>
             <li><a href="#meni">Meni</a></li>
-            <li><a href="#rezervacija">Rezervacija</a></li>
           </ul>
         </div>
 

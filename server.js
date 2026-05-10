@@ -401,7 +401,7 @@ app.post("/api/orders", async (req, res) => {
     scheduledTime: scheduledTime && scheduledTime !== "asap" ? scheduledTime : null,
     address: address || "",
     note: finalNote,
-    items: items.map((item) => ({ name: item.name, price: Number(item.price) || 0, qty: Number(item.qty) || 1 })),
+    items: items.map((item) => ({ name: item.name, price: Number(item.price) || 0, qty: Number(item.qty) || 1, addons: Array.isArray(item.addons) ? item.addons.map(a => ({ name: a.name, price: Number(a.price) || 0, qty: Number(a.qty) || 1 })) : [] })),
     status: "new",
     prepMinutes: 20,
     createdAt: nowIso(),

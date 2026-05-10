@@ -16,36 +16,89 @@ function isValidSerbianPhone(value) {
 const cart = {
   items: JSON.parse(localStorage.getItem('castro-cart') || '[]'),
 
+  generateId(name, addons) {
+    if (!addons || addons.length === 0) return name;
+    return name + '|' + addons.map(a => `${a.name}:${a.qty}`).sort().join('|');
+  },
+
   add(btn) {
     const el = btn.closest('.item');
     if (el.classList.contains("item--unavailable")) return;
-    // Pice sa velicinama — otvori size picker
-    if (el.dataset.sizes) { openSizePicker(el); return; }
+    
+    const catEl = el.closest('.cat');
+    const catId = catEl ? catEl.id : '';
+    const isDodaciSection = catId === 'dodaci';
+    const isPalacinkaOrTortilja = !isDodaciSection && (catId === 'palacinka' || catId === 'tortilje');
+    const type = (catId === 'palacinka' && el.dataset.name.includes("Palačinka —")) ? 'slatki' : 'slani';
+    const isSlatka = type === 'slatki';
+
+    if (el.dataset.sizes) { 
+      openSizePicker(el, isPalacinkaOrTortilja ? type : null); 
+      return; 
+    }
+
+    if (isPalacinkaOrTortilja) {
+      openAddonPicker(el, el.dataset.name, parseInt(el.dataset.price), type);
+      return;
+    }
+
+    // Provera dodataka narucenih sa strane (max 2)
+    if (isDodaciSection) {
+       const existing = this.items.find(i => i.name === el.dataset.name);
+       if (existing && existing.qty >= 2) {
+          alert('Možete poručiti maksimalno 2 ista dodatka zasebno.');
+          return;
+       }
+    }
+
     const name  = el.dataset.name;
     const price = parseInt(el.dataset.price);
-    const existing = this.items.find(i => i.name === name);
+    this.addItem(name, price, []);
+  },
+
+  addItem(name, price, addons = []) {
+    const id = this.generateId(name, addons);
+    const existing = this.items.find(i => i.id === id);
     if (existing) existing.qty++;
-    else this.items.push({ name, price, qty: 1 });
+    else this.items.push({ id, name, price, qty: 1, addons });
     this.save();
     this.render();
     this.popBadge();
   },
 
-  inc(name) {
-    const item = this.items.find(i => i.name === name);
-    if (item) { item.qty++; this.save(); this.render(); renderItemControls(); }
+  inc(id) {
+    const item = this.items.find(i => i.id === id || i.name === id);
+    if (item) { 
+      // Provera za zasebne dodatke
+      if (document.getElementById('dodaci')) {
+         const dodatakEl = document.querySelector(`#dodaci .item[data-name="${item.name}"]`);
+         if (dodatakEl && item.qty >= 2) {
+            alert('Možete poručiti maksimalno 2 ista dodatka zasebno.');
+            return;
+         }
+      }
+      item.qty++; this.save(); this.render(); renderItemControls(); 
+    }
   },
 
-  dec(name) {
-    const item = this.items.find(i => i.name === name);
+  dec(id) {
+    const item = this.items.find(i => i.id === id || i.name === id);
     if (!item) return;
     item.qty--;
-    if (item.qty <= 0) this.items = this.items.filter(i => i.name !== name);
+    if (item.qty <= 0) this.items = this.items.filter(i => i.id !== id && i.name !== id);
     this.save(); this.render(); renderItemControls();
   },
 
   get count() { return this.items.reduce((s, i) => s + i.qty, 0); },
-  get total() { return this.items.reduce((s, i) => s + i.price * i.qty, 0); },
+  get total() { 
+    return this.items.reduce((s, i) => {
+      let itemPrice = i.price;
+      if (i.addons) {
+        itemPrice += i.addons.reduce((as, a) => as + a.price * a.qty, 0);
+      }
+      return s + itemPrice * i.qty;
+    }, 0); 
+  },
 
   save() { localStorage.setItem('castro-cart', JSON.stringify(this.items)); },
 
@@ -92,16 +145,29 @@ const cart = {
     } else {
       if (emptyEl) emptyEl.style.display = 'none';
       this.items.forEach(item => {
+        const id = item.id || item.name;
+        let itemPrice = item.price;
+        let addonsHtml = '';
+        
+        if (item.addons && item.addons.length > 0) {
+          itemPrice += item.addons.reduce((as, a) => as + a.price * a.qty, 0);
+          const addonTexts = item.addons.map(a => `${a.name}${a.qty > 1 ? ' x' + a.qty : ''}`);
+          addonsHtml = `<div class="cart-item__addons" style="font-size:12px;color:#aaa;margin-top:2px;">+ ${addonTexts.join(', ')}</div>`;
+        }
+
         const row = document.createElement('div');
         row.className = 'cart-item';
         row.innerHTML = `
-          <div class="cart-item__name">${item.name}</div>
-          <div class="qty-ctrl">
-            <button onclick="cart.dec('${item.name.replace(/'/g, "\\'")}')">−</button>
-            <span>${item.qty}</span>
-            <button onclick="cart.inc('${item.name.replace(/'/g, "\\'")}')">+</button>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+            <div class="cart-item__name">${item.name}</div>
+            ${addonsHtml}
           </div>
-          <span class="cart-item__price">${(item.price * item.qty).toLocaleString('sr-Latn')} RSD</span>
+          <div class="qty-ctrl">
+            <button onclick="cart.dec('${id.replace(/'/g, "\\'")}')">−</button>
+            <span>${item.qty}</span>
+            <button onclick="cart.inc('${id.replace(/'/g, "\\'")}')">+</button>
+          </div>
+          <span class="cart-item__price">${(itemPrice * item.qty).toLocaleString('sr-Latn')} RSD</span>
         `;
         listEl.appendChild(row);
       });
@@ -134,9 +200,15 @@ const cart = {
   },
 
   buildOrderMessage(name, phone, type, addr, note) {
-    const lines = this.items.map(i =>
-      `• ${i.name} ×${i.qty} — ${(i.price * i.qty).toLocaleString('sr-Latn')} RSD`
-    ).join('\n');
+    const lines = this.items.map(i => {
+      let itemPrice = i.price;
+      let addonStr = '';
+      if (i.addons && i.addons.length > 0) {
+        itemPrice += i.addons.reduce((as, a) => as + a.price * a.qty, 0);
+        addonStr = '\n    + ' + i.addons.map(a => `${a.name}${a.qty > 1 ? ' x' + a.qty : ''}`).join(', ');
+      }
+      return `• ${i.name} ×${i.qty} — ${(itemPrice * i.qty).toLocaleString('sr-Latn')} RSD${addonStr}`;
+    }).join('\n');
     const total = this.total.toLocaleString('sr-Latn');
     let msg = `🍕 *Nova narudžbina — Castro Restoran*\n\n${lines}\n\n*Ukupno: ${total} RSD*\n\n👤 ${name}\n📞 ${phone}\n🛵 ${type}`;
     if (type === 'Dostava' && addr) msg += `\n📍 ${addr}`;
@@ -314,7 +386,6 @@ function generateTimeSlots() {
 }
 
 function openModal() {
-  generateTimeSlots();
   document.getElementById('orderModal').classList.add('open');
   document.getElementById('modalOverlay').classList.add('open');
 }
@@ -364,7 +435,6 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
   if (!valid) return;
 
   const type = document.querySelector('input[name="type"]:checked').value;
-  const scheduledTime = document.getElementById('oTime')?.value || 'asap';
   const addr = document.getElementById('oAddr')?.value || '';
   const note = document.getElementById('oNote')?.value || '';
   const btn = e.target.querySelector('button[type="submit"]');
@@ -378,7 +448,6 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
       customerName: name.value.trim(),
       phone: phone.value.trim(),
       type,
-      scheduledTime,
       address: addr,
       note
     })
@@ -408,42 +477,18 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
 const burger = document.getElementById('burger');
 const navCenter = document.querySelector('.nav__center');
 
-// iOS-compatible scroll lock: body { position: fixed } is the only reliable approach
-let _savedScrollY = 0;
-
-function menuLock() {
-  _savedScrollY = window.scrollY;
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${_savedScrollY}px`;
-  document.body.style.width = '100%';
-  document.body.style.overflow = 'hidden';
-}
-
-function menuUnlock() {
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
-  document.body.style.overflow = '';
-  window.scrollTo(0, _savedScrollY);
-}
-
 burger?.addEventListener('click', () => {
   const open = burger.classList.toggle('open');
   navCenter?.classList.toggle('open', open);
-  open ? menuLock() : menuUnlock();
+  // Zaključaj scroll tela dok je meni otvoren
+  document.body.style.overflow = open ? 'hidden' : '';
 });
 
 navCenter?.querySelectorAll('.nav__tab').forEach(tab => {
   tab.addEventListener('click', () => {
     burger?.classList.remove('open');
     navCenter.classList.remove('open');
-    // Unlock body first, then restore position so smooth scroll
-    // calculates the correct getBoundingClientRect offset
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
     document.body.style.overflow = '';
-    window.scrollTo(0, _savedScrollY);
   });
 });
 
@@ -473,6 +518,57 @@ const tabObs = new IntersectionObserver(entries => {
 
 sections.forEach(s => tabObs.observe(s));
 
+/* ─── Sub-nav scroll-spy ─── */
+const subNavLinks = document.querySelectorAll('.sub-nav__item[data-target]');
+const subNavInner = document.querySelector('.sub-nav__inner');
+
+function centerActiveSubNavItem(id) {
+  const active = subNavInner?.querySelector(`.sub-nav__item[data-target="${id}"]`);
+  if (!active || !subNavInner) return;
+  // Izračunaj offset da bude u centru sub-nav-a
+  const containerW = subNavInner.offsetWidth;
+  const itemLeft   = active.offsetLeft;
+  const itemW      = active.offsetWidth;
+  const target     = itemLeft - containerW / 2 + itemW / 2;
+  subNavInner.scrollTo({ left: target, behavior: 'smooth' });
+}
+
+const subNavObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const id = entry.target.id;
+    subNavLinks.forEach(l => l.classList.toggle('active', l.dataset.target === id));
+    centerActiveSubNavItem(id);
+  });
+}, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+sections.forEach(s => subNavObs.observe(s));
+
+/* ─── Smooth scroll for sub-nav links ─── */
+// Računamo total sticky offset: nav + sub-nav visina
+function getStickyOffset() {
+  const navH    = document.querySelector('.nav')?.offsetHeight    || 68;
+  const subNavH = document.querySelector('.sub-nav')?.offsetHeight || 90;
+  return navH + subNavH + 8; // 8px extra breathing room
+}
+
+// Postavi scroll-padding-top dinamicki
+function updateScrollPadding() {
+  document.documentElement.style.scrollPaddingTop = getStickyOffset() + 'px';
+}
+updateScrollPadding();
+window.addEventListener('resize', updateScrollPadding);
+
+subNavLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.getElementById(link.dataset.target);
+    if (!target) return;
+    const offset = target.getBoundingClientRect().top + window.scrollY - getStickyOffset();
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  });
+});
+
 /* ─── Hero slideshow ─── */
 const heroSlides = document.querySelectorAll('.meni-hero__slide');
 if (heroSlides.length > 1) {
@@ -486,7 +582,17 @@ if (heroSlides.length > 1) {
 
 
 
-/* ─── Init ─── */
+/* ─── Init: proveri expiry pre svega ─── */
+(function checkExpiry() {
+  if (!liveOrder) return;
+  const expiresAt = Number(localStorage.getItem('castro-live-order-expires-at') || 0);
+  if (expiresAt && Date.now() > expiresAt) {
+    localStorage.removeItem('castro-live-order');
+    localStorage.removeItem('castro-live-order-expires-at');
+    liveOrder = null;
+  }
+})();
+
 cart.render();
 
 fetch("/api/menu-availability")
@@ -497,8 +603,22 @@ socket.on("menu:availability", (payload) => {
   renderAvailability(payload.menuAvailability || {});
 });
 
+// Ako korisnik vrati stranicu a ima aktivan order — prikaži pill odmah
 if (liveOrder?.orderId && liveOrder?.customerToken) {
   socket.emit("order:subscribe", liveOrder);
+  // Obnovi prikaz pilla sa poslednjim poznatim statusom
+  const lastStatus = liveOrder.status || 'pending';
+  const statusMap = {
+    pending: '⏳ Čeka se potvrda',
+    accepted: '✅ Prihvaćena',
+    preparing: '👨‍🍳 U pripremi',
+    ready: '🟢 Spremna!',
+    completed: '✓ Završena',
+    rejected: '❌ Odbijena',
+    missed: '⚠️ Propuštena',
+  };
+  const displayStatus = statusMap[lastStatus] || '⏳ Čeka se potvrda';
+  updateCustomerStatus(`Vraćen na praćenje porudžbine ${liveOrder.orderId}. Status: ${displayStatus}`);
 }
 
 socket.on("order:notification", ({ order, message }) => {
@@ -508,18 +628,19 @@ socket.on("order:notification", ({ order, message }) => {
   }
   updateCustomerStatus(`${message} (${order.id})`);
   if (order.status === "completed") {
-    const keepUntil = Date.now() + 10 * 60 * 1000;
+    const keepUntil = Date.now() + 10 * 60 * 1000; // 10 minuta
     localStorage.setItem("castro-live-order-expires-at", String(keepUntil));
     setTimeout(() => {
       localStorage.removeItem("castro-live-order");
       localStorage.removeItem("castro-live-order-expires-at");
       liveOrder = null;
+      const pill = document.getElementById('orderStatusPill');
+      if (pill) pill.style.display = 'none';
     }, 10 * 60 * 1000);
   }
   if (order.status === "rejected" || order.status === "missed") {
     localStorage.removeItem("castro-live-order");
     localStorage.removeItem("castro-live-order-expires-at");
-    liveOrder = null;
     liveOrder = null;
   }
 });
@@ -573,16 +694,41 @@ if (phoneInputEl) {
 
 
 
-if (liveOrder) {
-  const expiresAt = Number(localStorage.getItem("castro-live-order-expires-at") || 0);
-  if (expiresAt && Date.now() > expiresAt) {
-    localStorage.removeItem("castro-live-order");
-    localStorage.removeItem("castro-live-order-expires-at");
-    liveOrder = null;
-  }
+/* ═════════════════════════════════════════
+   DORUČAK — Beograd timezone cutoff u 13:00
+═════════════════════════════════════════ */
+function isBreakfastOpen() {
+  // Beograd = Europe/Belgrade = UTC+1 zimi, UTC+2 leti
+  const now = new Date();
+  const belgradeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Belgrade' }));
+  const h = belgradeTime.getHours();
+  const m = belgradeTime.getMinutes();
+  return h < 13 || (h === 13 && m === 0);
 }
 
-/* ─── Inline qty kontrole na stavkama menija ─── */
+function applyBreakfastCutoff() {
+  const open = isBreakfastOpen();
+  const banner = document.getElementById('dorucakUnavailableBanner');
+  if (banner) banner.style.display = open ? 'none' : 'flex';
+
+  document.querySelectorAll('.item--breakfast-only').forEach(el => {
+    el.classList.toggle('item--breakfast-closed', !open);
+    // ako je zatvoreno, označi kao nedostupno za cart.add
+    if (!open) el.classList.add('item--unavailable');
+    else el.classList.remove('item--unavailable');
+  });
+}
+
+// Primeni odmah pri učitavanju
+applyBreakfastCutoff();
+
+// Re-proveri svakih 60s (za slučaj da je stranica otvorena pre i posle 13:00)
+setInterval(applyBreakfastCutoff, 60000);
+
+/* ═════════════════════════════════════════
+   ORDER TRACKING PERSISTENCE (po ulasku/izlasku)
+═════════════════════════════════════════ */
+// Proveri expiry pri učitavanju
 function renderItemControls() {
   document.querySelectorAll('.item').forEach(itemEl => {
     if (itemEl.classList.contains('item--unavailable')) return;
@@ -593,23 +739,32 @@ function renderItemControls() {
 
     if (hasSizes) {
       // Pice sa velicinama — pokazi ukupan broj u korpi kao badge
-      const totalQty = cart.items
-        .filter(i => i.baseName === name)
-        .reduce((s, i) => s + i.qty, 0);
-      let badge = rightEl.querySelector('.size-count-badge');
+      const totalQty = cart.items.reduce((sum, item) => {
+        // Ako je baseName isti, brojimo u total (Pizze)
+        if (item.baseName === name) return sum + item.qty;
+        // Ako se ime tačno poklapa, brojimo u total
+        if (item.name === name) return sum + item.qty;
+        // Ako je item nastao od ovog jela (npr palačinka + pohovanje)
+        if (item.name.startsWith(name + " (")) return sum + item.qty;
+        return sum;
+      }, 0);
+      
+      let badge = rightEl.querySelector('.item-size-badge');
       if (totalQty > 0) {
         if (!badge) {
-          badge = document.createElement('span');
-          badge.className = 'size-count-badge';
-          rightEl.insertBefore(badge, rightEl.querySelector('.add-btn'));
+          badge = document.createElement('div');
+          badge.className = 'item-size-badge';
+          rightEl.appendChild(badge);
         }
         badge.textContent = totalQty + '×';
       } else if (badge) {
         badge.remove();
       }
+      
+      // Inline kontrola ne radi za stavke sa dodacima, pa ih tretiramo kao `data-sizes` (značka umesto +/-)
     } else {
       // Obicne stavke — inline qty ctrl
-      const cartItem = cart.items.find(i => i.name === name);
+      const cartItem = cart.items.find(i => (i.id === name || i.name === name) && (!i.addons || i.addons.length === 0));
       const addBtn = rightEl.querySelector('.add-btn');
       let qtyCtrl = rightEl.querySelector('.item-qty-ctrl');
 
@@ -649,8 +804,9 @@ document.addEventListener('click', e => {
 /* ─── Size Picker za pice ─── */
 let _sizePickerItem = null;
 
-function openSizePicker(itemEl) {
+function openSizePicker(itemEl, needsAddons = null) {
   _sizePickerItem = itemEl;
+  _sizePickerNeedsAddons = needsAddons;
   const name = itemEl.dataset.name;
   const sizesRaw = itemEl.dataset.sizes; // format: "22:410|30:830|50:1350"
   const sizes = sizesRaw.split('|').map(s => {
@@ -660,12 +816,15 @@ function openSizePicker(itemEl) {
 
   document.getElementById('sizePickerTitle').textContent = name;
   const optsEl = document.getElementById('sizePickerOpts');
-  optsEl.innerHTML = sizes.map(s => `
+  optsEl.innerHTML = sizes.map(s => {
+    const isNumberOnly = /^\d+$/.test(s.cm);
+    const displayName = isNumberOnly ? `⌀ ${s.cm} cm` : s.cm;
+    return `
     <button class="size-opt" data-cm="${s.cm}" data-price="${s.price}">
-      <span class="size-opt__cm">⌀ ${s.cm} cm</span>
+      <span class="size-opt__cm">${displayName}</span>
       <span class="size-opt__price">${s.price.toLocaleString('sr-Latn')} RSD</span>
     </button>
-  `).join('');
+  `}).join('');
 
   optsEl.querySelectorAll('.size-opt').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -687,15 +846,134 @@ function closeSizePicker() {
 
 function addWithSize(itemEl, cm, price) {
   const baseName = itemEl.dataset.name;
-  const sizeName = `${baseName} (${cm}cm)`;
-  const existing = cart.items.find(i => i.name === sizeName);
-  if (existing) existing.qty++;
-  else cart.items.push({ name: sizeName, baseName, price, qty: 1 });
-  cart.save();
-  cart.render();
-  cart.popBadge();
+  const isNumberOnly = /^\d+$/.test(cm);
+  const suffix = isNumberOnly ? `${cm}cm` : cm;
+  const sizeName = `${baseName} (${suffix})`;
+  
   closeSizePicker();
+
+  if (_sizePickerNeedsAddons) {
+    openAddonPicker(itemEl, sizeName, price, _sizePickerNeedsAddons);
+  } else {
+    cart.addItem(sizeName, price, []);
+  }
 }
+
+// ==========================================
+// ADDON PICKER LOGIC
+// ==========================================
+
+let _addonPickerItem = null;
+let _addonPickerBaseName = "";
+let _addonPickerBasePrice = 0;
+let _addonPickerType = "";
+let currentAddons = {}; // { name: { qty, price } }
+
+function getAddonsForType(type) {
+  const isSweet = type === 'slatki';
+  const headerText = isSweet ? 'Slatki dodaci' : 'Slani dodaci i prilozi';
+  const group = Array.from(document.querySelectorAll('#dodaci .item-group')).find(g => {
+    const h3 = g.querySelector('h3');
+    return h3 && h3.textContent.includes(headerText);
+  });
+  let items = [];
+  if (group) {
+    items = Array.from(group.querySelectorAll('.item')).map(el => ({
+      name: el.dataset.name.replace(/ \d+g$| \d+ kom\.$/, ''), // Ukloni gramažu zbog lepšeg prikaza
+      price: parseInt(el.dataset.price)
+    }));
+  }
+  if (!isSweet) {
+    const free = ['Kečap', 'Majonez', 'Senf', 'Čili', 'Tabasco', 'Balsamico', 'Maslinovo ulje', 'Vinsko sirće'];
+    free.forEach(f => items.push({ name: f, price: 0 }));
+  }
+  return items;
+}
+
+function openAddonPicker(itemEl, baseName, basePrice, type) {
+  _addonPickerItem = itemEl;
+  _addonPickerBaseName = baseName;
+  _addonPickerBasePrice = basePrice;
+  _addonPickerType = type;
+  currentAddons = {};
+
+  const addonsList = getAddonsForType(type);
+
+  document.getElementById('addonPickerTitle').textContent = "Dodaci: " + baseName;
+  document.getElementById('addonPickerDesc').textContent = "Možete izabrati do 4 različita dodatka.";
+
+  const optsEl = document.getElementById('addonPickerOpts');
+  optsEl.innerHTML = addonsList.map(a => `
+    <div class="addon-opt" data-name="${a.name}" data-price="${a.price}">
+      <div class="addon-opt__info">
+        <span class="addon-opt__name">${a.name}</span>
+        <span class="addon-opt__price">${a.price === 0 ? 'Besplatno' : '+ ' + a.price + ' RSD'}</span>
+      </div>
+      <div class="addon-opt__ctrl">
+        <button onclick="updateAddonQty('${a.name}', -1)">−</button>
+        <span id="addon-qty-${a.name.replace(/[^a-zA-Z0-9]/g, '')}">0</span>
+        <button onclick="updateAddonQty('${a.name}', 1)">+</button>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('addonPickerOverlay').classList.add('open');
+  document.getElementById('addonPicker').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAddonPicker() {
+  document.getElementById('addonPickerOverlay').classList.remove('open');
+  document.getElementById('addonPicker').classList.remove('open');
+  document.body.style.overflow = '';
+  _addonPickerItem = null;
+}
+
+function updateAddonQty(name, delta) {
+  const safeId = name.replace(/[^a-zA-Z0-9]/g, '');
+  const el = document.getElementById('addon-qty-' + safeId);
+  const optEl = document.querySelector(`.addon-opt[data-name="${name}"]`);
+  const price = parseInt(optEl.dataset.price);
+  
+  if (!currentAddons[name]) currentAddons[name] = { qty: 0, price };
+  
+  let newQty = currentAddons[name].qty + delta;
+  if (newQty < 0) newQty = 0;
+  
+  // Pravila
+  const isFree = price === 0;
+  if (isFree && newQty > 1) {
+    alert("Besplatni dodaci mogu se dodati najviše 1 put.");
+    return;
+  }
+  if (!isFree && newQty > 2) {
+    alert("Isti dodatak možete dodati najviše 2 puta.");
+    return;
+  }
+
+  // Max 4 različita dodatka ukupno
+  const selectedTypes = Object.keys(currentAddons).filter(k => (k === name ? newQty : currentAddons[k].qty) > 0);
+  if (selectedTypes.length > 4) {
+    alert("Možete izabrati maksimalno 4 različita dodatka po jelu.");
+    return;
+  }
+
+  currentAddons[name].qty = newQty;
+  el.textContent = newQty;
+}
+
+function confirmAddonsAndAdd() {
+  const addonsArr = [];
+  for (const name in currentAddons) {
+    if (currentAddons[name].qty > 0) {
+      addonsArr.push({ name, price: currentAddons[name].price, qty: currentAddons[name].qty });
+    }
+  }
+  cart.addItem(_addonPickerBaseName, _addonPickerBasePrice, addonsArr);
+  closeAddonPicker();
+}
+
+
 
 document.getElementById('sizePickerOverlay')?.addEventListener('click', closeSizePicker);
 document.getElementById('sizePickerClose')?.addEventListener('click', closeSizePicker);
