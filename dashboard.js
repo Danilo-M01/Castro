@@ -9,7 +9,7 @@ const menuAvailabilityList = document.getElementById("menuAvailabilityList");
 const categoryBulkActions  = document.getElementById("categoryBulkActions");
 const menuSearchInput      = document.getElementById("menuSearch");
 const orderHistoryList     = document.getElementById("orderHistoryList");
-const socket = io();
+const socket = io({ autoConnect: false });
 
 let orders       = [];
 let menuAvailability = {};
@@ -31,6 +31,7 @@ let knownOrderIds  = null; // null = first load, skip chime on initial state
 function playChime() {
   if (muted || isChimePlaying) return;
   isChimePlaying = true;
+  chimeAudio.volume = 1.0;
   chimeAudio.currentTime = 0;
   chimeAudio.play().catch(() => {}); // silently ignore autoplay blocks
   chimeAudio.onended = () => { isChimePlaying = false; };
@@ -50,16 +51,23 @@ function playAlert(leftMs) {
   const Ctx = globalThis.AudioContext || globalThis.webkitAudioContext;
   if (!Ctx) return;
   const ctx = new Ctx();
-  const osc = ctx.createOscillator();
+  const osc1 = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
   const gain = ctx.createGain();
-  osc.type = "sine";
+  osc1.type = "sine";
+  osc2.type = "triangle";
   // Povecan intenzitet i volumen kako vreme istice
-  if (leftMs > 120000)      { osc.frequency.value = 520;  gain.gain.value = 0.15; }
-  else if (leftMs > 60000)  { osc.frequency.value = 700;  gain.gain.value = 0.35; }
-  else if (leftMs > 30000)  { osc.frequency.value = 880;  gain.gain.value = 0.60; }
-  else                      { osc.frequency.value = 1020; gain.gain.value = 0.95; }
-  osc.connect(gain); gain.connect(ctx.destination);
-  osc.start(); osc.stop(ctx.currentTime + 0.25);
+  if (leftMs > 120000)      { osc1.frequency.value = 520;  osc2.frequency.value = 640; gain.gain.value = 0.8; }
+  else if (leftMs > 60000)  { osc1.frequency.value = 700;  osc2.frequency.value = 820; gain.gain.value = 1.1; }
+  else if (leftMs > 30000)  { osc1.frequency.value = 880;  osc2.frequency.value = 980; gain.gain.value = 1.4; }
+  else                      { osc1.frequency.value = 1020; osc2.frequency.value = 1120; gain.gain.value = 1.8; }
+  osc1.connect(gain);
+  osc2.connect(gain);
+  gain.connect(ctx.destination);
+  osc1.start();
+  osc2.start();
+  osc1.stop(ctx.currentTime + 0.22);
+  osc2.stop(ctx.currentTime + 0.22);
 }
 
 function fmtTime(ms) {
@@ -516,6 +524,7 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
   errEl.textContent = "";
   try {
     await api("/api/auth/login","POST",{password:pwd});
+    socket.connect();
     loginScreen.classList.add("hidden");
     dashboardScreen.classList.remove("hidden");
     const [od, md] = await Promise.all([api("/api/orders"), api("/api/menu-items")]);
@@ -551,6 +560,7 @@ function initYearFilter() {
   initYearFilter();
   const auth = await api("/api/auth/me");
   if (!auth.isAuthenticated) return;
+  socket.connect();
   loginScreen.classList.add("hidden");
   dashboardScreen.classList.remove("hidden");
   const [od, md] = await Promise.all([api("/api/orders"), api("/api/menu-items")]);
