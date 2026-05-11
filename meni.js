@@ -399,7 +399,14 @@ function closeModal() {
 document.getElementById('cartBtn')?.addEventListener('click', openCart);
 document.getElementById('fabCart')?.addEventListener('click', openCart);
 // Mobilni "Završi kupovinu" FAB — direktno otvara modal
-document.getElementById('checkoutFab')?.addEventListener('click', () => { openModal(); });
+document.getElementById('checkoutFab')?.addEventListener('click', () => {
+  const MIN_ORDER = 700;
+  if (cart.total < MIN_ORDER) {
+    showMinOrderAlert(MIN_ORDER);
+    return;
+  }
+  openModal();
+});
 document.getElementById('cartClose')?.addEventListener('click', closeCart);
 document.getElementById('cartOverlay')?.addEventListener('click', closeCart);
 document.getElementById('orderBtn')?.addEventListener('click', () => { closeCart(); openModal(); });
@@ -419,9 +426,41 @@ document.querySelectorAll('input[name="type"]').forEach(radio => {
   });
 });
 
+/* ─── Minimum order alert ─── */
+function showMinOrderAlert(min) {
+  let overlay = document.getElementById('minOrderOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'minOrderOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);';
+    overlay.innerHTML = `
+      <div style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:32px 28px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+        <div style="font-size:44px;margin-bottom:12px;">🛵</div>
+        <h3 style="color:#fff;font-size:18px;margin:0 0 10px;font-family:inherit;">Minimalna porudžbina</h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:14px;line-height:1.6;margin:0 0 22px;">Za online narudžbinu potrebno je minimum <strong style="color:#e8b84b;">${min.toLocaleString('sr-Latn')} RSD</strong>. Dodajte još nešto u korpu. 😊</p>
+        <button id="minOrderClose" style="background:#e8b84b;color:#000;border:none;border-radius:10px;padding:12px 28px;font-size:15px;font-weight:700;cursor:pointer;width:100%;">
+          U redu, dodaću još
+        </button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#minOrderClose').addEventListener('click', () => { overlay.remove(); });
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  }
+}
+
 /* ─── Order form submit ─── */
 document.getElementById('orderForm')?.addEventListener('submit', e => {
   e.preventDefault();
+
+  // Minimum order check
+  const MIN_ORDER = 700;
+  if (cart.total < MIN_ORDER) {
+    closeModal();
+    showMinOrderAlert(MIN_ORDER);
+    return;
+  }
+
   const name  = document.getElementById('oName');
   const phone = document.getElementById('oPhone');
   let valid = true;

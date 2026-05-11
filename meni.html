@@ -3,13 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Castro meni — pizze, paste, obroci, palačinke, salate, sendviči. Naruči online direktno sa sajta.">
-  <title>Meni | Castro Restoran</title>
-  <link rel="icon" href="logo.png" type="image/png">
+
+  <!-- ═══ SEO: Google Search Console ═══ -->
+  <meta name="google-site-verification" content="7W1x4GSOJKyE5E27V4gkXp46s93r0F5f92i12R8s4Zg">
+
+  <!-- ═══ SEO: Core Meta Tags ═══ -->
+  <!--
+    TITLE: Targeting "naruči hranu Požarevac" i "dostava hrane Požarevac" intent.
+    Sekundarno: pizza, paste, palačinke — sve što korisnik traži kad je gladan.
+    Dužina: 59 znakova — idealno za Google SERP.
+  -->
+  <title>Naruči Hranu Online Požarevac | Castro Meni — Pizza, Paste, Palačinke</title>
+
+  <!--
+    DESCRIPTION: Ubedljiv, prirodan jezik. Cena od 410 RSD je "hook" za klik.
+    Radno vreme ubacujemo jer ljudi to cesto pretražuju uz ime restorana.
+    Dužina: 159 znakova — optimalno.
+  -->
+  <meta name="description" content="Naruči iz Castro restorana u Požarevcu — pizza od 410 RSD, paste, palačinke, gril piletina, salate. Dostava i preuzimanje. Radi od 07:00. Pozovi: 012 531010.">
+
+  <!--
+    KEYWORDS: Sve varijante pretrage za dostavu i meni u Požarevcu.
+    Pokrivamo i intent "šta da poručim", "brza hrana", konkretna jela.
+  -->
+  <meta name="keywords" content="naruči hranu Požarevac, dostava hrane Požarevac, pizza narudžbina online Požarevac, pizza dostava Požarevac, meni restoran Požarevac, pasta Požarevac narudžbina, palačinke dostava Požarevac, obroci na dostavu Požarevac, Castro meni, Castro dostava, šta da poručim Požarevac, brza hrana dostava Požarevac, gril piletina Požarevac, pizzerija Požarevac meni, sendviči Požarevac">
+
+  <!-- ═══ SEO: Lokalni signali ═══ -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="geo.region" content="RS-13">
+  <meta name="geo.placename" content="Požarevac, Srbija">
+  <meta name="geo.position" content="44.6196;21.1867">
+  <meta name="ICBM" content="44.6196, 21.1867">
+  <link rel="canonical" href="https://castro-restoran.com/meni">
+
+  <!-- ═══ SEO: Open Graph (WhatsApp, Facebook, Viber deljenje) ═══ -->
+  <meta property="og:title" content="Naruči Online — Castro Požarevac | Pizza, Paste, Palačinke">
+  <meta property="og:description" content="Pizza od 410 RSD, paste, palačinke i dostava u Požarevcu. Radi od 07:00. Naruči direktno sa sajta — bez telefonskog čekanja!">
+  <meta property="og:type" content="restaurant.menu">
+  <meta property="og:url" content="https://castro-restoran.com/meni">
+  <meta property="og:image" content="https://castro-restoran.com/baner1.webp">
+  <meta property="og:locale" content="sr_RS">
+  <meta property="og:site_name" content="Castro Restoran Požarevac">
+
+  <!-- Favicon — tab + bookmark ikonica -->
+  <link rel="icon" href="/Logo za sajt.webp" type="image/webp">
+  <link rel="icon" href="/logo.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/Logo za sajt.webp">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#e8b84b">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="meni.css">
+
+  <!--
+    SCHEMA STRATEGY za meni stranicu:
+    - @type Restaurant + Menu = Google razume da je ovo stranica za narudžbine
+    - hasMenuSection sa cenama = može prikazati cene direktno u search rezultatima
+    - potentialAction OrderAction = dugme "Naruči" u Google Knowledge Panelu
+    - areaServed = lokalni SEO signal za Požarevac
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["Restaurant", "LocalBusiness"],
+    "name": "Castro Caffe Pizzeria",
+    "alternateName": ["Castro Restoran", "Castro Požarevac"],
+    "description": "Restoran i pizzerija u Požarevcu sa online narudžbinama i dostavom. Pizza od 410 RSD, paste, palačinke, obroci.",
+    "url": "https://castro-restoran.com",
+    "telephone": "+381-12-531-010",
+    "foundingDate": "2011",
+    "image": "https://castro-restoran.com/baner1.webp",
+    "logo": "https://castro-restoran.com/Logo%20za%20sajt.webp",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Moše Pijade 16, TC Novi Dom",
+      "addressLocality": "Požarevac",
+      "addressRegion": "Braničevski okrug",
+      "postalCode": "12000",
+      "addressCountry": "RS"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 44.6196,
+      "longitude": 21.1867
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Požarevac"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Sunday"],
+        "opens": "07:00",
+        "closes": "23:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Friday","Saturday"],
+        "opens": "07:00",
+        "closes": "00:00"
+      }
+    ],
+    "servesCuisine": ["Pizza","Italiana","Serbian","Pasta","Palačinke","Grill","Fast Food"],
+    "priceRange": "$$",
+    "currenciesAccepted": "RSD",
+    "paymentAccepted": "Cash, Card",
+    "menu": "https://castro-restoran.com/meni",
+    "hasDeliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet",
+    "sameAs": [
+      "https://www.instagram.com/castro.pizzeria.caffe/",
+      "https://www.facebook.com/castro.caffepizzeria/"
+    ],
+    "hasMenu": {
+      "@type": "Menu",
+      "name": "Castro Kompletan Meni",
+      "url": "https://castro-restoran.com/meni",
+      "hasMenuSection": [
+        {
+          "@type": "MenuSection",
+          "name": "Pizze",
+          "description": "Klasične i specijalne pizze: Mini Ø24cm, Standard Ø30cm, Porodična Ø50cm. Od 410 RSD.",
+          "hasMenuItem": [
+            { "@type": "MenuItem", "name": "Margarita", "offers": { "@type": "Offer", "price": "410", "priceCurrency": "RSD" } },
+            { "@type": "MenuItem", "name": "Capricciosa", "offers": { "@type": "Offer", "price": "440", "priceCurrency": "RSD" } },
+            { "@type": "MenuItem", "name": "Mexicana", "offers": { "@type": "Offer", "price": "560", "priceCurrency": "RSD" } },
+            { "@type": "MenuItem", "name": "Castro pica", "offers": { "@type": "Offer", "price": "560", "priceCurrency": "RSD" } }
+          ]
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Paste",
+          "description": "Spaghetti Bolognese, Carbonara, Macarone Milaneze, Tagliatelle Castro. Od 565 RSD.",
+          "hasMenuItem": [
+            { "@type": "MenuItem", "name": "Spaghetti Bolognese", "offers": { "@type": "Offer", "price": "670", "priceCurrency": "RSD" } },
+            { "@type": "MenuItem", "name": "Spaghetti Carbonara", "offers": { "@type": "Offer", "price": "660", "priceCurrency": "RSD" } }
+          ]
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Palačinke",
+          "description": "Slane i slatke palačinke sa dodacima po izboru. Od 310 RSD."
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Obroci od piletine",
+          "description": "Gril pileće belo, pohovano u susamu, štapići u kornfleksu. Od 470 RSD."
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Salate",
+          "description": "Cezar salata, Chicken gril, Biftek, Grčka, Castro salata. Od 180 RSD."
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Sendviči",
+          "description": "Club sendvič, Panini, Italijanski, Castro sendvič. Od 160 RSD."
+        }
+      ]
+    },
+    "potentialAction": {
+      "@type": "OrderAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://castro-restoran.com/meni",
+        "inLanguage": "sr",
+        "actionPlatform": [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform"
+        ]
+      },
+      "deliveryMethod": ["http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"],
+      "actionStatus": "http://schema.org/PotentialActionStatus"
+    }
+  }
+  </script>
 </head>
 <body>
 

@@ -3,10 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Castro restoran — sveži sastojci, autentični ukusi, svaki put. Rezervišite vaš sto danas.">
-  <title>Castro | Restoran</title>
 
-  <link rel="icon" href="logo.png" type="image/png">
+  <!-- ═══ SEO: Google Search Console ═══ -->
+  <meta name="google-site-verification" content="7W1x4GSOJKyE5E27V4gkXp46s93r0F5f92i12R8s4Zg">
+
+  <!-- ═══ SEO: Core Meta Tags ═══ -->
+  <!--
+    TITLE STRATEGY: Primary keyword (lokalna pretraga) + brand + akcija.
+    Pokriva: "restoran Požarevac", "kafić Požarevac", "Castro", "pizzerija Požarevac".
+    Dužina: 57 znakova — optimalno za Google prikaz.
+  -->
+  <title>Restoran Požarevac | Castro Caffe Pizzeria — Naruči Online</title>
+
+  <!--
+    DESCRIPTION STRATEGY: Prirodan jezik, sve ključne kategorije hrane, CTA,
+    adresa, telefon. Google ovo prikazuje u rezultatima — mora biti ubedljivo.
+    Dužina: 157 znakova — optimalno.
+  -->
+  <meta name="description" content="Castro caffe pizzeria u Požarevcu — svež ručak, pizza, paste, palačinke i dostava. Radi od 07:00. Naruči online ili nas pozovi: 012 531010. TC Novi Dom, Moše Pijade 16.">
+
+  <!--
+    KEYWORDS: Pokrivamo sve relevantne pretrage za Požarevac.
+    Google keywords ignoriše, ali Bing/Yahoo/DuckDuckGo i dalje koriste.
+    Napisano prirodno, bez keyword stuffing-a.
+  -->
+  <meta name="keywords" content="restoran Požarevac, kafić Požarevac, caffe Požarevac, pizza Požarevac, pizzerija Požarevac, dostava hrane Požarevac, hrana na dostavu Požarevac, gde jesti u Požarevcu, brza hrana Požarevac, ručak Požarevac, paste Požarevac, palačinke Požarevac, sendviči Požarevac, obroci Požarevac, TC Novi Dom restoran, Castro caffe, Castro pizzeria, naruči hranu Požarevac, pizza dostava online">
+
+  <!-- ═══ SEO: Lokalni signali ═══ -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="geo.region" content="RS-13">
+  <meta name="geo.placename" content="Požarevac, Srbija">
+  <meta name="geo.position" content="44.6196;21.1867">
+  <meta name="ICBM" content="44.6196, 21.1867">
+  <link rel="canonical" href="https://castro-restoran.com/">
+
+  <!-- ═══ SEO: Open Graph (Facebook, WhatsApp, Viber deljenje) ═══ -->
+  <meta property="og:title" content="Castro Caffe Pizzeria Požarevac — Naruči Online">
+  <meta property="og:description" content="Pizza, paste, palačinke i dostava u Požarevcu. Radi od 07:00. Naruči online direktno sa sajta ili pozovi 012 531010.">
+  <meta property="og:type" content="restaurant">
+  <meta property="og:url" content="https://castro-restoran.com/">
+  <meta property="og:image" content="https://castro-restoran.com/Logo%20za%20sajt.webp">
+  <meta property="og:locale" content="sr_RS">
+  <meta property="og:site_name" content="Castro Restoran Požarevac">
+
+  <!-- Favicon — tab + bookmark ikonica -->
+  <link rel="icon" href="/Logo za sajt.webp" type="image/webp">
+  <link rel="icon" href="/logo.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/Logo za sajt.webp">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#e8b84b">
 
   <!-- Preload critical assets -->
   <link rel="preload" as="image" href="Hero sekcija pozadina dekstop.png" media="(min-width: 769px)">
@@ -19,6 +64,108 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
+
+  <!--
+    SCHEMA STRATEGY: Koristimo @type Restaurant + LocalBusiness signali.
+    potentialAction: Google prikazuje dugme "Naruči" direktno u search rezultatima.
+    areaServed: Google zna da servisiramo Požarevac.
+    foundingDate: Pojačava autoritet (15 godina rada).
+    contactPoint: Omogućava "Pozovi" dugme u Google rezultatima na mobilnom.
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["Restaurant", "LocalBusiness"],
+    "name": "Castro Caffe Pizzeria",
+    "alternateName": ["Castro Restoran", "Castro Požarevac", "Castro Caffe"],
+    "description": "Castro caffe pizzeria u Požarevcu — pizza, paste, palačinke, obroci i dostava. U radu od 2011. godine. Narudžbine online i telefonski.",
+    "image": [
+      "https://castro-restoran.com/Logo%20za%20sajt.webp",
+      "https://castro-restoran.com/baner1.webp",
+      "https://castro-restoran.com/baner2.webp"
+    ],
+    "logo": "https://castro-restoran.com/Logo%20za%20sajt.webp",
+    "url": "https://castro-restoran.com",
+    "telephone": "+381-12-531-010",
+    "foundingDate": "2011",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Moše Pijade 16, TC Novi Dom",
+      "addressLocality": "Požarevac",
+      "addressRegion": "Braničevski okrug",
+      "postalCode": "12000",
+      "addressCountry": "RS"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 44.6196,
+      "longitude": 21.1867
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Požarevac"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+381-12-531-010",
+      "contactType": "customer service",
+      "availableLanguage": "Serbian",
+      "areaServed": "RS"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
+        "opens": "07:00",
+        "closes": "23:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Friday", "Saturday"],
+        "opens": "07:00",
+        "closes": "00:00"
+      }
+    ],
+    "servesCuisine": ["Pizza", "Italiana", "Serbian", "Pasta", "Palačinke", "Grill", "Fast Food"],
+    "priceRange": "$$",
+    "currenciesAccepted": "RSD",
+    "paymentAccepted": "Cash, Card",
+    "menu": "https://castro-restoran.com/meni",
+    "hasMap": "https://maps.google.com/?q=Moše+Pijade+16,+Požarevac",
+    "sameAs": [
+      "https://www.instagram.com/castro.pizzeria.caffe/",
+      "https://www.facebook.com/castro.caffepizzeria/"
+    ],
+    "acceptsReservations": "True",
+    "hasDeliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet",
+    "potentialAction": [
+      {
+        "@type": "OrderAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://castro-restoran.com/meni",
+          "inLanguage": "sr",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
+        },
+        "deliveryMethod": ["http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"],
+        "actionStatus": "http://schema.org/PotentialActionStatus"
+      },
+      {
+        "@type": "ReserveAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "tel:+381-12-531-010",
+          "inLanguage": "sr",
+          "actionPlatform": "http://schema.org/MobileWebPlatform"
+        },
+        "actionStatus": "http://schema.org/PotentialActionStatus"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 

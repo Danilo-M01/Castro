@@ -361,6 +361,17 @@ app.post("/api/orders", async (req, res) => {
   const blocked = items.find((item) => menuAvailability[item.name] === false);
   if (blocked) return res.status(409).json({ error: `Artikal "${blocked.name}" trenutno nije na stanju.` });
 
+  // Minimum order amount: 700 RSD
+  const MIN_ORDER_RSD = 700;
+  const orderTotal = items.reduce((sum, item) => {
+    const basePrice = Number(item.price) || 0;
+    const addonsPrice = Array.isArray(item.addons) ? item.addons.reduce((as, a) => as + (Number(a.price) || 0) * (Number(a.qty) || 1), 0) : 0;
+    return sum + (basePrice + addonsPrice) * (Number(item.qty) || 1);
+  }, 0);
+  if (orderTotal < MIN_ORDER_RSD) {
+    return res.status(400).json({ error: `Minimalna vrednost porudžbine je ${MIN_ORDER_RSD} RSD. Vaša porudžbina iznosi ${orderTotal} RSD.` });
+  }
+
   // Radno vreme check
   const now = new Date();
   const day = now.getDay();

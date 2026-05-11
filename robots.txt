@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin-dostava
+Disallow: /api/
+
+Sitemap: https://castro-restoran.com/sitemap.xml
