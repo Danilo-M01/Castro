@@ -624,13 +624,42 @@ if (heroSlides.length > 1) {
 
 
 /* ─── Init: proveri expiry pre svega ─── */
+function clearLiveOrder() {
+  localStorage.removeItem('castro-live-order');
+  localStorage.removeItem('castro-live-order-expires-at');
+  liveOrder = null;
+  const pill = document.getElementById('orderStatusPill');
+  if (pill) pill.style.display = 'none';
+}
+
+function scheduleCompletionClear() {
+  const expiresAt = Number(localStorage.getItem('castro-live-order-expires-at') || 0) || (Date.now() + 5 * 60 * 1000);
+  localStorage.setItem('castro-live-order-expires-at', String(expiresAt));
+  const delay = Math.max(0, expiresAt - Date.now());
+  if (delay > 0) {
+    setTimeout(clearLiveOrder, delay);
+  } else {
+    clearLiveOrder();
+  }
+}
+
 (function checkExpiry() {
   if (!liveOrder) return;
   const expiresAt = Number(localStorage.getItem('castro-live-order-expires-at') || 0);
+  if (liveOrder.status === 'completed') {
+    if (!expiresAt) {
+      scheduleCompletionClear();
+      return;
+    }
+    if (Date.now() > expiresAt) {
+      clearLiveOrder();
+    } else {
+      scheduleCompletionClear();
+    }
+    return;
+  }
   if (expiresAt && Date.now() > expiresAt) {
-    localStorage.removeItem('castro-live-order');
-    localStorage.removeItem('castro-live-order-expires-at');
-    liveOrder = null;
+    clearLiveOrder();
   }
 })();
 
@@ -669,20 +698,10 @@ socket.on("order:notification", ({ order, message }) => {
   }
   updateCustomerStatus(`${message} (${order.id})`);
   if (order.status === "completed") {
-    const keepUntil = Date.now() + 5 * 60 * 1000; // 5 minuta
-    localStorage.setItem("castro-live-order-expires-at", String(keepUntil));
-    setTimeout(() => {
-      localStorage.removeItem("castro-live-order");
-      localStorage.removeItem("castro-live-order-expires-at");
-      liveOrder = null;
-      const pill = document.getElementById('orderStatusPill');
-      if (pill) pill.style.display = 'none';
-    }, 5 * 60 * 1000);
+    scheduleCompletionClear();
   }
   if (order.status === "rejected" || order.status === "missed") {
-    localStorage.removeItem("castro-live-order");
-    localStorage.removeItem("castro-live-order-expires-at");
-    liveOrder = null;
+    clearLiveOrder();
   }
 });
 

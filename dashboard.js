@@ -68,7 +68,7 @@ function playAlert(leftMs) {
   osc2.start();
   osc1.stop(ctx.currentTime + 0.22);
   osc2.stop(ctx.currentTime + 0.22);
-}}
+}
 
 function fmtTime(ms) {
   const s = Math.max(ms, 0);

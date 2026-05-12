@@ -178,6 +178,7 @@ async function upsertHistory(order) {
   if (!supabaseEnabled) return;
   await supabase.from("order_history").upsert({
     id: order.id,
+    customer_token: order.customerToken,
     customer_name: order.customerName,
     phone: order.phone,
     type: order.type,
@@ -260,6 +261,7 @@ async function loadFromSupabase() {
     dbHistory.forEach((row) => {
       orderHistory.push({
         id: row.id,
+        customerToken: row.customer_token,
         customerName: row.customer_name,
         phone: row.phone,
         type: row.type,
@@ -334,10 +336,19 @@ app.get("/api/orders/history", requireAuth, (_, res) => res.json({ history: orde
 
 app.get("/api/track/:orderId", (req, res) => {
   const order = orders.find((item) => item.id === req.params.orderId);
-  if (!order || req.query.token !== order.customerToken) {
-    return res.status(404).json({ error: "Porudzbina nije pronadjena." });
+  if (order) {
+    if (req.query.token !== order.customerToken) {
+      return res.status(404).json({ error: "Porudzbina nije pronadjena." });
+    }
+    return res.json({ order });
   }
-  return res.json({ order });
+
+  const archived = orderHistory.find((item) => item.id === req.params.orderId);
+  if (archived && archived.customerToken === req.query.token) {
+    return res.json({ order: archived });
+  }
+
+  return res.status(404).json({ error: "Porudzbina nije pronadjena." });
 });
 
 app.post("/api/orders", async (req, res) => {
@@ -471,11 +482,7 @@ app.patch("/api/orders/:id", requireAuth, async (req, res) => {
       order.status = normalized;
       if (normalized === "ready") {
         order.readyAt = nowIso();
-        order.status = "completed";
-        order.completedAt = nowIso();
         notifyCustomer(order, order.type === "Dostava" ? "Porudzbina je spremna za isporuku!" : "Porudzbina je gotova i spremna za preuzimanje. Prijatno!");
-        archiveOrder(order);
-        await upsertHistory(order);
       } else if (normalized === "almost_ready") {
         notifyCustomer(order, "Porudzbina je skoro spremna.");
       } else if (normalized === "preparing") {
@@ -530,10 +537,23 @@ setInterval(async () => {
   for (let i = orders.length - 1; i >= 0; i -= 1) {
     const order = orders[i];
     const completedAt = order.completedAt ? new Date(order.completedAt).getTime() : 0;
+    const readyAt = order.readyAt ? new Date(order.readyAt).getTime() : 0;
     const createdAt = new Date(order.createdAt).getTime();
 
     // Remove old completed orders
     if (order.status === "completed" && completedAt && now - completedAt > COMPLETED_KEEP_MS) {
+      await upsertOrder(order);
+      archiveOrder(order);
+      await upsertHistory(order);
+      orders.splice(i, 1);
+      changed = true;
+    }
+    // Auto-complete ready orders after a grace period
+    else if (order.status === "ready" && readyAt && now - readyAt > COMPLETED_KEEP_MS) {
+      order.status = "completed";
+      order.completedAt = nowIso();
+      order.updatedAt = nowIso();
+      await upsertOrder(order);
       archiveOrder(order);
       await upsertHistory(order);
       orders.splice(i, 1);
@@ -543,8 +563,9 @@ setInterval(async () => {
     else if (order.status === "new" && now - createdAt > ACCEPT_TIMEOUT_MS) {
       order.status = "missed";
       order.updatedAt = nowIso();
+      await upsertOrder(order);
       archiveOrder(order);
-      await Promise.all([upsertOrder(order), upsertHistory(order)]);
+      await upsertHistory(order);
       notifyCustomer(order, "Restoran nije odgovorio na vreme. Molimo pokušajte ponovo.");
       orders.splice(i, 1);
       changed = true;
