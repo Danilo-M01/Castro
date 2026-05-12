@@ -31,7 +31,7 @@ let knownOrderIds  = null; // null = first load, skip chime on initial state
 function playChime() {
   if (muted || isChimePlaying) return;
   isChimePlaying = true;
-  chimeAudio.volume = 1.0;
+  chimeAudio.volume = 20.0;
   chimeAudio.currentTime = 0;
   chimeAudio.play().catch(() => {}); // silently ignore autoplay blocks
   chimeAudio.onended = () => { isChimePlaying = false; };
@@ -56,11 +56,11 @@ function playAlert(leftMs) {
   const gain = ctx.createGain();
   osc1.type = "sine";
   osc2.type = "triangle";
-  // Povecan intenzitet i volumen kako vreme istice
-  if (leftMs > 120000)      { osc1.frequency.value = 520;  osc2.frequency.value = 640; gain.gain.value = 0.8; }
-  else if (leftMs > 60000)  { osc1.frequency.value = 700;  osc2.frequency.value = 820; gain.gain.value = 1.1; }
-  else if (leftMs > 30000)  { osc1.frequency.value = 880;  osc2.frequency.value = 980; gain.gain.value = 1.4; }
-  else                      { osc1.frequency.value = 1020; osc2.frequency.value = 1120; gain.gain.value = 1.8; }
+  // MAKSIMALNO POJAČANJE - 100% jači zvuk sa brzim ponavljanjem - RESTORAN
+  if (leftMs > 120000)      { osc1.frequency.value = 520;  osc2.frequency.value = 640; gain.gain.value = 8.0; }
+  else if (leftMs > 60000)  { osc1.frequency.value = 700;  osc2.frequency.value = 820; gain.gain.value = 9.5; }
+  else if (leftMs > 30000)  { osc1.frequency.value = 880;  osc2.frequency.value = 980; gain.gain.value = 11.0; }
+  else                      { osc1.frequency.value = 1020; osc2.frequency.value = 1120; gain.gain.value = 12.0; }
   osc1.connect(gain);
   osc2.connect(gain);
   gain.connect(ctx.destination);
@@ -68,7 +68,7 @@ function playAlert(leftMs) {
   osc2.start();
   osc1.stop(ctx.currentTime + 0.22);
   osc2.stop(ctx.currentTime + 0.22);
-}
+}}
 
 function fmtTime(ms) {
   const s = Math.max(ms, 0);
@@ -201,7 +201,7 @@ function renderIncoming() {
       if (!cur.length) return;
       const minLeft = Math.min(...cur.map(o => Math.max(3*60000-(Date.now()-new Date(o.createdAt).getTime()),0)));
       playAlert(minLeft);
-    }, 3000);
+    }, 1500);
   }
 }
 
