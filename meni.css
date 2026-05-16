@@ -61,8 +61,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .nav__logo img {
   width: 46px;
   height: 46px;
-  object-fit: cover;
-  border-radius: 10px;
+  object-fit: contain;
   flex-shrink: 0;
 }
 .nav__center {
