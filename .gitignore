@@ -1,5 +1,4 @@
 node_modules/
 .env
-.claude/
-.cursor/
-*.log
+*.tmp
+test-parse.js

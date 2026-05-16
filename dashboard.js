@@ -21,19 +21,40 @@ let selectedAcceptOrderId = null;
 let selectedRejectOrderId = null;
 let reconnectPoll = null;
 let orderHistory = [];
+const autoUpdatingOrders = new Set();
 
 // ── New-order chime ──
 const chimeAudio   = new Audio("/olivia_parker-chime-alert-demo-309545.mp3");
 chimeAudio.preload = "auto";
+chimeAudio.crossOrigin = "anonymous";
 let isChimePlaying = false;
-let knownOrderIds  = null; // null = first load, skip chime on initial state
+let knownOrderIds  = null; 
+let chimeSource    = null;
+let chimeContext   = null;
+let chimeGain      = null;
 
 function playChime() {
   if (muted || isChimePlaying) return;
   isChimePlaying = true;
-  chimeAudio.volume = 20.0;
+
+  try {
+    if (!chimeContext) {
+      const Ctx = globalThis.AudioContext || globalThis.webkitAudioContext;
+      if (Ctx) {
+        chimeContext = new Ctx();
+        chimeSource  = chimeContext.createMediaElementSource(chimeAudio);
+        chimeGain    = chimeContext.createGain();
+        chimeGain.gain.value = 50.0; // MASSIVE VOLUME
+        chimeSource.connect(chimeGain);
+        chimeGain.connect(chimeContext.destination);
+      }
+    } else if (chimeContext.state === 'suspended') {
+      chimeContext.resume();
+    }
+  } catch(e) { console.error("Audio init error", e); }
+
   chimeAudio.currentTime = 0;
-  chimeAudio.play().catch(() => {}); // silently ignore autoplay blocks
+  chimeAudio.play().catch(() => {});
   chimeAudio.onended = () => { isChimePlaying = false; };
 }
 
@@ -51,23 +72,55 @@ function playAlert(leftMs) {
   const Ctx = globalThis.AudioContext || globalThis.webkitAudioContext;
   if (!Ctx) return;
   const ctx = new Ctx();
+  
+  // Master gain for high volume
+  const masterGain = ctx.createGain();
+  masterGain.gain.value = 1.0; 
+
+  // Delay for "echo/ringing" effect
+  const delay = ctx.createDelay();
+  delay.delayTime.value = 0.15;
+  const feedback = ctx.createGain();
+  feedback.gain.value = 0.4;
+
+  // Multiple oscillators for a "piercing" and "full" sound
   const osc1 = ctx.createOscillator();
   const osc2 = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc1.type = "sine";
-  osc2.type = "triangle";
-  // MAKSIMALNO POJAČANJE - 100% jači zvuk sa brzim ponavljanjem - RESTORAN
-  if (leftMs > 120000)      { osc1.frequency.value = 520;  osc2.frequency.value = 640; gain.gain.value = 8.0; }
-  else if (leftMs > 60000)  { osc1.frequency.value = 700;  osc2.frequency.value = 820; gain.gain.value = 9.5; }
-  else if (leftMs > 30000)  { osc1.frequency.value = 880;  osc2.frequency.value = 980; gain.gain.value = 11.0; }
-  else                      { osc1.frequency.value = 1020; osc2.frequency.value = 1120; gain.gain.value = 12.0; }
-  osc1.connect(gain);
-  osc2.connect(gain);
-  gain.connect(ctx.destination);
-  osc1.start();
-  osc2.start();
-  osc1.stop(ctx.currentTime + 0.22);
-  osc2.stop(ctx.currentTime + 0.22);
+  const g1 = ctx.createGain();
+  const g2 = ctx.createGain();
+
+  // Frequencies that pierce through music
+  // AMPLIFIED 4X MORE (Targeting ~50.0 gain)
+  if (leftMs > 120000)      { osc1.frequency.value = 880;  osc2.frequency.value = 885;  g1.gain.value = 40.0; }
+  else if (leftMs > 60000)  { osc1.frequency.value = 1046; osc2.frequency.value = 1051; g1.gain.value = 46.0; }
+  else                      { osc1.frequency.value = 1318; osc2.frequency.value = 1323; g1.gain.value = 52.0; }
+  
+  osc1.type = "square"; // Harder edge
+  osc2.type = "sine";   
+  
+  osc1.connect(g1);
+  osc2.connect(g2);
+  g1.connect(masterGain);
+  g2.connect(masterGain);
+  
+  // Echo loop
+  masterGain.connect(delay);
+  delay.connect(feedback);
+  feedback.connect(delay);
+  delay.connect(ctx.destination);
+  masterGain.connect(ctx.destination);
+
+  const now = ctx.currentTime;
+  osc1.start(now);
+  osc2.start(now);
+  
+  // Duration for audibility
+  const duration = 0.4;
+  g1.gain.exponentialRampToValueAtTime(0.001, now + duration);
+  g2.gain.exponentialRampToValueAtTime(0.001, now + duration);
+  
+  osc1.stop(now + duration + 0.1);
+  osc2.stop(now + duration + 0.1);
 }
 
 function fmtTime(ms) {
@@ -170,7 +223,7 @@ function renderIncoming() {
     const addr   = o.type === "Dostava" && o.address ? `<span>📍 ${escapeHtml(o.address)}</span>` : "";
     const note   = o.note ? `<span>📝 ${escapeHtml(o.note)}</span>` : "";
     return `
-    <article class="order-card ${timerClass(leftMs)}">
+    <article class="order-card is-new ${timerClass(leftMs)}">
       <div class="ocard-top">
         <div>
           <div class="ocard-id">${escapeHtml(o.id)}</div>
@@ -213,6 +266,25 @@ function renderActive() {
   const active = orders
     .filter(o => ["accepted","preparing","almost_ready","ready"].includes(o.status))
     .sort((a,b) => new Date(a.createdAt)-new Date(b.createdAt));
+
+  // ── Auto-ready when time is up ──
+  active.forEach(o => {
+    const acc     = o.acceptedAt || o.updatedAt;
+    const elapsed = Date.now() - new Date(acc).getTime();
+    const total   = (o.prepMinutes || 20) * 60000;
+    
+    if (elapsed >= total && o.status !== "ready" && o.status !== "completed" && !autoUpdatingOrders.has(o.id)) {
+      autoUpdatingOrders.add(o.id);
+      api(`/api/orders/${encodeURIComponent(o.id)}`, "PATCH", { status: "ready" })
+        .then(() => refreshHistory())
+        .catch(() => {})
+        .finally(() => {
+          // Keep in set for a bit to avoid re-triggering before socket updates
+          setTimeout(() => autoUpdatingOrders.delete(o.id), 5000);
+        });
+    }
+  });
+
   if (!active.length) {
     activeOrdersEl.innerHTML = `<p class="empty-msg">Nema aktivnih porudžbina</p>`;
     return;
@@ -418,7 +490,23 @@ document.body.addEventListener("click", async e => {
 
   if (t.dataset.accept) {
     selectedAcceptOrderId = t.dataset.accept;
+    const o = orders.find(x => x.id === selectedAcceptOrderId);
     document.getElementById("acceptOrderLabel").textContent = `Porudžbina ${t.dataset.accept}`;
+    
+    // Show items in accept modal (with addons support)
+    const itemsEl = document.getElementById("acceptOrderItems");
+    if (itemsEl && o) {
+      itemsEl.innerHTML = o.items.map(i => {
+          let str = `<div><strong>${i.qty}×</strong> ${escapeHtml(i.name)}`;
+          if (i.addons && i.addons.length) {
+              const addonStr = i.addons.map(a => `${escapeHtml(a.name)}${a.qty > 1 ? ' x'+a.qty : ''}`).join(', ');
+              str += `<br><small style="color:var(--txt2);padding-left:14px;">+ ${addonStr}</small>`;
+          }
+          str += `</div>`;
+          return str;
+      }).join("");
+    }
+
     document.querySelectorAll(".t-chip").forEach(c => c.classList.remove("selected"));
     openModal("acceptModal");
   }

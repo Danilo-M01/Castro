@@ -78,7 +78,9 @@ a{color:inherit;text-decoration:none;}
 .orders-list{display:flex;flex-direction:column;gap:10px;}
 
 /* ── ORDER CARDS ── */
-.order-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;transition:border-color .3s;}
+.order-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;transition:border-color .3s;position:relative;}
+.order-card.is-new{border-color:var(--green);box-shadow:0 0 20px rgba(0,216,151,0.15);animation:pulse-green 2s infinite;}
+@keyframes pulse-green{0%{box-shadow:0 0 0 0 rgba(0,216,151,0.4);}70%{box-shadow:0 0 0 10px rgba(0,216,151,0);}100%{box-shadow:0 0 0 0 rgba(0,216,151,0);}}
 .order-card.urgent-2m{border-color:rgba(0,216,151,0.4);}
 .order-card.urgent-1m{border-color:var(--orange);animation:pulse-o 1.2s infinite;}
 .order-card.urgent-30s{border-color:var(--red);animation:pulse-r 0.7s infinite;}
@@ -93,7 +95,7 @@ a{color:inherit;text-decoration:none;}
 .ocard-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
 .ocard-meta span{font-size:12px;color:var(--txt2);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:2px 8px;}
 
-.ocard-items{font-size:13px;color:var(--txt);line-height:1.7;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:10px;}
+.ocard-items{font-size:15px;color:#fff;font-weight:500;line-height:1.6;padding:12px;background:rgba(255,255,255,0.06);border:1px solid var(--border2);border-radius:10px;margin-bottom:12px;}
 
 .ocard-total{font-size:15px;font-weight:700;color:var(--green);margin-bottom:12px;}
 
@@ -165,6 +167,10 @@ input[type=date].f-select::-webkit-calendar-picker-indicator{filter:invert(1);op
 .modal-select option{background:#1a1a1a;}
 .modal-input{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border2);border-radius:9px;color:var(--txt);font-size:14px;margin-bottom:12px;}
 .modal-input:focus{outline:none;border-color:var(--green);}
+
+.modal-items-preview{background:rgba(255,255,255,0.05);border:1px solid var(--border2);border-radius:12px;padding:12px;margin-bottom:18px;max-height:200px;overflow-y:auto;font-size:15px;line-height:1.5;color:#fff;}
+.modal-items-preview div{padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.modal-items-preview div:last-child{border-bottom:none;}
 
 /* Time chips */
 .time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}

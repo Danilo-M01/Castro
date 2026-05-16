@@ -408,12 +408,12 @@ app.post("/api/orders", async (req, res) => {
     orderCounter = 0;
     lastOrderDate = todayIso;
   }
-  
+
   orderCounter += 1;
   const dayStr = String(todayObj.getDate()).padStart(2, '0');
   const monthStr = String(todayObj.getMonth() + 1).padStart(2, '0');
   const paddedNum = String(orderCounter).padStart(3, '0');
-  
+
   const order = {
     id: `#${dayStr}${monthStr}-${paddedNum}`,
     customerToken: uuidv4(),
