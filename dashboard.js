@@ -1,22 +1,22 @@
 /* ══════════════════════════════════════
    CASTRO DASHBOARD — dashboard.js
 ══════════════════════════════════════ */
-const loginScreen        = document.getElementById("loginScreen");
-const dashboardScreen    = document.getElementById("dashboardScreen");
-const incomingOrdersEl   = document.getElementById("incomingOrders");
-const activeOrdersEl     = document.getElementById("activeOrders");
+const loginScreen = document.getElementById("loginScreen");
+const dashboardScreen = document.getElementById("dashboardScreen");
+const incomingOrdersEl = document.getElementById("incomingOrders");
+const activeOrdersEl = document.getElementById("activeOrders");
 const menuAvailabilityList = document.getElementById("menuAvailabilityList");
-const categoryBulkActions  = document.getElementById("categoryBulkActions");
-const menuSearchInput      = document.getElementById("menuSearch");
-const orderHistoryList     = document.getElementById("orderHistoryList");
+const categoryBulkActions = document.getElementById("categoryBulkActions");
+const menuSearchInput = document.getElementById("menuSearch");
+const orderHistoryList = document.getElementById("orderHistoryList");
 const socket = io({ autoConnect: false });
 
-let orders       = [];
+let orders = [];
 let menuAvailability = {};
-let menuItems    = [];
-let menuSearch   = "";
+let menuItems = [];
+let menuSearch = "";
 let beepInterval = null;
-let muted        = false;
+let muted = false;
 let selectedAcceptOrderId = null;
 let selectedRejectOrderId = null;
 let reconnectPoll = null;
@@ -24,14 +24,14 @@ let orderHistory = [];
 const autoUpdatingOrders = new Set();
 
 // ── New-order chime ──
-const chimeAudio   = new Audio("/olivia_parker-chime-alert-demo-309545.mp3");
+const chimeAudio = new Audio("/olivia_parker-chime-alert-demo-309545.mp3");
 chimeAudio.preload = "auto";
 chimeAudio.crossOrigin = "anonymous";
 let isChimePlaying = false;
-let knownOrderIds  = null; 
-let chimeSource    = null;
-let chimeContext   = null;
-let chimeGain      = null;
+let knownOrderIds = null;
+let chimeSource = null;
+let chimeContext = null;
+let chimeGain = null;
 
 function playChime() {
   if (muted || isChimePlaying) return;
@@ -42,19 +42,19 @@ function playChime() {
       const Ctx = globalThis.AudioContext || globalThis.webkitAudioContext;
       if (Ctx) {
         chimeContext = new Ctx();
-        chimeSource  = chimeContext.createMediaElementSource(chimeAudio);
-        chimeGain    = chimeContext.createGain();
-        chimeGain.gain.value = 50.0; // MASSIVE VOLUME
+        chimeSource = chimeContext.createMediaElementSource(chimeAudio);
+        chimeGain = chimeContext.createGain();
+        chimeGain.gain.value = 100.0; // MASSIVE VOLUME
         chimeSource.connect(chimeGain);
         chimeGain.connect(chimeContext.destination);
       }
     } else if (chimeContext.state === 'suspended') {
       chimeContext.resume();
     }
-  } catch(e) { console.error("Audio init error", e); }
+  } catch (e) { console.error("Audio init error", e); }
 
   chimeAudio.currentTime = 0;
-  chimeAudio.play().catch(() => {});
+  chimeAudio.play().catch(() => { });
   chimeAudio.onended = () => { isChimePlaying = false; };
 }
 
@@ -62,9 +62,9 @@ function playChime() {
 // ── Filters state ──
 const filters = { year: String(new Date().getFullYear()), month: "", day: "", item: "" };
 
-function openModal(id)  { document.getElementById(id)?.classList.remove("hidden"); }
+function openModal(id) { document.getElementById(id)?.classList.remove("hidden"); }
 function closeModal(id) { document.getElementById(id)?.classList.add("hidden"); }
-function closeAllModals(){ ["menuModal","acceptModal","rejectModal"].forEach(closeModal); }
+function closeAllModals() { ["menuModal", "acceptModal", "rejectModal"].forEach(closeModal); }
 
 /* ── Audio ── */
 function playAlert(leftMs) {
@@ -72,10 +72,10 @@ function playAlert(leftMs) {
   const Ctx = globalThis.AudioContext || globalThis.webkitAudioContext;
   if (!Ctx) return;
   const ctx = new Ctx();
-  
+
   // Master gain for high volume
   const masterGain = ctx.createGain();
-  masterGain.gain.value = 1.0; 
+  masterGain.gain.value = 1.0;
 
   // Delay for "echo/ringing" effect
   const delay = ctx.createDelay();
@@ -91,18 +91,18 @@ function playAlert(leftMs) {
 
   // Frequencies that pierce through music
   // AMPLIFIED 4X MORE (Targeting ~50.0 gain)
-  if (leftMs > 120000)      { osc1.frequency.value = 880;  osc2.frequency.value = 885;  g1.gain.value = 40.0; }
-  else if (leftMs > 60000)  { osc1.frequency.value = 1046; osc2.frequency.value = 1051; g1.gain.value = 46.0; }
-  else                      { osc1.frequency.value = 1318; osc2.frequency.value = 1323; g1.gain.value = 52.0; }
-  
+  if (leftMs > 120000) { osc1.frequency.value = 880; osc2.frequency.value = 885; g1.gain.value = 40.0; }
+  else if (leftMs > 60000) { osc1.frequency.value = 1046; osc2.frequency.value = 1051; g1.gain.value = 46.0; }
+  else { osc1.frequency.value = 1318; osc2.frequency.value = 1323; g1.gain.value = 52.0; }
+
   osc1.type = "square"; // Harder edge
-  osc2.type = "sine";   
-  
+  osc2.type = "sine";
+
   osc1.connect(g1);
   osc2.connect(g2);
   g1.connect(masterGain);
   g2.connect(masterGain);
-  
+
   // Echo loop
   masterGain.connect(delay);
   delay.connect(feedback);
@@ -113,26 +113,26 @@ function playAlert(leftMs) {
   const now = ctx.currentTime;
   osc1.start(now);
   osc2.start(now);
-  
+
   // Duration for audibility
   const duration = 0.4;
   g1.gain.exponentialRampToValueAtTime(0.001, now + duration);
   g2.gain.exponentialRampToValueAtTime(0.001, now + duration);
-  
+
   osc1.stop(now + duration + 0.1);
   osc2.stop(now + duration + 0.1);
 }
 
 function fmtTime(ms) {
   const s = Math.max(ms, 0);
-  const m = String(Math.floor(s / 60000)).padStart(2,"0");
-  const sc = String(Math.floor((s % 60000) / 1000)).padStart(2,"0");
+  const m = String(Math.floor(s / 60000)).padStart(2, "0");
+  const sc = String(Math.floor((s % 60000) / 1000)).padStart(2, "0");
   return `${m}:${sc}`;
 }
 
 function timerClass(ms) {
-  if (ms <= 30000)  return "urgent-30s";
-  if (ms <= 60000)  return "urgent-1m";
+  if (ms <= 30000) return "urgent-30s";
+  if (ms <= 60000) return "urgent-1m";
   if (ms <= 120000) return "urgent-2m";
   return "";
 }
@@ -143,7 +143,7 @@ function timerColorClass(ms) {
 }
 
 function normalizeSearch(v) {
-  return String(v||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  return String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 function fuzzyIncludes(text, q) {
   if (!q) return true;
@@ -153,15 +153,15 @@ function fuzzyIncludes(text, q) {
 function escapeHtml(unsafe) {
   if (!unsafe) return "";
   return String(unsafe)
-       .replace(/&/g, "&amp;")
-       .replace(/</g, "&lt;")
-       .replace(/>/g, "&gt;")
-       .replace(/"/g, "&quot;")
-       .replace(/'/g, "&#039;");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-async function api(path, method="GET", body=null) {
-  const r = await fetch(path, { method, headers:{"Content-Type":"application/json"}, body: body ? JSON.stringify(body) : undefined });
+async function api(path, method = "GET", body = null) {
+  const r = await fetch(path, { method, headers: { "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
   const d = await r.json();
   if (!r.ok) throw new Error(d.error || "Greška");
   return d;
@@ -172,15 +172,15 @@ async function refreshHistory() {
     const d = await api("/api/orders/history");
     orderHistory = d.history || [];
     renderHistory();
-  } catch(_){}
+  } catch (_) { }
 }
 
 /* ── Stats ── */
 function renderStats() {
-  const total   = orders.length;
+  const total = orders.length;
   const pending = orders.filter(o => o.status === "new").length;
-  const rev     = orders.filter(o => !["rejected","missed"].includes(o.status))
-                        .reduce((a,o) => a + o.items.reduce((s,i) => s + i.qty*(i.price + (i.addons||[]).reduce((as,ad)=>as+ad.price*ad.qty,0)), 0), 0);
+  const rev = orders.filter(o => !["rejected", "missed"].includes(o.status))
+    .reduce((a, o) => a + o.items.reduce((s, i) => s + i.qty * (i.price + (i.addons || []).reduce((as, ad) => as + ad.price * ad.qty, 0)), 0), 0);
 
   // Missed today — deduplicate across active orders + history
   const today = new Date().toISOString().split("T")[0];
@@ -189,14 +189,14 @@ function renderStats() {
     ...orderHistory.filter(o => o.status === "missed" && (o.createdAt || o.updatedAt || "").startsWith(today)).map(o => o.id)
   ]);
 
-  document.getElementById("statOrders").textContent  = `${total} porudžbina`;
+  document.getElementById("statOrders").textContent = `${total} porudžbina`;
   document.getElementById("statPending").textContent = `${pending} na čekanju`;
-  document.getElementById("statMissed").textContent  = `${missedIds.size} propuštene`;
+  document.getElementById("statMissed").textContent = `${missedIds.size} propuštene`;
   document.getElementById("statRevenue").textContent = `${rev.toLocaleString("sr-Latn")} RSD`;
   const inc = orders.filter(o => o.status === "new").length;
-  const act = orders.filter(o => ["accepted","preparing","almost_ready","ready"].includes(o.status)).length;
+  const act = orders.filter(o => ["accepted", "preparing", "almost_ready", "ready"].includes(o.status)).length;
   document.getElementById("incomingCount").textContent = inc;
-  document.getElementById("activeCount").textContent   = act;
+  document.getElementById("activeCount").textContent = act;
 }
 
 /* ── Incoming ── */
@@ -210,18 +210,18 @@ function renderIncoming() {
   }
   document.title = `🔔 ${incoming.length} novih`;
   incomingOrdersEl.innerHTML = incoming.map(o => {
-    const leftMs = Math.max(3*60000 - (Date.now() - new Date(o.createdAt).getTime()), 0);
-    const total  = o.items.reduce((s,i) => s + i.qty*(i.price + (i.addons||[]).reduce((as,ad)=>as+ad.price*ad.qty,0)), 0);
-    const items  = o.items.map(i => {
+    const leftMs = Math.max(3 * 60000 - (Date.now() - new Date(o.createdAt).getTime()), 0);
+    const total = o.items.reduce((s, i) => s + i.qty * (i.price + (i.addons || []).reduce((as, ad) => as + ad.price * ad.qty, 0)), 0);
+    const items = o.items.map(i => {
       let str = `${i.qty}× ${escapeHtml(i.name)}`;
       if (i.addons && i.addons.length) {
-        const addonStr = i.addons.map(a => `${escapeHtml(a.name)}${a.qty > 1 ? ' x'+a.qty : ''}`).join(', ');
+        const addonStr = i.addons.map(a => `${escapeHtml(a.name)}${a.qty > 1 ? ' x' + a.qty : ''}`).join(', ');
         str += `<br><small style="color:#aaa;padding-left:12px;">+ ${addonStr}</small>`;
       }
       return str;
     }).join("<br>");
-    const addr   = o.type === "Dostava" && o.address ? `<span>📍 ${escapeHtml(o.address)}</span>` : "";
-    const note   = o.note ? `<span>📝 ${escapeHtml(o.note)}</span>` : "";
+    const addr = o.type === "Dostava" && o.address ? `<span>📍 ${escapeHtml(o.address)}</span>` : "";
+    const note = o.note ? `<span>📝 ${escapeHtml(o.note)}</span>` : "";
     return `
     <article class="order-card is-new ${timerClass(leftMs)}">
       <div class="ocard-top">
@@ -234,9 +234,9 @@ function renderIncoming() {
       <div class="ocard-meta">
         ${o.scheduledTime ? `<span style="background:var(--red);color:#fff;font-weight:bold;border:none;">⏰ ZAKAZANO ZA ${escapeHtml(o.scheduledTime)}</span>` : ""}
         <span>🕐 ${new Date(o.createdAt).toLocaleTimeString("sr-RS")}</span>
-        <span>🧑 ${escapeHtml(o.customerName)||"Gost"}</span>
-        <span>📞 ${escapeHtml(o.phone)||"-"}</span>
-        <span>🛵 ${escapeHtml(o.type)||"Preuzimanje"}</span>
+        <span>🧑 ${escapeHtml(o.customerName) || "Gost"}</span>
+        <span>📞 ${escapeHtml(o.phone) || "-"}</span>
+        <span>🛵 ${escapeHtml(o.type) || "Preuzimanje"}</span>
         ${addr}${note}
       </div>
       <div class="ocard-items">${items}</div>
@@ -252,7 +252,7 @@ function renderIncoming() {
     beepInterval = setInterval(() => {
       const cur = orders.filter(o => o.status === "new");
       if (!cur.length) return;
-      const minLeft = Math.min(...cur.map(o => Math.max(3*60000-(Date.now()-new Date(o.createdAt).getTime()),0)));
+      const minLeft = Math.min(...cur.map(o => Math.max(3 * 60000 - (Date.now() - new Date(o.createdAt).getTime()), 0)));
       playAlert(minLeft);
     }, 1500);
   }
@@ -260,24 +260,24 @@ function renderIncoming() {
 
 /* ── Active ── */
 function statusLabel(s) {
-  return {accepted:"Prihvaćeno",preparing:"U pripremi",almost_ready:"Skoro gotovo",ready:"Spremno!"}[s] || s;
+  return { accepted: "Prihvaćeno", preparing: "U pripremi", almost_ready: "Skoro gotovo", ready: "Spremno!" }[s] || s;
 }
 function renderActive() {
   const active = orders
-    .filter(o => ["accepted","preparing","almost_ready","ready"].includes(o.status))
-    .sort((a,b) => new Date(a.createdAt)-new Date(b.createdAt));
+    .filter(o => ["accepted", "preparing", "almost_ready", "ready"].includes(o.status))
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
   // ── Auto-ready when time is up ──
   active.forEach(o => {
-    const acc     = o.acceptedAt || o.updatedAt;
+    const acc = o.acceptedAt || o.updatedAt;
     const elapsed = Date.now() - new Date(acc).getTime();
-    const total   = (o.prepMinutes || 20) * 60000;
-    
+    const total = (o.prepMinutes || 20) * 60000;
+
     if (elapsed >= total && o.status !== "ready" && o.status !== "completed" && !autoUpdatingOrders.has(o.id)) {
       autoUpdatingOrders.add(o.id);
       api(`/api/orders/${encodeURIComponent(o.id)}`, "PATCH", { status: "ready" })
         .then(() => refreshHistory())
-        .catch(() => {})
+        .catch(() => { })
         .finally(() => {
           // Keep in set for a bit to avoid re-triggering before socket updates
           setTimeout(() => autoUpdatingOrders.delete(o.id), 5000);
@@ -290,10 +290,10 @@ function renderActive() {
     return;
   }
   activeOrdersEl.innerHTML = active.map(o => {
-    const acc     = o.acceptedAt || o.updatedAt;
-    const leftMs  = new Date(acc).getTime() + o.prepMinutes*60000 - Date.now();
-    const prog    = Math.max(0, Math.min(100, Math.round(((Date.now()-new Date(acc).getTime())/(o.prepMinutes*60000))*100)));
-    const addr    = o.type === "Dostava" && o.address ? `<span>📍 ${escapeHtml(o.address)}</span>` : "";
+    const acc = o.acceptedAt || o.updatedAt;
+    const leftMs = new Date(acc).getTime() + o.prepMinutes * 60000 - Date.now();
+    const prog = Math.max(0, Math.min(100, Math.round(((Date.now() - new Date(acc).getTime()) / (o.prepMinutes * 60000)) * 100)));
+    const addr = o.type === "Dostava" && o.address ? `<span>📍 ${escapeHtml(o.address)}</span>` : "";
     return `
     <article class="order-card">
       <div class="ocard-top">
@@ -305,8 +305,8 @@ function renderActive() {
       </div>
       <div class="ocard-meta">
         ${o.scheduledTime ? `<span style="background:var(--red);color:#fff;font-weight:bold;border:none;">⏰ ZAKAZANO ZA ${escapeHtml(o.scheduledTime)}</span>` : ""}
-        <span>🧑 ${escapeHtml(o.customerName)||"Gost"}</span>
-        <span>🛵 ${escapeHtml(o.type)||"Preuzimanje"}</span>
+        <span>🧑 ${escapeHtml(o.customerName) || "Gost"}</span>
+        <span>🛵 ${escapeHtml(o.type) || "Preuzimanje"}</span>
         ${addr}
       </div>
       <div class="ocard-prog-wrap">
@@ -320,9 +320,9 @@ function renderActive() {
           <button data-adjust="${escapeHtml(o.id)}" data-delta="5">+5min</button>
         </div>
         <select class="status-select" data-status="${escapeHtml(o.id)}">
-          <option value="preparing"    ${["preparing","accepted"].includes(o.status)?"selected":""}>U pripremi</option>
-          <option value="almost_ready" ${o.status==="almost_ready"?"selected":""}>Skoro gotovo</option>
-          <option value="ready"        ${o.status==="ready"?"selected":""}>${o.type === "Dostava" ? "Spremno za isporuku" : "Spremno za preuzimanje"}</option>
+          <option value="preparing"    ${["preparing", "accepted"].includes(o.status) ? "selected" : ""}>U pripremi</option>
+          <option value="almost_ready" ${o.status === "almost_ready" ? "selected" : ""}>Skoro gotovo</option>
+          <option value="ready"        ${o.status === "ready" ? "selected" : ""}>${o.type === "Dostava" ? "Spremno za isporuku" : "Spremno za preuzimanje"}</option>
         </select>
       </div>
     </article>`;
@@ -333,10 +333,10 @@ function renderActive() {
 function filterHistory() {
   return orderHistory.filter(o => {
     const d = new Date(o.createdAt || o.updatedAt || 0);
-    if (filters.year  && d.getFullYear() !== parseInt(filters.year))   return false;
-    if (filters.month && (d.getMonth()+1) !== parseInt(filters.month)) return false;
+    if (filters.year && d.getFullYear() !== parseInt(filters.year)) return false;
+    if (filters.month && (d.getMonth() + 1) !== parseInt(filters.month)) return false;
     if (filters.day) {
-      const oDay = (o.createdAt||o.updatedAt||"").split("T")[0];
+      const oDay = (o.createdAt || o.updatedAt || "").split("T")[0];
       if (oDay !== filters.day) return false;
     }
     if (filters.item) {
@@ -356,9 +356,9 @@ function renderHistory() {
   if (statsRow) {
     const totalRev = filtered
       .filter(o => o.status === "completed")
-      .reduce((a,o) => a + (Array.isArray(o.items) ? o.items.reduce((s,i) => s+(i.qty||1)*((i.price||0) + (i.addons||[]).reduce((as,ad)=>as+(ad.price||0)*(ad.qty||1),0)),0) : 0), 0);
+      .reduce((a, o) => a + (Array.isArray(o.items) ? o.items.reduce((s, i) => s + (i.qty || 1) * ((i.price || 0) + (i.addons || []).reduce((as, ad) => as + (ad.price || 0) * (ad.qty || 1), 0)), 0) : 0), 0);
     const completed = filtered.filter(o => o.status === "completed").length;
-    const rejected  = filtered.filter(o => ["rejected","missed"].includes(o.status)).length;
+    const rejected = filtered.filter(o => ["rejected", "missed"].includes(o.status)).length;
     statsRow.innerHTML = `
       <div class="h-stat"><strong>${filtered.length}</strong>Ukupno</div>
       <div class="h-stat"><strong>${completed}</strong>Završene</div>
@@ -371,8 +371,8 @@ function renderHistory() {
     return;
   }
 
-  orderHistoryList.innerHTML = filtered.slice(0,60).map(o => {
-    const total = Array.isArray(o.items) ? o.items.reduce((s,i) => s+(i.qty||1)*((i.price||0) + (i.addons||[]).reduce((as,ad)=>as+(ad.price||0)*(ad.qty||1),0)),0) : 0;
+  orderHistoryList.innerHTML = filtered.slice(0, 60).map(o => {
+    const total = Array.isArray(o.items) ? o.items.reduce((s, i) => s + (i.qty || 1) * ((i.price || 0) + (i.addons || []).reduce((as, ad) => as + (ad.price || 0) * (ad.qty || 1), 0)), 0) : 0;
     const itemsList = Array.isArray(o.items) ? o.items.map(i => {
       let str = `${i.qty}× ${escapeHtml(i.name)}`;
       if (i.addons && i.addons.length) {
@@ -391,8 +391,8 @@ function renderHistory() {
         <span class="h-card-status ${sCls}">${sLbl}</span>
       </div>
       <div class="h-card-meta">
-        <div>🧑 ${escapeHtml(o.customerName)||"Gost"} · ${escapeHtml(o.phone)||"-"}</div>
-        <div>🛵 ${escapeHtml(o.type)||"Preuzimanje"}</div>
+        <div>🧑 ${escapeHtml(o.customerName) || "Gost"} · ${escapeHtml(o.phone) || "-"}</div>
+        <div>🛵 ${escapeHtml(o.type) || "Preuzimanje"}</div>
         <div>📅 ${createdStr}</div>
         <div>✅ ${updatedStr}</div>
       </div>
@@ -405,26 +405,26 @@ function renderHistory() {
 /* ── Menu ── */
 function renderAvailability() {
   const filtered = menuItems.filter(i => fuzzyIncludes(i.name, menuSearch))
-                            .sort((a,b) => a.name.localeCompare(b.name,"sr"));
+    .sort((a, b) => a.name.localeCompare(b.name, "sr"));
   menuAvailabilityList.innerHTML = filtered.map(item => {
     const av = menuAvailability[item.name] !== false;
     return `
     <div class="availability-item">
       <div class="item-meta">
-        <span class="status-dot ${av?"available":"unavailable"}"></span>
+        <span class="status-dot ${av ? "available" : "unavailable"}"></span>
         <span>${item.name}</span>
         <span class="category-tag">${item.category}</span>
       </div>
-      <button class="${av?"available":"unavailable"}" data-item="${item.name}" data-toggle="${av?"off":"on"}">
-        ${av?"ON":"OFF"}
+      <button class="${av ? "available" : "unavailable"}" data-item="${item.name}" data-toggle="${av ? "off" : "on"}">
+        ${av ? "ON" : "OFF"}
       </button>
     </div>`;
   }).join("");
 }
 
 function renderCategoryBulkActions() {
-  const groups = menuItems.reduce((acc,i) => { if(!acc[i.category]) acc[i.category]=[]; acc[i.category].push(i.name); return acc; }, {});
-  categoryBulkActions.innerHTML = Object.entries(groups).sort(([a],[b]) => a.localeCompare(b,"sr")).map(([cat,names]) => `
+  const groups = menuItems.reduce((acc, i) => { if (!acc[i.category]) acc[i.category] = []; acc[i.category].push(i.name); return acc; }, {});
+  categoryBulkActions.innerHTML = Object.entries(groups).sort(([a], [b]) => a.localeCompare(b, "sr")).map(([cat, names]) => `
     <div class="category-row">
       <strong>${cat}</strong>
       <div class="group-buttons">
@@ -455,13 +455,13 @@ socket.on("orders:state", p => {
   orders = incoming;
   renderAll();
 });
-socket.on("menu:availability", p => { menuAvailability = p.menuAvailability||{}; renderAvailability(); });
+socket.on("menu:availability", p => { menuAvailability = p.menuAvailability || {}; renderAvailability(); });
 socket.on("disconnect", () => {
   if (!reconnectPoll) reconnectPoll = setInterval(async () => {
-    try { const d = await api("/api/orders"); orders = d.orders||[]; renderAll(); } catch(_){}
+    try { const d = await api("/api/orders"); orders = d.orders || []; renderAll(); } catch (_) { }
   }, 5000);
 });
-socket.on("connect", () => { if (reconnectPoll){clearInterval(reconnectPoll);reconnectPoll=null;} });
+socket.on("connect", () => { if (reconnectPoll) { clearInterval(reconnectPoll); reconnectPoll = null; } });
 
 /* ── Timers ── */
 setInterval(() => {
@@ -471,9 +471,34 @@ setInterval(() => {
   if (!focused || (!focused.classList.contains("status-select") && !focused.classList.contains("prep-input")))
     renderActive();
 }, 1000);
+
 setInterval(() => {
   if (!dashboardScreen.classList.contains("hidden")) refreshHistory();
 }, 30000);
+
+setInterval(async () => {
+  if (dashboardScreen.classList.contains("hidden")) return;
+  try {
+    const d = await api("/api/orders");
+    const incoming = d.orders || [];
+    
+    if (knownOrderIds !== null) {
+      const hasNew = incoming.some(o => o.status === "new" && !knownOrderIds.has(o.id));
+      if (hasNew) playChime();
+    }
+    
+    knownOrderIds = new Set(incoming.map(o => o.id));
+    orders = incoming;
+    
+    // Render carefully to avoid stealing focus
+    renderStats();
+    renderIncoming();
+    const focused = document.activeElement;
+    if (!focused || (!focused.classList.contains("status-select") && !focused.classList.contains("prep-input"))) {
+      renderActive();
+    }
+  } catch (_) {}
+}, 5000);
 
 /* ── Click delegation ── */
 document.body.addEventListener("click", async e => {
@@ -492,18 +517,18 @@ document.body.addEventListener("click", async e => {
     selectedAcceptOrderId = t.dataset.accept;
     const o = orders.find(x => x.id === selectedAcceptOrderId);
     document.getElementById("acceptOrderLabel").textContent = `Porudžbina ${t.dataset.accept}`;
-    
+
     // Show items in accept modal (with addons support)
     const itemsEl = document.getElementById("acceptOrderItems");
     if (itemsEl && o) {
       itemsEl.innerHTML = o.items.map(i => {
-          let str = `<div><strong>${i.qty}×</strong> ${escapeHtml(i.name)}`;
-          if (i.addons && i.addons.length) {
-              const addonStr = i.addons.map(a => `${escapeHtml(a.name)}${a.qty > 1 ? ' x'+a.qty : ''}`).join(', ');
-              str += `<br><small style="color:var(--txt2);padding-left:14px;">+ ${addonStr}</small>`;
-          }
-          str += `</div>`;
-          return str;
+        let str = `<div><strong>${i.qty}×</strong> ${escapeHtml(i.name)}`;
+        if (i.addons && i.addons.length) {
+          const addonStr = i.addons.map(a => `${escapeHtml(a.name)}${a.qty > 1 ? ' x' + a.qty : ''}`).join(', ');
+          str += `<br><small style="color:var(--txt2);padding-left:14px;">+ ${addonStr}</small>`;
+        }
+        str += `</div>`;
+        return str;
       }).join("");
     }
 
@@ -517,16 +542,16 @@ document.body.addEventListener("click", async e => {
   }
 
   if (t.dataset.item && t.dataset.toggle) {
-    await api("/api/menu-availability/item","PATCH",{itemName:t.dataset.item,available:t.dataset.toggle==="on"});
+    await api("/api/menu-availability/item", "PATCH", { itemName: t.dataset.item, available: t.dataset.toggle === "on" });
   }
 
   if (t.dataset.categoryToggle && t.dataset.category) {
-    await api("/api/menu-availability/category","PATCH",{items:JSON.parse(t.dataset.category),available:t.dataset.categoryToggle==="on"});
+    await api("/api/menu-availability/category", "PATCH", { items: JSON.parse(t.dataset.category), available: t.dataset.categoryToggle === "on" });
   }
 
   if (t.dataset.adjust) {
     const o = orders.find(x => x.id === t.dataset.adjust);
-    if (o) await api(`/api/orders/${encodeURIComponent(t.dataset.adjust)}`,"PATCH",{prepMinutes:Math.max(5,(o.prepMinutes||20)+Number(t.dataset.delta||0))});
+    if (o) await api(`/api/orders/${encodeURIComponent(t.dataset.adjust)}`, "PATCH", { prepMinutes: Math.max(5, (o.prepMinutes || 20) + Number(t.dataset.delta || 0)) });
   }
 
   if (t.id === "menuManageBtn") openModal("menuModal");
@@ -539,7 +564,7 @@ document.body.addEventListener("click", async e => {
   }
 
   if (t.id === "logoutBtn") {
-    await api("/api/auth/logout","POST");
+    await api("/api/auth/logout", "POST");
     dashboardScreen.classList.add("hidden");
     loginScreen.classList.remove("hidden");
     closeAllModals();
@@ -547,18 +572,18 @@ document.body.addEventListener("click", async e => {
 
   if (t.id === "clearFiltersBtn") {
     const curYear = String(new Date().getFullYear());
-    filters.year=curYear; filters.month=""; filters.day=""; filters.item="";
-    document.getElementById("filterYear").value  = curYear;
+    filters.year = curYear; filters.month = ""; filters.day = ""; filters.item = "";
+    document.getElementById("filterYear").value = curYear;
     document.getElementById("filterMonth").value = "";
-    document.getElementById("filterDay").value   = "";
-    document.getElementById("filterItem").value  = "";
+    document.getElementById("filterDay").value = "";
+    document.getElementById("filterItem").value = "";
     renderHistory();
   }
 
   if (t.id === "confirmAcceptBtn") {
     if (!selectedAcceptOrderId) return;
-    const mins = Number(document.getElementById("acceptPrepInput").value||20);
-    await api(`/api/orders/${encodeURIComponent(selectedAcceptOrderId)}/accept`,"POST",{prepMinutes:mins});
+    const mins = Number(document.getElementById("acceptPrepInput").value || 20);
+    await api(`/api/orders/${encodeURIComponent(selectedAcceptOrderId)}/accept`, "POST", { prepMinutes: mins });
     await refreshHistory();
     closeModal("acceptModal");
   }
@@ -566,7 +591,7 @@ document.body.addEventListener("click", async e => {
   if (t.id === "confirmRejectBtn") {
     if (!selectedRejectOrderId) return;
     const reason = document.getElementById("rejectReasonOther").value.trim() || document.getElementById("rejectReason").value;
-    await api(`/api/orders/${encodeURIComponent(selectedRejectOrderId)}/reject`,"POST",{reason});
+    await api(`/api/orders/${encodeURIComponent(selectedRejectOrderId)}/reject`, "POST", { reason });
     await refreshHistory();
     closeModal("rejectModal");
   }
@@ -574,20 +599,20 @@ document.body.addEventListener("click", async e => {
 
 /* ── Change delegation ── */
 document.body.addEventListener("change", async e => {
-  const prepId   = e.target.dataset.prep;
+  const prepId = e.target.dataset.prep;
   const statusId = e.target.dataset.status;
-  if (prepId)   await api(`/api/orders/${encodeURIComponent(prepId)}`,"PATCH",{prepMinutes:Number(e.target.value)});
-  if (statusId) { await api(`/api/orders/${encodeURIComponent(statusId)}`,"PATCH",{status:e.target.value}); await refreshHistory(); }
+  if (prepId) await api(`/api/orders/${encodeURIComponent(prepId)}`, "PATCH", { prepMinutes: Number(e.target.value) });
+  if (statusId) { await api(`/api/orders/${encodeURIComponent(statusId)}`, "PATCH", { status: e.target.value }); await refreshHistory(); }
 });
 
 /* ── Filter listeners ── */
-document.getElementById("filterYear").addEventListener("change",  e => { filters.year  = e.target.value; renderHistory(); });
+document.getElementById("filterYear").addEventListener("change", e => { filters.year = e.target.value; renderHistory(); });
 document.getElementById("filterMonth").addEventListener("change", e => { filters.month = e.target.value; renderHistory(); });
-document.getElementById("filterDay").addEventListener("change",   e => { filters.day   = e.target.value; renderHistory(); });
-document.getElementById("filterItem").addEventListener("input",   e => { filters.item  = e.target.value; renderHistory(); });
+document.getElementById("filterDay").addEventListener("change", e => { filters.day = e.target.value; renderHistory(); });
+document.getElementById("filterItem").addEventListener("input", e => { filters.item = e.target.value; renderHistory(); });
 
 /* ── Menu search ── */
-menuSearchInput.addEventListener("input", e => { menuSearch = e.target.value||""; renderAvailability(); });
+menuSearchInput.addEventListener("input", e => { menuSearch = e.target.value || ""; renderAvailability(); });
 
 /* ── Keyboard shortcuts ── */
 document.addEventListener("keydown", e => {
@@ -611,23 +636,23 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
   const errEl = document.getElementById("loginError");
   errEl.textContent = "";
   try {
-    await api("/api/auth/login","POST",{password:pwd});
+    await api("/api/auth/login", "POST", { password: pwd });
     socket.connect();
     loginScreen.classList.add("hidden");
     dashboardScreen.classList.remove("hidden");
     const [od, md] = await Promise.all([api("/api/orders"), api("/api/menu-items")]);
-    orders = od.orders||[];
+    orders = od.orders || [];
     knownOrderIds = new Set(orders.map(o => o.id));
-    menuItems = md.menuItems||[];
-    menuAvailability = md.menuAvailability||{};
+    menuItems = md.menuItems || [];
+    menuAvailability = md.menuAvailability || {};
     await refreshHistory();
     renderCategoryBulkActions();
     renderAll();
-  } catch(err) { errEl.textContent = err.message; }
+  } catch (err) { errEl.textContent = err.message; }
 });
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
-  await api("/api/auth/logout","POST");
+  await api("/api/auth/logout", "POST");
   dashboardScreen.classList.add("hidden");
   loginScreen.classList.remove("hidden");
   closeAllModals();
@@ -652,10 +677,10 @@ function initYearFilter() {
   loginScreen.classList.add("hidden");
   dashboardScreen.classList.remove("hidden");
   const [od, md] = await Promise.all([api("/api/orders"), api("/api/menu-items")]);
-  orders = od.orders||[];
+  orders = od.orders || [];
   knownOrderIds = new Set(orders.map(o => o.id));
-  menuItems = md.menuItems||[];
-  menuAvailability = md.menuAvailability||{};
+  menuItems = md.menuItems || [];
+  menuAvailability = md.menuAvailability || {};
   await refreshHistory();
   renderCategoryBulkActions();
   renderAll();

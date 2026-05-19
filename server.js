@@ -2,7 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const http = require("http");
 const express = require("express");
-const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { Server } = require("socket.io");
 const { v4: uuidv4 } = require("uuid");
@@ -26,18 +25,10 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 app.use(express.json());
-app.use(cookieParser());
+const cookieParserMiddleware = cookieParser(SESSION_SECRET);
+app.use(cookieParserMiddleware);
 
-const sessionMiddleware = session({
-  secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  rolling: true,
-  cookie: { httpOnly: true, sameSite: "lax", maxAge: SESSION_TIMEOUT_MS }
-});
-
-app.use(sessionMiddleware);
-io.engine.use((req, res, next) => sessionMiddleware(req, res, next));
+io.engine.use((req, res, next) => cookieParserMiddleware(req, res, next));
 
 const orders = [];
 const orderHistory = [];
@@ -69,7 +60,7 @@ function normalizeStatus(status) {
 }
 
 function requireAuth(req, res, next) {
-  if (req.session?.isAuthenticated) return next();
+  if (req.signedCookies?.auth === 'true') return next();
   return res.status(401).json({ error: "Unauthorized" });
 }
 
@@ -317,21 +308,21 @@ app.post("/api/auth/login", (req, res) => {
   if ((req.body?.password || "") !== DASHBOARD_PASSWORD) {
     return res.status(401).json({ error: "Pogresna lozinka." });
   }
-  req.session.isAuthenticated = true;
+  res.cookie("auth", "true", { signed: true, httpOnly: true, sameSite: "lax", maxAge: SESSION_TIMEOUT_MS });
   return res.json({ ok: true });
 });
 
 app.post("/api/auth/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.clearCookie("connect.sid");
-    res.json({ ok: true });
-  });
+  res.clearCookie("auth");
+  res.json({ ok: true });
 });
 
-app.get("/api/auth/me", (req, res) => res.json({ isAuthenticated: Boolean(req.session?.isAuthenticated) }));
+app.get("/api/auth/me", (req, res) => res.json({ isAuthenticated: req.signedCookies?.auth === 'true' }));
 app.get("/api/menu-availability", (_, res) => res.json({ menuAvailability }));
 app.get("/api/menu-items", requireAuth, (_, res) => res.json({ menuItems, menuAvailability }));
-app.get("/api/orders", requireAuth, (_, res) => res.json({ orders }));
+app.get("/api/orders", requireAuth, async (_, res) => {
+  return res.json({ orders });
+});
 app.get("/api/orders/history", requireAuth, (_, res) => res.json({ history: orderHistory.slice(0, 500) }));
 
 app.get("/api/track/:orderId", (req, res) => {
@@ -521,7 +512,7 @@ app.use(express.static(__dirname));
 
 io.on("connection", (socket) => {
   // Only send sensitive order data to authenticated admin sessions
-  if (socket.request.session?.isAuthenticated) {
+  if (socket.request.signedCookies?.auth === 'true') {
     socket.join("admin");
     socket.emit("orders:state", { orders });
   }
