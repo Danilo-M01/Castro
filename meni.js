@@ -463,6 +463,9 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
 
   const name  = document.getElementById('oName');
   const phone = document.getElementById('oPhone');
+  const addr  = document.getElementById('oAddr');
+  const type  = document.querySelector('input[name="type"]:checked').value;
+  
   let valid = true;
   [name, phone].forEach(f => {
     f.classList.remove('err');
@@ -473,10 +476,18 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
     valid = false;
     updateCustomerStatus("Telefon mora biti validan srpski broj (npr. +3816XXXXXXXX).");
   }
+  
+  if (type === 'Dostava') {
+    addr.classList.remove('err');
+    if (!addr.value.trim()) {
+      addr.classList.add('err');
+      valid = false;
+      updateCustomerStatus("Molimo unesite adresu za dostavu.");
+    }
+  }
+
   if (!valid) return;
 
-  const type = document.querySelector('input[name="type"]:checked').value;
-  const addr = document.getElementById('oAddr')?.value || '';
   const note = document.getElementById('oNote')?.value || '';
   const btn = e.target.querySelector('button[type="submit"]');
   btn.disabled = true;
@@ -489,7 +500,7 @@ document.getElementById('orderForm')?.addEventListener('submit', e => {
       customerName: name.value.trim(),
       phone: phone.value.trim(),
       type,
-      address: addr,
+      address: addr.value.trim(),
       note
     })
   })

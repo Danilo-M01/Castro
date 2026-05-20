@@ -294,6 +294,18 @@ function renderActive() {
     const leftMs = new Date(acc).getTime() + o.prepMinutes * 60000 - Date.now();
     const prog = Math.max(0, Math.min(100, Math.round(((Date.now() - new Date(acc).getTime()) / (o.prepMinutes * 60000)) * 100)));
     const addr = o.type === "Dostava" && o.address ? `<span>📍 ${escapeHtml(o.address)}</span>` : "";
+    const note = o.note ? `<span>📝 ${escapeHtml(o.note)}</span>` : "";
+
+    const total = o.items.reduce((s, i) => s + i.qty * (i.price + (i.addons || []).reduce((as, ad) => as + ad.price * ad.qty, 0)), 0);
+    const items = o.items.map(i => {
+      let str = `${i.qty}× ${escapeHtml(i.name)}`;
+      if (i.addons && i.addons.length) {
+        const addonStr = i.addons.map(a => `${escapeHtml(a.name)}${a.qty > 1 ? ' x' + a.qty : ''}`).join(', ');
+        str += `<br><small style="color:#aaa;padding-left:12px;">+ ${addonStr}</small>`;
+      }
+      return str;
+    }).join("<br>");
+
     return `
     <article class="order-card">
       <div class="ocard-top">
@@ -306,9 +318,12 @@ function renderActive() {
       <div class="ocard-meta">
         ${o.scheduledTime ? `<span style="background:var(--red);color:#fff;font-weight:bold;border:none;">⏰ ZAKAZANO ZA ${escapeHtml(o.scheduledTime)}</span>` : ""}
         <span>🧑 ${escapeHtml(o.customerName) || "Gost"}</span>
+        <span>📞 ${escapeHtml(o.phone) || "-"}</span>
         <span>🛵 ${escapeHtml(o.type) || "Preuzimanje"}</span>
-        ${addr}
+        ${addr}${note}
       </div>
+      <div class="ocard-items">${items}</div>
+      <div class="ocard-total">${total.toLocaleString("sr-Latn")} RSD</div>
       <div class="ocard-prog-wrap">
         <div class="ocard-prog"><div class="ocard-prog-fill" style="width:${prog}%"></div></div>
         <span class="ocard-time-left">${prog}%</span>
