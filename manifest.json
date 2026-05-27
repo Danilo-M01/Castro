@@ -1,0 +1,21 @@
+{
+  "name": "Castro Restoran Požarevac",
+  "short_name": "Castro",
+  "description": "Online narudžbine — Castro caffe pizzeria Požarevac",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#e8b84b",
+  "icons": [
+    {
+      "src": "/Logo za sajt.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
