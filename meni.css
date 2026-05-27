@@ -1457,40 +1457,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   color: #d4a373 !important;
 }
 
-.hh-availability {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #f5ebe0;
-  margin-bottom: 24px;
+.hh-status-text {
+  color: #888;
+  white-space: nowrap;
 }
-.hh-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #888;
-  display: inline-block;
-}
-.hh-dot.available {
-  background: #2EC4B6;
-  box-shadow: 0 0 10px rgba(46, 196, 182, 0.7);
-  animation: hh-pulse-dot 1.5s infinite;
-}
-.hh-dot.unavailable {
-  background: #E63946;
-  box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
-}
-@keyframes hh-pulse-dot {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 196, 182, 0.7); }
-  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(46, 196, 182, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 196, 182, 0); }
-}
+
 
 .hh-card {
   background: #1c1510;

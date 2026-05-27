@@ -1071,16 +1071,15 @@ function checkHappyHour() {
     isAvailable = h >= 7 && (h < 12 || (h === 12 && m === 0));
   }
   
-  const hhDot = document.getElementById('hhDot');
   const hhAvailText = document.getElementById('hhAvailText');
   const hhInlineDot = document.getElementById('hhInlineDot');
   const hhSlideupAvail = document.getElementById('hhSlideupAvail');
   const hhFab = document.getElementById('hhFab');
   
   if (isAvailable) {
-    if (hhDot) hhDot.className = 'hh-dot available';
     if (hhAvailText) {
-      hhAvailText.innerHTML = 'Dostupno sada! <span style="color:#2EC4B6;font-weight:700;">Happy Hour je aktivan</span>';
+      hhAvailText.textContent = 'Happy Hour';
+      hhAvailText.style.color = '#2EC4B6';
     }
     if (hhInlineDot) hhInlineDot.className = 'hh-inline-promo__dot available';
     if (hhSlideupAvail) {
@@ -1088,9 +1087,9 @@ function checkHappyHour() {
       hhSlideupAvail.textContent = 'Dostupno sada';
     }
   } else {
-    if (hhDot) hhDot.className = 'hh-dot unavailable';
     if (hhAvailText) {
-      hhAvailText.innerHTML = 'Nije dostupno trenutno • <span style="color:#E63946;">Happy Hour je završen</span>';
+      hhAvailText.textContent = 'Happy Hour je završen';
+      hhAvailText.style.color = '#E63946';
     }
     if (hhInlineDot) hhInlineDot.className = 'hh-inline-promo__dot unavailable';
     if (hhSlideupAvail) {
