@@ -3,13 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Castro meni — pizze, paste, obroci, palačinke, salate, sendviči. Naruči online direktno sa sajta.">
-  <title>Meni | Castro Restoran</title>
-  <link rel="icon" href="logo.png" type="image/png">
+
+  <!-- ═══ SEO: Google Search Console ═══ -->
+  <meta name="google-site-verification" content="7W1x4GSOJKyE5E27V4gkXp46s93r0F5f92i12R8s4Zg">
+
+  <!-- ═══ SEO: Core Meta Tags ═══ -->
+  <!--
+    TITLE: Targeting "naruči hranu Požarevac" i "dostava hrane Požarevac" intent.
+    Sekundarno: pizza, paste, palačinke — sve što korisnik traži kad je gladan.
+    Dužina: 59 znakova — idealno za Google SERP.
+  -->
+  <title>Naruči Hranu Online Požarevac | Castro Meni — Pizza, Paste, Palačinke</title>
+
+  <!--
+    DESCRIPTION: Ubedljiv, prirodan jezik. Cena od 410 RSD je "hook" za klik.
+    Radno vreme ubacujemo jer ljudi to cesto pretražuju uz ime restorana.
+    Dužina: 159 znakova — optimalno.
+  -->
+  <meta name="description" content="Naruči iz Castro restorana u Požarevcu — pizza od 410 RSD, paste, palačinke, gril piletina, salate. Dostava i preuzimanje. Radi od 07:00. Pozovi: 012 531010.">
+
+  <!--
+    KEYWORDS: Sve varijante pretrage za dostavu i meni u Požarevcu.
+    Pokrivamo i intent "šta da poručim", "brza hrana", konkretna jela.
+  -->
+  <meta name="keywords" content="naruči hranu Požarevac, dostava hrane Požarevac, pizza narudžbina online Požarevac, pizza dostava Požarevac, meni restoran Požarevac, pasta Požarevac narudžbina, palačinke dostava Požarevac, obroci na dostavu Požarevac, Castro meni, Castro dostava, šta da poručim Požarevac, brza hrana dostava Požarevac, gril piletina Požarevac, pizzerija Požarevac meni, sendviči Požarevac">
+
+  <!-- ═══ SEO: Lokalni signali ═══ -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="geo.region" content="RS-13">
+  <meta name="geo.placename" content="Požarevac, Srbija">
+  <meta name="geo.position" content="44.6196;21.1867">
+  <meta name="ICBM" content="44.6196, 21.1867">
+  <link rel="canonical" href="https://castro-restoran.com/meni">
+
+  <!-- ═══ SEO: Open Graph (WhatsApp, Facebook, Viber deljenje) ═══ -->
+  <meta property="og:title" content="Naruči Online — Castro Požarevac | Pizza, Paste, Palačinke">
+  <meta property="og:description" content="Pizza od 410 RSD, paste, palačinke i dostava u Požarevcu. Radi od 07:00. Naruči direktno sa sajta — bez telefonskog čekanja!">
+  <meta property="og:type" content="restaurant.menu">
+  <meta property="og:url" content="https://castro-restoran.com/meni">
+  <meta property="og:image" content="https://castro-restoran.com/baner1.webp">
+  <meta property="og:locale" content="sr_RS">
+  <meta property="og:site_name" content="Castro Restoran Požarevac">
+
+  <!-- Favicon — tab + bookmark ikonica -->
+  <link rel="icon" href="/Logo za sajt.webp" type="image/webp">
+  <link rel="icon" href="/logo.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/Logo za sajt.webp">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#e8b84b">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="meni.css">
+
+  <!--
+    SCHEMA STRATEGY za meni stranicu:
+    - @type Restaurant + Menu = Google razume da je ovo stranica za narudžbine
+    - hasMenuSection sa cenama = može prikazati cene direktno u search rezultatima
+    - potentialAction OrderAction = dugme "Naruči" u Google Knowledge Panelu
+    - areaServed = lokalni SEO signal za Požarevac
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["Restaurant", "LocalBusiness"],
+    "name": "Castro Caffe Pizzeria",
+    "alternateName": ["Castro Restoran", "Castro Požarevac"],
+    "description": "Restoran i pizzerija u Požarevcu sa online narudžbinama i dostavom. Pizza od 410 RSD, paste, palačinke, obroci.",
+    "url": "https://castro-restoran.com",
+    "telephone": "+381-12-531-010",
+    "foundingDate": "2011",
+    "image": "https://castro-restoran.com/baner1.webp",
+    "logo": "https://castro-restoran.com/Logo%20za%20sajt.webp",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Moše Pijade 16, TC Novi Dom",
+      "addressLocality": "Požarevac",
+      "addressRegion": "Braničevski okrug",
+      "postalCode": "12000",
+      "addressCountry": "RS"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 44.6196,
+      "longitude": 21.1867
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Požarevac"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Sunday"],
+        "opens": "07:00",
+        "closes": "23:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Friday","Saturday"],
+        "opens": "07:00",
+        "closes": "00:00"
+      }
+    ],
+    "servesCuisine": ["Pizza","Italiana","Serbian","Pasta","Palačinke","Grill","Fast Food"],
+    "priceRange": "$$",
+    "currenciesAccepted": "RSD",
+    "paymentAccepted": "Cash, Card",
+    "menu": "https://castro-restoran.com/meni",
+    "hasDeliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet",
+    "sameAs": [
+      "https://www.instagram.com/castro.pizzeria.caffe/",
+      "https://www.facebook.com/castro.caffepizzeria/"
+    ],
+    "hasMenu": {
+      "@type": "Menu",
+      "name": "Castro Kompletan Meni",
+      "url": "https://castro-restoran.com/meni",
+      "hasMenuSection": [
+        {
+          "@type": "MenuSection",
+          "name": "Pizze",
+          "description": "Klasične i specijalne pizze: Mini Ø24cm, Standard Ø30cm, Porodična Ø50cm. Od 410 RSD.",
+          "hasMenuItem": [
+            { "@type": "MenuItem", "name": "Margarita", "offers": { "@type": "Offer", "price": "410", "priceCurrency": "RSD" } },
+            { "@type": "MenuItem", "name": "Capricciosa", "offers": { "@type": "Offer", "price": "440", "priceCurrency": "RSD" } },
+            { "@type": "MenuItem", "name": "Mexicana", "offers": { "@type": "Offer", "price": "560", "priceCurrency": "RSD" } },
+            { "@type": "MenuItem", "name": "Castro pica", "offers": { "@type": "Offer", "price": "560", "priceCurrency": "RSD" } }
+          ]
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Paste",
+          "description": "Spaghetti Bolognese, Carbonara, Macarone Milaneze, Tagliatelle Castro. Od 565 RSD.",
+          "hasMenuItem": [
+            { "@type": "MenuItem", "name": "Spaghetti Bolognese", "offers": { "@type": "Offer", "price": "670", "priceCurrency": "RSD" } },
+            { "@type": "MenuItem", "name": "Spaghetti Carbonara", "offers": { "@type": "Offer", "price": "660", "priceCurrency": "RSD" } }
+          ]
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Palačinke",
+          "description": "Slane i slatke palačinke sa dodacima po izboru. Od 310 RSD."
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Obroci od piletine",
+          "description": "Gril pileće belo, pohovano u susamu, štapići u kornfleksu. Od 470 RSD."
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Salate",
+          "description": "Cezar salata, Chicken gril, Biftek, Grčka, Castro salata. Od 180 RSD."
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Sendviči",
+          "description": "Club sendvič, Panini, Italijanski, Castro sendvič. Od 160 RSD."
+        }
+      ]
+    },
+    "potentialAction": {
+      "@type": "OrderAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://castro-restoran.com/meni",
+        "inLanguage": "sr",
+        "actionPlatform": [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform"
+        ]
+      },
+      "deliveryMethod": ["http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"],
+      "actionStatus": "http://schema.org/PotentialActionStatus"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -30,6 +199,7 @@
       <a href="#salate" class="nav__tab">Salate</a>
       <a href="#dezerti" class="nav__tab">Deserti</a>
       <a href="#pica" class="nav__tab">Pića</a>
+      <a href="#happyhour" class="nav__tab nav__tab--hh">Happy Hour ☕</a>
     </div>
     <div class="nav__right">
       <button class="cart-btn" id="cartBtn" aria-label="Otvori korpu">
@@ -77,6 +247,7 @@
     <a href="#dezerti" class="sub-nav__item" data-target="dezerti"><span class="sn-emoji">🍰</span><span class="sn-label">Deserti</span></a>
     <a href="#dodaci" class="sub-nav__item" data-target="dodaci"><span class="sn-emoji">🧂</span><span class="sn-label">Dodaci</span></a>
     <a href="#pica" class="sub-nav__item" data-target="pica"><span class="sn-emoji">🍺</span><span class="sn-label">Pića</span></a>
+    <a href="#happyhour" class="sub-nav__item sub-nav__item--hh" data-target="happyhour"><span class="sn-emoji">☕</span><span class="sn-label">Happy Hour</span></a>
   </div>
 </nav>
 
@@ -544,6 +715,51 @@
           Pića su dostupna samo u lokalu — nisu dostupna za online naručivanje.
         </div>
 
+        <!-- Happy Hour Card inside Pića -->
+        <div class="hh-card" id="happyhour" style="max-width: 100%; margin-bottom: 36px; scroll-margin-top: 180px;">
+          <div class="hh-card__header">
+            <span class="hh-card__icon">☕</span>
+            <div>
+              <h3 class="hh-card__title">Happy Hour</h3>
+              <p class="hh-card__subtitle">Morning Coffee Special</p>
+            </div>
+            <div class="hh-availability" id="hhAvailability" style="margin-bottom: 0; margin-left: auto;">
+              <span class="hh-dot" id="hhDot"></span>
+              <span id="hhAvailText" style="font-size: 11px;">Proveravam...</span>
+            </div>
+          </div>
+          <div class="hh-card__schedules-grid">
+            <div class="hh-card__schedule-block">
+              <h4 class="hh-card__schedule-title">📅 RADNIM DANIMA (Pon–Pet)</h4>
+              <p class="hh-card__schedule-time">🕒 07:00 – 10:00h</p>
+              <div class="hh-card__schedule-items">
+                <div class="hh-card__schedule-item">
+                  <span>Espresso / Espresso sa mlekom + kisela voda</span>
+                  <strong>120 RSD</strong>
+                </div>
+              </div>
+            </div>
+            <div class="hh-card__schedule-block">
+              <h4 class="hh-card__schedule-title">📅 VIKENDOM (Sub–Ned)</h4>
+              <p class="hh-card__schedule-time">🕒 07:00 – 12:00h</p>
+              <div class="hh-card__schedule-items">
+                <div class="hh-card__schedule-item">
+                  <span>Espresso / Espresso sa mlekom + kisela voda</span>
+                  <strong>120 RSD</strong>
+                </div>
+                <div class="hh-card__schedule-item">
+                  <span>Domaća kafa</span>
+                  <strong>120 RSD</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hh-card__note" style="border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 14px; margin-top: 6px;">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Dostupno samo u lokalu — nije za online naručivanje.
+          </div>
+        </div>
+
         <div class="item-group">
           <h3 class="group-label">Topli i hladni napitci</h3>
           <div class="item-grid">
@@ -786,7 +1002,6 @@
     <span class="size-picker__title" id="sizePickerTitle">Izaberi veličinu</span>
     <button class="size-picker__close" id="sizePickerClose">&times;</button>
   </div>
-  <p class="size-picker__hint">Izaberi veličinu i dodaj u korpu</p>
   <div class="size-picker__opts" id="sizePickerOpts"></div>
 </div>
 
@@ -829,6 +1044,44 @@
     <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.5"/></svg>
     Ili pozovite: 012 531010
   </a>
+</div>
+
+<!-- ═══ FLOATING COFFEE BUBBLE ═══ -->
+<button class="hh-fab" id="hhFab" aria-label="Happy Hour">
+  <span class="hh-fab__emoji">☕</span>
+  <span class="hh-fab__label">Happy Hour</span>
+</button>
+
+<!-- ═══ HAPPY HOUR SLIDE-UP CARD ═══ -->
+<div class="hh-slideup-overlay" id="hhSlideupOverlay"></div>
+<div class="hh-slideup" id="hhSlideup">
+  <button class="hh-slideup__close" id="hhSlideupClose">&times;</button>
+  <div class="hh-slideup__header">
+    <span class="hh-slideup__icon">☕</span>
+    <span class="hh-slideup__title">HAPPY HOUR</span>
+    <span class="hh-slideup__avail" id="hhSlideupAvail"></span>
+  </div>
+  <div class="hh-slideup__items">
+    <div style="font-size: 11px; text-transform: uppercase; color: #d4a373; letter-spacing: 0.05em; margin-bottom: 4px; font-weight: 700; text-align: left;">Pon–Pet (07–10h)</div>
+    <div class="hh-slideup__item">
+      <span>Espresso / Espresso sa mlekom + kisela voda</span>
+      <strong>120 RSD</strong>
+    </div>
+    <div style="font-size: 11px; text-transform: uppercase; color: #d4a373; letter-spacing: 0.05em; margin-top: 12px; margin-bottom: 4px; font-weight: 700; text-align: left;">Sub–Ned (07–12h)</div>
+    <div class="hh-slideup__item">
+      <span>Espresso / Espresso sa mlekom + kisela voda</span>
+      <strong>120 RSD</strong>
+    </div>
+    <div class="hh-slideup__item">
+      <span>Domaća kafa</span>
+      <strong>120 RSD</strong>
+    </div>
+  </div>
+  <div class="hh-slideup__schedule" style="display: none;">
+    <div>🕒 Pon–Pet: 07:00–10:00h</div>
+    <div>🕒 Sub–Ned: 07:00–12:00h</div>
+  </div>
+  <a href="#happyhour" class="hh-slideup__cta" id="hhSlideupCta">Pogledaj ponudu</a>
 </div>
 
 <!-- ═══ FLOATING CART BTN (mobile) ═══ -->

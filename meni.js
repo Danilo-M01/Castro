@@ -310,11 +310,13 @@ function openCart() {
   document.getElementById('cartPanel').classList.add('open');
   document.getElementById('cartOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.getElementById('checkoutFab')?.classList.add('temp-hidden');
 }
 function closeCart() {
   document.getElementById('cartPanel').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
   document.body.style.overflow = '';
+  document.getElementById('checkoutFab')?.classList.remove('temp-hidden');
 }
 function generateTimeSlots() {
   const select = document.getElementById('oTime');
@@ -397,7 +399,14 @@ function closeModal() {
 document.getElementById('cartBtn')?.addEventListener('click', openCart);
 document.getElementById('fabCart')?.addEventListener('click', openCart);
 // Mobilni "Završi kupovinu" FAB — direktno otvara modal
-document.getElementById('checkoutFab')?.addEventListener('click', () => { openModal(); });
+document.getElementById('checkoutFab')?.addEventListener('click', () => {
+  const MIN_ORDER = 700;
+  if (cart.total < MIN_ORDER) {
+    showMinOrderAlert(MIN_ORDER);
+    return;
+  }
+  openModal();
+});
 document.getElementById('cartClose')?.addEventListener('click', closeCart);
 document.getElementById('cartOverlay')?.addEventListener('click', closeCart);
 document.getElementById('orderBtn')?.addEventListener('click', () => { closeCart(); openModal(); });
@@ -417,9 +426,41 @@ document.querySelectorAll('input[name="type"]').forEach(radio => {
   });
 });
 
+/* ─── Minimum order alert ─── */
+function showMinOrderAlert(min) {
+  let overlay = document.getElementById('minOrderOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'minOrderOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);';
+    overlay.innerHTML = `
+      <div style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:32px 28px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+        <div style="font-size:44px;margin-bottom:12px;">🛵</div>
+        <h3 style="color:#fff;font-size:18px;margin:0 0 10px;font-family:inherit;">Minimalna porudžbina</h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:14px;line-height:1.6;margin:0 0 22px;">Za online narudžbinu potrebno je minimum <strong style="color:#e8b84b;">${min.toLocaleString('sr-Latn')} RSD</strong>. Dodajte još nešto u korpu. 😊</p>
+        <button id="minOrderClose" style="background:#e8b84b;color:#000;border:none;border-radius:10px;padding:12px 28px;font-size:15px;font-weight:700;cursor:pointer;width:100%;">
+          U redu, dodaću još
+        </button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#minOrderClose').addEventListener('click', () => { overlay.remove(); });
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  }
+}
+
 /* ─── Order form submit ─── */
 document.getElementById('orderForm')?.addEventListener('submit', e => {
   e.preventDefault();
+
+  // Minimum order check
+  const MIN_ORDER = 700;
+  if (cart.total < MIN_ORDER) {
+    closeModal();
+    showMinOrderAlert(MIN_ORDER);
+    return;
+  }
+
   const name  = document.getElementById('oName');
   const phone = document.getElementById('oPhone');
   let valid = true;
@@ -505,7 +546,7 @@ document.querySelectorAll('.nav__tab[href^="#"]').forEach(tab => {
 });
 
 /* ─── Active tab on scroll ─── */
-const sections = document.querySelectorAll('.cat[id]');
+const sections = document.querySelectorAll('.cat[id], #happyhour');
 const tabs     = document.querySelectorAll('.nav__tab');
 
 const tabObs = new IntersectionObserver(entries => {
@@ -583,13 +624,42 @@ if (heroSlides.length > 1) {
 
 
 /* ─── Init: proveri expiry pre svega ─── */
+function clearLiveOrder() {
+  localStorage.removeItem('castro-live-order');
+  localStorage.removeItem('castro-live-order-expires-at');
+  liveOrder = null;
+  const pill = document.getElementById('orderStatusPill');
+  if (pill) pill.style.display = 'none';
+}
+
+function scheduleCompletionClear() {
+  const expiresAt = Number(localStorage.getItem('castro-live-order-expires-at') || 0) || (Date.now() + 5 * 60 * 1000);
+  localStorage.setItem('castro-live-order-expires-at', String(expiresAt));
+  const delay = Math.max(0, expiresAt - Date.now());
+  if (delay > 0) {
+    setTimeout(clearLiveOrder, delay);
+  } else {
+    clearLiveOrder();
+  }
+}
+
 (function checkExpiry() {
   if (!liveOrder) return;
   const expiresAt = Number(localStorage.getItem('castro-live-order-expires-at') || 0);
+  if (liveOrder.status === 'completed') {
+    if (!expiresAt) {
+      scheduleCompletionClear();
+      return;
+    }
+    if (Date.now() > expiresAt) {
+      clearLiveOrder();
+    } else {
+      scheduleCompletionClear();
+    }
+    return;
+  }
   if (expiresAt && Date.now() > expiresAt) {
-    localStorage.removeItem('castro-live-order');
-    localStorage.removeItem('castro-live-order-expires-at');
-    liveOrder = null;
+    clearLiveOrder();
   }
 })();
 
@@ -628,32 +698,32 @@ socket.on("order:notification", ({ order, message }) => {
   }
   updateCustomerStatus(`${message} (${order.id})`);
   if (order.status === "completed") {
-    const keepUntil = Date.now() + 10 * 60 * 1000; // 10 minuta
-    localStorage.setItem("castro-live-order-expires-at", String(keepUntil));
-    setTimeout(() => {
-      localStorage.removeItem("castro-live-order");
-      localStorage.removeItem("castro-live-order-expires-at");
-      liveOrder = null;
-      const pill = document.getElementById('orderStatusPill');
-      if (pill) pill.style.display = 'none';
-    }, 10 * 60 * 1000);
+    scheduleCompletionClear();
   }
   if (order.status === "rejected" || order.status === "missed") {
-    localStorage.removeItem("castro-live-order");
-    localStorage.removeItem("castro-live-order-expires-at");
-    liveOrder = null;
+    clearLiveOrder();
   }
 });
 
 if (liveOrder?.orderId && liveOrder?.customerToken) {
   fetch(`/api/track/${encodeURIComponent(liveOrder.orderId)}?token=${encodeURIComponent(liveOrder.customerToken)}`)
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error("Order not found");
+      return res.json();
+    })
     .then(data => {
       if (data.order) {
         Object.assign(liveOrder, data.order);
         localStorage.setItem("castro-live-order", JSON.stringify(liveOrder));
       }
-    }).catch(e => console.error(e));
+    }).catch(e => {
+      console.error(e);
+      localStorage.removeItem("castro-live-order");
+      localStorage.removeItem("castro-live-order-expires-at");
+      liveOrder = null;
+      const pill = document.getElementById('orderStatusPill');
+      if (pill) pill.style.display = 'none';
+    });
 }
 
 function updateTimer() {
@@ -835,12 +905,14 @@ function openSizePicker(itemEl, needsAddons = null) {
   document.getElementById('sizePickerOverlay').classList.add('open');
   document.getElementById('sizePicker').classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.getElementById('checkoutFab')?.classList.add('temp-hidden');
 }
 
 function closeSizePicker() {
   document.getElementById('sizePickerOverlay').classList.remove('open');
   document.getElementById('sizePicker').classList.remove('open');
   document.body.style.overflow = '';
+  document.getElementById('checkoutFab')?.classList.remove('temp-hidden');
   _sizePickerItem = null;
 }
 
@@ -920,12 +992,14 @@ function openAddonPicker(itemEl, baseName, basePrice, type) {
   document.getElementById('addonPickerOverlay').classList.add('open');
   document.getElementById('addonPicker').classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.getElementById('checkoutFab')?.classList.add('temp-hidden');
 }
 
 function closeAddonPicker() {
   document.getElementById('addonPickerOverlay').classList.remove('open');
   document.getElementById('addonPicker').classList.remove('open');
   document.body.style.overflow = '';
+  document.getElementById('checkoutFab')?.classList.remove('temp-hidden');
   _addonPickerItem = null;
 }
 
@@ -977,3 +1051,87 @@ function confirmAddonsAndAdd() {
 
 document.getElementById('sizePickerOverlay')?.addEventListener('click', closeSizePicker);
 document.getElementById('sizePickerClose')?.addEventListener('click', closeSizePicker);
+
+/* ═════════════════════════════════════════
+   HAPPY HOUR — Beograd timezone availability and popup
+   ═════════════════════════════════════════ */
+function checkHappyHour() {
+  const now = new Date();
+  const belgradeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Belgrade' }));
+  const day = belgradeTime.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  const h = belgradeTime.getHours();
+  const m = belgradeTime.getMinutes();
+  
+  let isAvailable = false;
+  if (day >= 1 && day <= 5) {
+    // Pon-Pet: 07:00 - 10:00
+    isAvailable = h >= 7 && (h < 10 || (h === 10 && m === 0));
+  } else {
+    // Sub-Ned: 07:00 - 12:00
+    isAvailable = h >= 7 && (h < 12 || (h === 12 && m === 0));
+  }
+  
+  const hhDot = document.getElementById('hhDot');
+  const hhAvailText = document.getElementById('hhAvailText');
+  const hhInlineDot = document.getElementById('hhInlineDot');
+  const hhSlideupAvail = document.getElementById('hhSlideupAvail');
+  const hhFab = document.getElementById('hhFab');
+  
+  if (isAvailable) {
+    if (hhDot) hhDot.className = 'hh-dot available';
+    if (hhAvailText) {
+      hhAvailText.innerHTML = 'Dostupno sada! <span style="color:#2EC4B6;font-weight:700;">Happy Hour je aktivan</span>';
+    }
+    if (hhInlineDot) hhInlineDot.className = 'hh-inline-promo__dot available';
+    if (hhSlideupAvail) {
+      hhSlideupAvail.className = 'hh-slideup__avail available';
+      hhSlideupAvail.textContent = 'Dostupno sada';
+    }
+  } else {
+    if (hhDot) hhDot.className = 'hh-dot unavailable';
+    if (hhAvailText) {
+      hhAvailText.innerHTML = 'Nije dostupno trenutno • <span style="color:#E63946;">Happy Hour je završen</span>';
+    }
+    if (hhInlineDot) hhInlineDot.className = 'hh-inline-promo__dot unavailable';
+    if (hhSlideupAvail) {
+      hhSlideupAvail.className = 'hh-slideup__avail unavailable';
+      hhSlideupAvail.textContent = 'Nedostupno';
+    }
+  }
+  
+  // FAB should always be visible so users can open details
+  if (hhFab) {
+    hhFab.classList.add('visible');
+  }
+}
+
+function openHhSlideup() {
+  document.getElementById('hhSlideupOverlay')?.classList.add('open');
+  document.getElementById('hhSlideup')?.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeHhSlideup() {
+  document.getElementById('hhSlideupOverlay')?.classList.remove('open');
+  document.getElementById('hhSlideup')?.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Event listeners
+document.getElementById('hhFab')?.addEventListener('click', openHhSlideup);
+document.getElementById('hhSlideupClose')?.addEventListener('click', closeHhSlideup);
+document.getElementById('hhSlideupOverlay')?.addEventListener('click', closeHhSlideup);
+
+document.getElementById('hhSlideupCta')?.addEventListener('click', (e) => {
+  closeHhSlideup();
+  const target = document.getElementById('happyhour');
+  if (target) {
+    e.preventDefault();
+    const offset = target.getBoundingClientRect().top + window.scrollY - getStickyOffset();
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  }
+});
+
+// Run immediately and check every 60 seconds
+checkHappyHour();
+setInterval(checkHappyHour, 60000);
