@@ -41,6 +41,18 @@
     </div>
   </nav>
 
+  <!-- ═══ HAPPY HOUR ANNOUNCEMENT BAR ═══ -->
+  <div class="hh-bar" id="hhBar">
+    <div class="hh-bar__inner">
+      <span class="hh-bar__text">
+        <span class="hh-bar__icon">☕</span>
+        <span id="hhBarMsg">Happy Hour Coffee • Espresso + kisela voda 120 RSD • Pon–Pet 7–10h • Vikendom do 12h</span>
+      </span>
+      <a href="meni.html#pica" class="hh-bar__cta" id="hhBarCta">Pogledaj</a>
+      <button class="hh-bar__close" id="hhBarClose" aria-label="Zatvori">&times;</button>
+    </div>
+  </div>
+
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="hero">
     <picture class="hero__bg">
@@ -96,6 +108,34 @@
 
     </div>
     <div class="story__spacer" aria-hidden="true"></div>
+  </section>
+
+  <!-- ═══ HAPPY HOUR COFFEE CARD ═══ -->
+  <section class="hh-promo" id="hhPromo">
+    <div class="container">
+      <div class="hh-promo__card reveal-up">
+        <div class="hh-promo__icon">☕</div>
+        <div class="hh-promo__body">
+          <h3 class="hh-promo__title">Morning Happy Hour</h3>
+          <div class="hh-promo__details">
+            <div class="hh-promo__item">
+              <span class="hh-promo__drink">Espresso / Espresso sa mlekom + kisela voda</span>
+              <span class="hh-promo__price">120 RSD</span>
+            </div>
+            <div class="hh-promo__item hh-promo__item--weekend">
+              <span class="hh-promo__drink">Domaća kafa + kisela voda <span class="hh-promo__badge">vikend</span></span>
+              <span class="hh-promo__price">120 RSD</span>
+            </div>
+          </div>
+          <div class="hh-promo__schedule">
+            <span>Pon–Pet 07–10h</span>
+            <span class="hh-promo__sep">•</span>
+            <span>Sub–Ned 07–12h</span>
+          </div>
+        </div>
+        <a href="meni.html#pica" class="hh-promo__link">Pogledaj meni →</a>
+      </div>
+    </div>
   </section>
 
   <!-- ═══ O NAMA ═══ -->
@@ -275,6 +315,130 @@
     </div>
   </footer>
 
+  <!-- ═══ FLOATING COFFEE BUBBLE (Mobile) ═══ -->
+  <button class="hh-bubble" id="hhBubble" aria-label="Happy Hour">
+    <span class="hh-bubble__icon">☕</span>
+    <span class="hh-bubble__label">Happy Hour</span>
+  </button>
+
+  <div class="hh-slideup-overlay" id="hhSlideupOverlayHome"></div>
+  <div class="hh-slideup-home" id="hhSlideupHome">
+    <div class="hh-slideup-home__handle"></div>
+    <button class="hh-slideup-home__close" id="hhSlideupHomeClose">&times;</button>
+    <div class="hh-slideup-home__content">
+      <div class="hh-slideup-home__header">
+        <span class="hh-slideup-home__emoji">☕</span>
+        <div>
+          <h4 class="hh-slideup-home__title">Morning Happy Hour</h4>
+          <p class="hh-slideup-home__status" id="hhSlideupStatus">Proveravam...</p>
+        </div>
+      </div>
+      <div class="hh-slideup-home__items">
+        <div class="hh-slideup-home__row">
+          <span>Espresso / Espresso sa mlekom + kisela voda</span>
+          <strong>120 RSD</strong>
+        </div>
+        <div class="hh-slideup-home__row">
+          <span>Domaća kafa + kisela voda <em class="hh-slideup-home__tag">vikend</em></span>
+          <strong>120 RSD</strong>
+        </div>
+      </div>
+      <div class="hh-slideup-home__schedule">
+        <span>📅 Pon–Pet 07–10h</span>
+        <span>📅 Sub–Ned 07–12h</span>
+      </div>
+      <a href="meni.html#pica" class="hh-slideup-home__btn">Pogledaj u meniju →</a>
+    </div>
+  </div>
+
   <script src="script.js"></script>
+
+  <script>
+  /* ═══ HAPPY HOUR — Homepage Logic ═══ */
+  (function() {
+    function getHHStatus() {
+      const now = new Date();
+      const belgradeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Belgrade' }));
+      const day = belgradeTime.getDay();
+      const h = belgradeTime.getHours();
+      const m = belgradeTime.getMinutes();
+      let isActive = false;
+      if (day >= 1 && day <= 5) {
+        isActive = h >= 7 && (h < 10 || (h === 10 && m === 0));
+      } else {
+        isActive = h >= 7 && (h < 12 || (h === 12 && m === 0));
+      }
+      return { isActive, day, h, m };
+    }
+
+    function updateHH() {
+      const { isActive, day } = getHHStatus();
+      const isWeekend = day === 0 || day === 6;
+
+      // Bar message
+      const barMsg = document.getElementById('hhBarMsg');
+      if (barMsg) {
+        if (isActive) {
+          barMsg.textContent = 'Happy Hour aktivan! • Espresso + kisela voda 120 RSD' + (isWeekend ? ' • Domaća kafa 120 RSD' : '');
+        } else {
+          barMsg.textContent = 'Happy Hour Coffee • Espresso + kisela voda 120 RSD • Pon–Pet 7–10h • Vikendom do 12h';
+        }
+      }
+
+      // Slideup status
+      const slideStatus = document.getElementById('hhSlideupStatus');
+      if (slideStatus) {
+        if (isActive) {
+          slideStatus.textContent = 'Aktivan sada';
+          slideStatus.style.color = '#2EC4B6';
+        } else {
+          slideStatus.textContent = 'Dostupno svako jutro';
+          slideStatus.style.color = '#888';
+        }
+      }
+
+      // Bar active state
+      const bar = document.getElementById('hhBar');
+      if (bar) bar.classList.toggle('hh-bar--active', isActive);
+    }
+
+    // Bar close
+    const barClose = document.getElementById('hhBarClose');
+    const hhBar = document.getElementById('hhBar');
+    if (barClose && hhBar) {
+      barClose.addEventListener('click', () => {
+        hhBar.classList.add('hh-bar--hidden');
+        document.body.style.setProperty('--hh-bar-h', '0px');
+        sessionStorage.setItem('hh-bar-closed', '1');
+      });
+      if (sessionStorage.getItem('hh-bar-closed') === '1') {
+        hhBar.classList.add('hh-bar--hidden');
+        document.body.style.setProperty('--hh-bar-h', '0px');
+      }
+    }
+
+    // Floating bubble + slideup
+    const bubble = document.getElementById('hhBubble');
+    const slideup = document.getElementById('hhSlideupHome');
+    const overlay = document.getElementById('hhSlideupOverlayHome');
+    const slideClose = document.getElementById('hhSlideupHomeClose');
+
+    function openSlideup() {
+      slideup?.classList.add('open');
+      overlay?.classList.add('open');
+    }
+    function closeSlideup() {
+      slideup?.classList.remove('open');
+      overlay?.classList.remove('open');
+    }
+
+    bubble?.addEventListener('click', openSlideup);
+    overlay?.addEventListener('click', closeSlideup);
+    slideClose?.addEventListener('click', closeSlideup);
+
+    updateHH();
+    setInterval(updateHH, 60000);
+  })();
+  </script>
 </body>
 </html>

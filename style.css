@@ -156,7 +156,9 @@ input, select, textarea { font: inherit; }
 ═══════════════════════════════════════════════ */
 .nav {
   position: fixed;
-  inset: 0 0 auto;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   height: var(--nav-h);
   transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease), backdrop-filter 0.4s;
@@ -1066,5 +1068,435 @@ input, select, textarea { font: inherit; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   HAPPY HOUR — Announcement Bar
+═══════════════════════════════════════════════ */
+:root {
+  --hh-bar-h: 48px;
+}
+
+.hh-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 110;
+  height: var(--hh-bar-h);
+  background: #0A2342;
+  display: flex;
+  align-items: center;
+  transition: transform 0.4s var(--ease), opacity 0.4s var(--ease);
+}
+.hh-bar--hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.hh-bar--active {
+  background: linear-gradient(90deg, #0A2342 0%, #102a4a 50%, #0A2342 100%);
+}
+
+.hh-bar__inner {
+  width: min(var(--container), 100% - 40px);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 100%;
+}
+
+.hh-bar__text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hh-bar__icon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.hh-bar__cta {
+  flex-shrink: 0;
+  padding: 5px 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 30px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: background 0.2s, border-color 0.2s;
+}
+.hh-bar__cta:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.hh-bar__close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 6px;
+  transition: color 0.2s;
+}
+.hh-bar__close:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Push nav down when bar is visible */
+.nav {
+  top: var(--hh-bar-h);
+}
+.hero {
+  padding-top: var(--hh-bar-h);
+}
+
+/* ═══════════════════════════════════════════════
+   HAPPY HOUR — Mini Coffee Promo Card
+═══════════════════════════════════════════════ */
+.hh-promo {
+  padding-block: 0;
+  background: var(--bg);
+}
+
+.hh-promo__card {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  background: #F6F3EE;
+  border: 1px solid #E5DED5;
+  border-radius: 18px;
+  padding: 28px 32px;
+  margin-block: -20px 0;
+  position: relative;
+  z-index: 2;
+  transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.hh-promo__card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.hh-promo__icon {
+  font-size: 42px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.hh-promo__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.hh-promo__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+
+.hh-promo__details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.hh-promo__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hh-promo__drink {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.hh-promo__price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark);
+  white-space: nowrap;
+}
+
+.hh-promo__badge {
+  display: inline-block;
+  background: #E5DED5;
+  color: #8B7355;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 10px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+.hh-promo__schedule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.hh-promo__sep {
+  color: #ccc;
+}
+
+.hh-promo__link {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.hh-promo__link:hover {
+  color: #239e92;
+}
+
+/* ═══════════════════════════════════════════════
+   HAPPY HOUR — Floating Coffee Bubble (Mobile Only)
+═══════════════════════════════════════════════ */
+.hh-bubble {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hh-bubble {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    bottom: 24px;
+    right: 16px;
+    z-index: 90;
+    background: #0A2342;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 6px 24px rgba(10, 35, 66, 0.35);
+    cursor: pointer;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    animation: hhBubbleEntry 0.5s var(--ease-bounce) 1s both;
+  }
+  .hh-bubble:active {
+    transform: scale(0.95);
+  }
+  .hh-bubble__icon {
+    font-size: 16px;
+  }
+
+  @keyframes hhBubbleEntry {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Promo card: stack vertically on mobile */
+  .hh-promo__card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 20px;
+  }
+  .hh-promo__link {
+    align-self: flex-end;
+  }
+  .hh-promo__item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   HAPPY HOUR — Slide-up Card (Mobile)
+═══════════════════════════════════════════════ */
+.hh-slideup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.hh-slideup-overlay.open {
+  display: block;
+  opacity: 1;
+}
+
+.hh-slideup-home {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 201;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 12px 24px 32px;
+  transform: translateY(100%);
+  transition: transform 0.35s var(--ease);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.hh-slideup-home.open {
+  transform: translateY(0);
+}
+
+.hh-slideup-home__handle {
+  width: 40px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 4px;
+  margin: 0 auto 16px;
+}
+
+.hh-slideup-home__close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+
+.hh-slideup-home__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.hh-slideup-home__emoji {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.hh-slideup-home__title {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark);
+  margin: 0 0 2px;
+}
+
+.hh-slideup-home__status {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  margin: 0;
+}
+
+.hh-slideup-home__items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.hh-slideup-home__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text);
+  padding: 10px 14px;
+  background: #F6F3EE;
+  border-radius: 12px;
+}
+.hh-slideup-home__row strong {
+  color: var(--dark);
+  white-space: nowrap;
+}
+
+.hh-slideup-home__tag {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #E5DED5;
+  color: #8B7355;
+  padding: 2px 7px;
+  border-radius: 8px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.hh-slideup-home__schedule {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.hh-slideup-home__btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px;
+  background: #0A2342;
+  color: #fff;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.hh-slideup-home__btn:hover {
+  background: #0d2d54;
+}
+
+/* ─── Bar responsive ─── */
+@media (max-width: 768px) {
+  :root {
+    --hh-bar-h: 42px;
+  }
+  .hh-bar__text {
+    font-size: 11px;
+  }
+  .hh-bar__cta {
+    display: none;
+  }
+  .hh-bar__inner {
+    gap: 8px;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .hh-bar__text {
+    font-size: 10px;
   }
 }
