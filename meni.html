@@ -226,17 +226,18 @@
   </div>
   <div class="meni-hero__overlay"></div>
   <div class="meni-hero__content">
-    <p class="meni-hero__label">Castro Restoran</p>
-    <h1 class="meni-hero__title">NAŠA<br>PONUDA</h1>
-    <p class="meni-hero__sub">Odaberi, dodaj u korpu i naruči — bez čekanja.</p>
+    <h1 class="meni-hero__title" style="margin-bottom: 6px;">CASTRO</h1>
+    <p class="meni-hero__subtitle" style="font-size: clamp(18px, 4vw, 28px); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--primary); margin-bottom: 16px;">Caffe & Pizzeria</p>
+    <p class="meni-hero__sub" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.5); font-weight: 600;">Naša ponuda</p>
   </div>
 </div>
 
 <!-- ═══ STICKY SUB-NAV ═══ -->
 <nav class="sub-nav" id="subNav" aria-label="Kategorije">
   <div class="sub-nav__inner">
+    <a href="#happyhour" class="sub-nav__item sub-nav__item--hh" data-target="happyhour"><span class="sn-emoji">☕</span><span class="sn-label">Happy Hour</span></a>
+    <a href="#pica" class="sub-nav__item" data-target="pica"><span class="sn-emoji">🍺</span><span class="sn-label">Pića</span></a>
     <a href="#dorucak" class="sub-nav__item" data-target="dorucak"><span class="sn-emoji">🍳</span><span class="sn-label">Doručak</span></a>
-    <a href="#corbe" class="sub-nav__item" data-target="corbe"><span class="sn-emoji">🍲</span><span class="sn-label">Čorbe</span></a>
     <a href="#pizze" class="sub-nav__item" data-target="pizze"><span class="sn-emoji">🍕</span><span class="sn-label">Pizze</span></a>
     <a href="#specijal" class="sub-nav__item" data-target="specijal"><span class="sn-emoji">⭐</span><span class="sn-label">Specijal</span></a>
     <a href="#piletina" class="sub-nav__item" data-target="piletina"><span class="sn-emoji">🍗</span><span class="sn-label">Piletina</span></a>
@@ -244,15 +245,237 @@
     <a href="#paste" class="sub-nav__item" data-target="paste"><span class="sn-emoji">🍝</span><span class="sn-label">Paste</span></a>
     <a href="#tortilje" class="sub-nav__item" data-target="tortilje"><span class="sn-emoji">🌯</span><span class="sn-label">Tortilje</span></a>
     <a href="#salate" class="sub-nav__item" data-target="salate"><span class="sn-emoji">🥗</span><span class="sn-label">Salate</span></a>
+    <a href="#sendvici" class="sub-nav__item" data-target="sendvici"><span class="sn-emoji">🥪</span><span class="sn-label">Sendviči</span></a>
     <a href="#dezerti" class="sub-nav__item" data-target="dezerti"><span class="sn-emoji">🍰</span><span class="sn-label">Deserti</span></a>
     <a href="#dodaci" class="sub-nav__item" data-target="dodaci"><span class="sn-emoji">🧂</span><span class="sn-label">Dodaci</span></a>
-    <a href="#pica" class="sub-nav__item" data-target="pica"><span class="sn-emoji">🍺</span><span class="sn-label">Pića</span></a>
-    <a href="#happyhour" class="sub-nav__item sub-nav__item--hh" data-target="happyhour"><span class="sn-emoji">☕</span><span class="sn-label">Happy Hour</span></a>
+    <a href="#corbe" class="sub-nav__item" data-target="corbe"><span class="sn-emoji">🍲</span><span class="sn-label">Čorbe</span></a>
   </div>
 </nav>
 
 <!-- ═══ MAIN ═══ -->
 <main class="meni-main">
+
+<!-- PIĆA (info-only — bez naručivanja) -->
+  <section class="cat cat--drinks" id="pica">
+    <div class="cat__banner">
+      <img src="baner1.webp" alt="Pića" loading="lazy">
+      <div class="cat__banner-overlay"></div>
+      <div class="cat__banner-text">
+        <span class="cat__label">Digitalni meni pića</span>
+        <h2 class="cat__title">Pića</h2>
+      </div>
+    </div>
+    <div class="cat__body">
+      <div class="wrap">
+        <div class="drinks-info-note">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Pića su dostupna samo u lokalu — nisu dostupna za online naručivanje.
+        </div>
+
+        <!-- Happy Hour Card inside Pića -->
+        <div class="hh-card" id="happyhour" style="max-width: 100%; margin-bottom: 36px; scroll-margin-top: 180px;">
+          <div class="hh-card__header">
+            <span class="hh-card__icon">☕</span>
+            <div>
+              <h3 class="hh-card__title">Happy Hour</h3>
+              <p class="hh-card__subtitle">Morning Coffee Special</p>
+            </div>
+            <span class="hh-status-text" id="hhAvailText" style="margin-left: auto; font-size: 12px; font-weight: 600;">Proveravam...</span>
+          </div>
+          <div class="hh-card__schedules-grid">
+            <div class="hh-card__schedule-block">
+              <h4 class="hh-card__schedule-title">📅 RADNIM DANIMA (Pon–Pet)</h4>
+              <p class="hh-card__schedule-time">🕒 07:00 – 10:00h</p>
+              <div class="hh-card__schedule-items">
+                <div class="hh-card__schedule-item">
+                  <span>Espresso / Espresso sa mlekom + kisela voda</span>
+                  <strong>120 RSD</strong>
+                </div>
+              </div>
+            </div>
+            <div class="hh-card__schedule-block">
+              <h4 class="hh-card__schedule-title">📅 VIKENDOM (Sub–Ned)</h4>
+              <p class="hh-card__schedule-time">🕒 07:00 – 12:00h</p>
+              <div class="hh-card__schedule-items">
+                <div class="hh-card__schedule-item">
+                  <span>Espresso / Espresso sa mlekom + kisela voda</span>
+                  <strong>120 RSD</strong>
+                </div>
+                <div class="hh-card__schedule-item">
+                  <span>Domaća kafa</span>
+                  <strong>120 RSD</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hh-card__note" style="border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 14px; margin-top: 6px;">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Dostupno samo u lokalu — nije za online naručivanje.
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Topli i hladni napitci</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Espresso</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Espresso macchiato</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Espresso sa mlekom</span><div class="item__right"><span class="item__price">190 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Espresso Cappuccino</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Nescafe Classic (topli ili hladni)</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Nes cappuccino</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Topla Čokolada (crna ili bela)</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Frappe Shake (jagoda ili vanila)</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Plazma Shake</span><div class="item__right"><span class="item__price">280 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Kafa - domaća</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Čaj Milford (razni ukusi)</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Medić (12g)</span><div class="item__right"><span class="item__price">40 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Mleko 0,2 (toplo ili hladno)</span><div class="item__right"><span class="item__price">80 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Sladoled (kugla 40g)</span><div class="item__right"><span class="item__price">90 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Gazirana pića</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Pepsi Cola 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Pepsi Max 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">7up 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Mirinda 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Evervess 0,25 (tonic - bitter)</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Ivi sok 0,33 (breskva)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Knjaz sa limunom 0,33</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Knjaz sa narandžom 0,33</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Knjaz remix 0,33</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Knjaz Miloš 0,25</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Cockta 0,275</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Orangina 0,25</span><div class="item__right"><span class="item__price">280 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Limona 0,25</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Negazirana pića</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Aqua Viva voda 0,33</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Gusto sok 0,2 (razni ukusi)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Fuzetea 0,25 (breskva)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Bravo sok 0,2 (grožđe, višnja)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Cedevita 0,25</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Ceđeni limun 0,3</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Ceđena pomorandža 0,3</span><div class="item__right"><span class="item__price">330 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Aloe Vera 0,24</span><div class="item__right"><span class="item__price">310 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Energetska pića</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Guarana 0,25</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Red Bull 0,25</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Piva (točena i flaširana)</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Carlsberg (točeno) 0,3</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Carlsberg (točeno) 0,5</span><div class="item__right"><span class="item__price">350 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Erdinger 0,33</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">San Miguel 0,33</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Budweiser 0,33 (svetlo/tamno)</span><div class="item__right"><span class="item__price">340 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Carlsberg 0,25</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Kronenbourg blanc 0,33</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Tuborg 0,33</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Lav premium 0,33</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Cideri</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Somersby 0,33 (svi ukusi)</span><div class="item__right"><span class="item__price">330 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Vina</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Chardonay / Rose / Vranac Plantaže 0,187</span><div class="item__right"><span class="item__price">410 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Buteljka vina 0,7 Tikveš</span><div class="item__right"><span class="item__price">1.490 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Buteljka vina 0,7 Radovanović</span><div class="item__right"><span class="item__price">2.400 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Konjaci i žestoka pića</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Curvoisier 0,03</span><div class="item__right"><span class="item__price">245 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Napoleon 0,03</span><div class="item__right"><span class="item__price">195 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Stock 0,03</span><div class="item__right"><span class="item__price">185 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Vinjak 0,03 (Rubin)</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Konjak Babel</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Likeri</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Bailey's 0,03l</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Malibu 0,03l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Meduška 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Rakije</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Šljivovica 0,03l</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Kajsijevača 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Dunjevača 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Lozovača 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Viljamovka 0,03l</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Žuta osa 0,03l</span><div class="item__right"><span class="item__price">300 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Aperitivi</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Bacardi 0,03l</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Jagermeister 0,03l</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Tequila 0,03l</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Havana Club 0,05l</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Martini Bianco 0,05l</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Gorki List 0,05l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Vermouth 0,05l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Gin &amp; Vodka</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Gin Beefeater 0,03l</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Gin Gordon's 0,03l</span><div class="item__right"><span class="item__price">195 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Smirnoff 0,03l</span><div class="item__right"><span class="item__price">195 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Vodka 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
+          </div>
+        </div>
+
+        <div class="item-group">
+          <h3 class="group-label">Whiskey</h3>
+          <div class="item-grid">
+            <div class="item item--drink"><span class="item__name">Chivas Regal 0,03l</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Johnnie Walker Black 0,03l</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Jack Daniels 0,03l</span><div class="item__right"><span class="item__price">360 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Jameson 0,03l</span><div class="item__right"><span class="item__price">290 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Four Roses 0,03l</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
+            <div class="item item--drink"><span class="item__name">Johnnie Walker Red 0,03l</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <!-- DORUČAK (dostupno samo do 13:00) -->
   <section class="cat" id="dorucak">
@@ -312,29 +535,6 @@
     </div>
   </section>
 
-  <!-- ČORBE I POTAŽI -->
-  <section class="cat" id="corbe">
-    <div class="cat__banner">
-      <img src="cat-salate.webp" alt="Čorbe" loading="lazy">
-      <div class="cat__banner-overlay"></div>
-      <div class="cat__banner-text">
-        <span class="cat__label">Nešto toplo</span>
-        <h2 class="cat__title">Čorbe i potaži</h2>
-      </div>
-    </div>
-    <div class="cat__body">
-      <div class="wrap">
-        <div class="item-group">
-          <div class="item-grid">
-            <div class="item" data-name="Tomato čorba" data-price="280"><span class="item__name">Tomato čorba<span class="item__desc">paradajz sos, povrće, gauda, začini</span></span><div class="item__right"><span class="item__price">280 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-            <div class="item" data-name="Potaž od pečurke" data-price="290"><span class="item__name">Potaž od pečurke<span class="item__desc">neutralna pavlaka, pečurke, začini</span></span><div class="item__right"><span class="item__price">290 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
   <section class="cat" id="pizze">
     <div class="cat__banner">
       <img src="cat-pizze.webp" alt="Pizze" loading="lazy">
@@ -369,7 +569,6 @@
       </div>
     </div>
   </section>
-
 
   <!-- SPECIJAL PIZZE -->
   <section class="cat" id="specijal">
@@ -698,229 +897,29 @@
     </div>
   </section>
 
-  <!-- PIĆA (info-only — bez naručivanja) -->
-  <section class="cat cat--drinks" id="pica">
+  <!-- ČORBE I POTAŽI -->
+  <section class="cat" id="corbe">
     <div class="cat__banner">
-      <img src="baner1.webp" alt="Pića" loading="lazy">
+      <img src="cat-salate.webp" alt="Čorbe" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Digitalni meni pića</span>
-        <h2 class="cat__title">Pića</h2>
+        <span class="cat__label">Nešto toplo</span>
+        <h2 class="cat__title">Čorbe i potaži</h2>
       </div>
     </div>
     <div class="cat__body">
       <div class="wrap">
-        <div class="drinks-info-note">
-          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          Pića su dostupna samo u lokalu — nisu dostupna za online naručivanje.
-        </div>
-
-        <!-- Happy Hour Card inside Pića -->
-        <div class="hh-card" id="happyhour" style="max-width: 100%; margin-bottom: 36px; scroll-margin-top: 180px;">
-          <div class="hh-card__header">
-            <span class="hh-card__icon">☕</span>
-            <div>
-              <h3 class="hh-card__title">Happy Hour</h3>
-              <p class="hh-card__subtitle">Morning Coffee Special</p>
-            </div>
-            <span class="hh-status-text" id="hhAvailText" style="margin-left: auto; font-size: 12px; font-weight: 600;">Proveravam...</span>
-          </div>
-          <div class="hh-card__schedules-grid">
-            <div class="hh-card__schedule-block">
-              <h4 class="hh-card__schedule-title">📅 RADNIM DANIMA (Pon–Pet)</h4>
-              <p class="hh-card__schedule-time">🕒 07:00 – 10:00h</p>
-              <div class="hh-card__schedule-items">
-                <div class="hh-card__schedule-item">
-                  <span>Espresso / Espresso sa mlekom + kisela voda</span>
-                  <strong>120 RSD</strong>
-                </div>
-              </div>
-            </div>
-            <div class="hh-card__schedule-block">
-              <h4 class="hh-card__schedule-title">📅 VIKENDOM (Sub–Ned)</h4>
-              <p class="hh-card__schedule-time">🕒 07:00 – 12:00h</p>
-              <div class="hh-card__schedule-items">
-                <div class="hh-card__schedule-item">
-                  <span>Espresso / Espresso sa mlekom + kisela voda</span>
-                  <strong>120 RSD</strong>
-                </div>
-                <div class="hh-card__schedule-item">
-                  <span>Domaća kafa</span>
-                  <strong>120 RSD</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="hh-card__note" style="border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 14px; margin-top: 6px;">
-            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            Dostupno samo u lokalu — nije za online naručivanje.
-          </div>
-        </div>
-
         <div class="item-group">
-          <h3 class="group-label">Topli i hladni napitci</h3>
           <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Espresso</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Espresso macchiato</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Espresso sa mlekom</span><div class="item__right"><span class="item__price">190 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Espresso Cappuccino</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Nescafe Classic (topli ili hladni)</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Nes cappuccino</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Topla Čokolada (crna ili bela)</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Frappe Shake (jagoda ili vanila)</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Plazma Shake</span><div class="item__right"><span class="item__price">280 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Kafa - domaća</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Čaj Milford (razni ukusi)</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Medić (12g)</span><div class="item__right"><span class="item__price">40 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Mleko 0,2 (toplo ili hladno)</span><div class="item__right"><span class="item__price">80 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Sladoled (kugla 40g)</span><div class="item__right"><span class="item__price">90 RSD</span></div></div>
+            <div class="item" data-name="Tomato čorba" data-price="280"><span class="item__name">Tomato čorba<span class="item__desc">paradajz sos, povrće, gauda, začini</span></span><div class="item__right"><span class="item__price">280 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
+            <div class="item" data-name="Potaž od pečurke" data-price="290"><span class="item__name">Potaž od pečurke<span class="item__desc">neutralna pavlaka, pečurke, začini</span></span><div class="item__right"><span class="item__price">290 RSD</span><button class="add-btn" onclick="cart.add(this)">+</button></div></div>
           </div>
         </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Gazirana pića</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Pepsi Cola 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Pepsi Max 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">7up 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Mirinda 0,25</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Evervess 0,25 (tonic - bitter)</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Ivi sok 0,33 (breskva)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Knjaz sa limunom 0,33</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Knjaz sa narandžom 0,33</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Knjaz remix 0,33</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Knjaz Miloš 0,25</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Cockta 0,275</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Orangina 0,25</span><div class="item__right"><span class="item__price">280 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Limona 0,25</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Negazirana pića</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Aqua Viva voda 0,33</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Gusto sok 0,2 (razni ukusi)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Fuzetea 0,25 (breskva)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Bravo sok 0,2 (grožđe, višnja)</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Cedevita 0,25</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Ceđeni limun 0,3</span><div class="item__right"><span class="item__price">200 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Ceđena pomorandža 0,3</span><div class="item__right"><span class="item__price">330 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Aloe Vera 0,24</span><div class="item__right"><span class="item__price">310 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Energetska pića</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Guarana 0,25</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Red Bull 0,25</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Piva (točena i flaširana)</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Carlsberg (točeno) 0,3</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Carlsberg (točeno) 0,5</span><div class="item__right"><span class="item__price">350 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Erdinger 0,33</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">San Miguel 0,33</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Budweiser 0,33 (svetlo/tamno)</span><div class="item__right"><span class="item__price">340 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Carlsberg 0,25</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Kronenbourg blanc 0,33</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Tuborg 0,33</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Lav premium 0,33</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Cideri</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Somersby 0,33 (svi ukusi)</span><div class="item__right"><span class="item__price">330 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Vina</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Chardonay / Rose / Vranac Plantaže 0,187</span><div class="item__right"><span class="item__price">410 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Buteljka vina 0,7 Tikveš</span><div class="item__right"><span class="item__price">1.490 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Buteljka vina 0,7 Radovanović</span><div class="item__right"><span class="item__price">2.400 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Konjaci i žestoka pića</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Curvoisier 0,03</span><div class="item__right"><span class="item__price">245 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Napoleon 0,03</span><div class="item__right"><span class="item__price">195 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Stock 0,03</span><div class="item__right"><span class="item__price">185 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Vinjak 0,03 (Rubin)</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Konjak Babel</span><div class="item__right"><span class="item__price">170 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Likeri</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Bailey's 0,03l</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Malibu 0,03l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Meduška 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Rakije</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Šljivovica 0,03l</span><div class="item__right"><span class="item__price">160 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Kajsijevača 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Dunjevača 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Lozovača 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Viljamovka 0,03l</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Žuta osa 0,03l</span><div class="item__right"><span class="item__price">300 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Aperitivi</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Bacardi 0,03l</span><div class="item__right"><span class="item__price">230 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Jagermeister 0,03l</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Tequila 0,03l</span><div class="item__right"><span class="item__price">250 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Havana Club 0,05l</span><div class="item__right"><span class="item__price">220 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Martini Bianco 0,05l</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Gorki List 0,05l</span><div class="item__right"><span class="item__price">210 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Vermouth 0,05l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Gin &amp; Vodka</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Gin Beefeater 0,03l</span><div class="item__right"><span class="item__price">240 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Gin Gordon's 0,03l</span><div class="item__right"><span class="item__price">195 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Smirnoff 0,03l</span><div class="item__right"><span class="item__price">195 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Vodka 0,03l</span><div class="item__right"><span class="item__price">180 RSD</span></div></div>
-          </div>
-        </div>
-
-        <div class="item-group">
-          <h3 class="group-label">Whiskey</h3>
-          <div class="item-grid">
-            <div class="item item--drink"><span class="item__name">Chivas Regal 0,03l</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Johnnie Walker Black 0,03l</span><div class="item__right"><span class="item__price">440 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Jack Daniels 0,03l</span><div class="item__right"><span class="item__price">360 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Jameson 0,03l</span><div class="item__right"><span class="item__price">290 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Four Roses 0,03l</span><div class="item__right"><span class="item__price">270 RSD</span></div></div>
-            <div class="item item--drink"><span class="item__name">Johnnie Walker Red 0,03l</span><div class="item__right"><span class="item__price">260 RSD</span></div></div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
 
-</main>
+  </main>
 
 <!-- ═══ FOOTER ═══ -->
 <footer class="footer">
