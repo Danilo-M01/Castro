@@ -768,12 +768,7 @@ if (phoneInputEl) {
    DORUČAK — Beograd timezone cutoff u 13:00
 ═════════════════════════════════════════ */
 function isBreakfastOpen() {
-  // Beograd = Europe/Belgrade = UTC+1 zimi, UTC+2 leti
-  const now = new Date();
-  const belgradeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Belgrade' }));
-  const h = belgradeTime.getHours();
-  const m = belgradeTime.getMinutes();
-  return h < 13 || (h === 13 && m === 0);
+  return true;
 }
 
 function applyBreakfastCutoff() {

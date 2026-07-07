@@ -46,7 +46,7 @@
     <div class="hh-bar__inner">
       <span class="hh-bar__text">
         <span class="hh-bar__icon">☕</span>
-        <span id="hhBarMsg">Happy Hour Coffee • Espresso + kisela voda 120 RSD • Pon–Pet 7–10h • Vikendom do 12h</span>
+        <span id="hhBarMsg">Happy Hour Coffee • Espresso + čaša kisele vode 120 RSD • Pon–Pet 7–10h • Vikendom do 12h</span>
       </span>
       <a href="meni.html#pica" class="hh-bar__cta" id="hhBarCta">Pogledaj</a>
       <button class="hh-bar__close" id="hhBarClose" aria-label="Zatvori">&times;</button>
@@ -119,11 +119,11 @@
           <h3 class="hh-promo__title">Morning Happy Hour</h3>
           <div class="hh-promo__details">
             <div class="hh-promo__item">
-              <span class="hh-promo__drink">Espresso / Espresso sa mlekom + kisela voda</span>
+              <span class="hh-promo__drink">Espresso / Espresso sa mlekom + čaša kisele vode</span>
               <span class="hh-promo__price">120 RSD</span>
             </div>
             <div class="hh-promo__item hh-promo__item--weekend">
-              <span class="hh-promo__drink">Domaća kafa + kisela voda <span class="hh-promo__badge">vikend</span></span>
+              <span class="hh-promo__drink">Domaća kafa + čaša kisele vode <span class="hh-promo__badge">vikend</span></span>
               <span class="hh-promo__price">120 RSD</span>
             </div>
           </div>
@@ -335,11 +335,11 @@
       </div>
       <div class="hh-slideup-home__items">
         <div class="hh-slideup-home__row">
-          <span>Espresso / Espresso sa mlekom + kisela voda</span>
+          <span>Espresso / Espresso sa mlekom + čaša kisele vode</span>
           <strong>120 RSD</strong>
         </div>
         <div class="hh-slideup-home__row">
-          <span>Domaća kafa + kisela voda <em class="hh-slideup-home__tag">vikend</em></span>
+          <span>Domaća kafa + čaša kisele vode <em class="hh-slideup-home__tag">vikend</em></span>
           <strong>120 RSD</strong>
         </div>
       </div>
@@ -379,9 +379,9 @@
       const barMsg = document.getElementById('hhBarMsg');
       if (barMsg) {
         if (isActive) {
-          barMsg.textContent = 'Happy Hour aktivan! • Espresso + kisela voda 120 RSD' + (isWeekend ? ' • Domaća kafa 120 RSD' : '');
+          barMsg.textContent = 'Happy Hour aktivan! • Espresso + čaša kisele vode 120 RSD' + (isWeekend ? ' • Domaća kafa + čaša kisele vode 120 RSD' : '');
         } else {
-          barMsg.textContent = 'Happy Hour Coffee • Espresso + kisela voda 120 RSD • Pon–Pet 7–10h • Vikendom do 12h';
+          barMsg.textContent = 'Happy Hour Coffee • Espresso + čaša kisele vode 120 RSD • Pon–Pet 7–10h • Vikendom do 12h';
         }
       }
 
