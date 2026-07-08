@@ -29,7 +29,11 @@ const cart = {
     const catId = catEl ? catEl.id : '';
     const isDodaciSection = catId === 'dodaci';
     const isPalacinkaOrTortilja = !isDodaciSection && (catId === 'palacinka' || catId === 'tortilje');
-    const type = (catId === 'palacinka' && el.dataset.name.includes("Palačinka —")) ? 'slatki' : 'slani';
+    const isSweetPancake = catId === 'palacinka' && (
+      el.dataset.name.includes("Palačinka —") || 
+      el.closest('.item-group')?.querySelector('.group-label')?.textContent.includes("Slatke")
+    );
+    const type = isSweetPancake ? 'slatki' : 'slani';
     const isSlatka = type === 'slatki';
 
     if (el.dataset.sizes) { 
