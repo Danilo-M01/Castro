@@ -3,10 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Castro restoran — sveži sastojci, autentični ukusi, svaki put. Rezervišite vaš sto danas.">
-  <title>Castro | Restoran</title>
+  <!-- ═══ SEO: Core Meta Tags ═══ -->
+  <title>Castro Caffe & Pizzeria Požarevac | Najbolja Pica, Paste & Dostava Hrane</title>
+  <meta name="description" content="Castro Caffe & Pizzeria u Požarevcu — uživajte u autentičnim ukusima. Najbolja pica, italijanske paste, slane i slatke palačinke sa brzom online dostavom na kućnu adresu.">
+  <meta name="keywords" content="castro pozarevac, castro požarevac, castro pizzerija, castro caffe, castro dostava, picerija castro pozarevac, castro restoran pozarevac, castro meni, naruci hranu pozarevac, pica dostava pozarevac, brza hrana pozarevac, dostava hrane pozarevac, palačinke požarevac">
 
+  <!-- ═══ SEO: Lokalni signali ═══ -->
+  <meta name="robots" content="index, follow">
+  <meta name="geo.region" content="RS-13">
+  <meta name="geo.placename" content="Požarevac, Srbija">
+  <meta name="geo.position" content="44.6196;21.1867">
+  <meta name="ICBM" content="44.6196, 21.1867">
+  <link rel="canonical" href="https://www.castropizzeria.com/">
+
+  <!-- ═══ SEO: Open Graph (WhatsApp, Facebook, Viber deljenje) ═══ -->
+  <meta property="og:title" content="Castro Caffe & Pizzeria Požarevac | Pica, Paste & Dostava Hrane">
+  <meta property="og:description" content="Uživajte u našim picama, pastama i palačinkama. Brza online dostava direktno na Vašu adresu u Požarevcu!">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.castropizzeria.com/">
+  <meta property="og:image" content="https://www.castropizzeria.com/logo.png">
+  <meta property="og:locale" content="sr_RS">
+  <meta property="og:site_name" content="Castro Požarevac">
+
+  <!-- Favicon — tab + bookmark ikonica -->
   <link rel="icon" href="logo.png" type="image/png">
+  <link rel="icon" href="Logo za sajt.webp" type="image/webp">
+  <link rel="apple-touch-icon" href="Logo za sajt.webp">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#e8b84b">
+
+  <!-- ═══ SCHEMA STRATEGY za početnu stranicu: @type Restaurant ═══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["Restaurant", "LocalBusiness"],
+    "name": "Castro Caffe Pizzeria",
+    "alternateName": ["Castro Restoran", "Castro Požarevac"],
+    "description": "Restoran i pizzerija u Požarevcu sa online narudžbinama i dostavom. Pizza od 410 RSD, paste, palačinke, obroci.",
+    "url": "https://www.castropizzeria.com",
+    "telephone": "+381-12-531-010",
+    "foundingDate": "2011",
+    "image": "https://www.castropizzeria.com/baner1.webp",
+    "logo": "https://www.castropizzeria.com/Logo%20za%20sajt.webp",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Moše Pijade 16, TC Novi Dom",
+      "addressLocality": "Požarevac",
+      "addressRegion": "Braničevski okrug",
+      "postalCode": "12000",
+      "addressCountry": "RS"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 44.6196,
+      "longitude": 21.1867
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Požarevac"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Sunday"],
+        "opens": "07:00",
+        "closes": "23:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Friday", "Saturday"],
+        "opens": "07:00",
+        "closes": "00:00"
+      }
+    ],
+    "menu": "https://www.castropizzeria.com/meni",
+    "servesCuisine": ["Italian", "Pizza", "Crepes", "Sandwiches", "Salads"],
+    "priceRange": "$$"
+  }
+  </script>
 
   <!-- Preload critical assets -->
   <link rel="preload" as="image" href="Hero sekcija pozadina dekstop.png" media="(min-width: 769px)">
