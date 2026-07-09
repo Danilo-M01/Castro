@@ -1937,3 +1937,22 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   color: #000;
 }
 
+/* Auto-hide floating action buttons when scrolling down on mobile */
+@media (max-width: 768px) {
+  body.scroll-down .hh-fab {
+    transform: translateY(120px) scale(0.8) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  body.scroll-down .fab-cart {
+    transform: translateY(120px) scale(0.8) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  body.scroll-down .checkout-fab {
+    transform: translateX(-50%) translateY(120px) scale(0.8) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+

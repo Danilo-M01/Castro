@@ -1084,6 +1084,8 @@ function checkHappyHour() {
   const hhSlideupAvail = document.getElementById('hhSlideupAvail');
   const hhFab = document.getElementById('hhFab');
   
+  const isEn = localStorage.getItem('castro-lang') === 'en';
+  
   if (isAvailable) {
     if (hhAvailText) {
       hhAvailText.textContent = 'Happy Hour';
@@ -1092,17 +1094,17 @@ function checkHappyHour() {
     if (hhInlineDot) hhInlineDot.className = 'hh-inline-promo__dot available';
     if (hhSlideupAvail) {
       hhSlideupAvail.className = 'hh-slideup__avail available';
-      hhSlideupAvail.textContent = 'Dostupno sada';
+      hhSlideupAvail.textContent = isEn ? 'Available now' : 'Dostupno sada';
     }
   } else {
     if (hhAvailText) {
-      hhAvailText.textContent = 'Happy Hour je završen';
+      hhAvailText.textContent = isEn ? 'Happy Hour has ended' : 'Happy Hour je završen';
       hhAvailText.style.color = '#E63946';
     }
     if (hhInlineDot) hhInlineDot.className = 'hh-inline-promo__dot unavailable';
     if (hhSlideupAvail) {
       hhSlideupAvail.className = 'hh-slideup__avail unavailable';
-      hhSlideupAvail.textContent = 'Nedostupno';
+      hhSlideupAvail.textContent = isEn ? 'Unavailable' : 'Nedostupno';
     }
   }
   
@@ -1158,8 +1160,8 @@ const itemTranslations = {
   "Fortuna": "Fortuna",
   "Hawaii": "Hawaii",
   "Porto": "Porto",
-  "Posna pica": "Lenten Pizza (Vegan)",
-  "Posna": "Lenten (Vegan)",
+  "Posna pica": "Lenten Pizza",
+  "Posna": "Lenten",
   "Mexicana": "Mexicana",
   "Cardinale": "Cardinale",
   "Quatro Stagione": "Quattro Stagioni",
@@ -1173,6 +1175,213 @@ const itemTranslations = {
   "Piccante": "Piccante",
   "Srpska Pica": "Serbian Pizza",
   "Chicken Pizza": "Chicken Pizza",
+
+  // Missing pizzas & specialties
+  "Margarita punjene ivice": "Margarita Stuffed Crust",
+  "Vesuvio punjene ivice": "Vesuvio Stuffed Crust",
+  "Cardinale punjene ivice": "Cardinale Stuffed Crust",
+  "Capricciosa mozzarella": "Capricciosa Mozzarella",
+  "Diavola mozzarella": "Diavola Mozzarella",
+  "Napolitana mozzarella": "Napoletana Mozzarella",
+  "Pizza sa nutelom": "Nutella Pizza",
+  "Pizza sa Nutelom": "Nutella Pizza",
+  "Couple Goals pancake": "Couple Goals Pancake",
+  "Palačinka rolo čoko fantazija": "Rolled Chocolate Fantasy Crepe",
+  "Calcona (presavijena pica)": "Calzone (Folded Pizza)",
+  "Calcona (presavijena pizza)": "Calzone (Folded Pizza)",
+  "Italijanska piroška": "Italian Pirogue",
+  "Mini italijanska piroška": "Mini Italian Pirogue",
+  "Mini Castro piroška": "Mini Castro Pirogue",
+  "Minjon (Piroška)": "Mignon (Pirogue)",
+  "Rolovana tortilja 1": "Rolled Tortilla 1",
+  "Rolovana tortilja 2": "Rolled Tortilla 2",
+  "Tortilja a la Castro": "Castro Tortilla",
+  "Posni Brusketi": "Lenten Bruschetta",
+  "Castro Brusketi": "Castro Bruschetta",
+  "Somun, ( 150g ) / Tost hleb": "Flatbread (Somun, 150g) / Toast bread",
+  "Hleb štapići, tost hleb (3 komada)": "Breadsticks, toast bread (3 pieces)",
+
+  // Crepes / Palačinke
+  "Slana palačinka 1": "Savory Crepe 1",
+  "Slana palačinka 2": "Savory Crepe 2",
+  "Slana palačinka 3": "Savory Crepe 3",
+  "Slana palačinka 4": "Savory Crepe 4",
+  "Slana palačinka 5": "Savory Crepe 5",
+  "Slana palačinka 6": "Savory Crepe 6",
+  "Slana palačinka 7": "Savory Crepe 7",
+  "Slana palačinka 8": "Savory Crepe 8",
+  "Slana palačinka 9": "Savory Crepe 9",
+  "Slana palačinka 10": "Savory Crepe 10",
+  "Slana palačinka 11": "Savory Crepe 11",
+  "Slana palačinka 12": "Savory Crepe 12",
+  "Slana palačinka 13": "Savory Crepe 13",
+  "Castro slana palačinka": "Castro Savory Crepe",
+  "Castro rolovana palačinka": "Castro Rolled Crepe",
+  "Mini pohovane palačinke": "Mini Fried Crepes (6 pcs)",
+  "Pohovanje palačinki": "Frying of crepes",
+
+  "Slatka palačinka 1": "Sweet Crepe 1",
+  "Slatka palačinka 2": "Sweet Crepe 2",
+  "Slatka palačinka 3": "Sweet Crepe 3",
+  "Slatka palačinka 4": "Sweet Crepe 4",
+  "Slatka palačinka 5": "Sweet Crepe 5",
+  "Slatka palačinka 6": "Sweet Crepe 6",
+  "Slatka palačinka 7": "Sweet Crepe 7",
+  "Slatka palačinka 8": "Sweet Crepe 8",
+  "Slatka palačinka 9": "Sweet Crepe 9",
+  "Slatka palačinka 10": "Sweet Crepe 10",
+  "Slatka palačinka 11": "Sweet Crepe 11",
+  "Slatka palačinka 12": "Sweet Crepe 12",
+  "Slatka palačinka 13": "Sweet Crepe 13",
+  "Slatka palačinka 14": "Sweet Crepe 14",
+  "Slatka palačinka 15": "Sweet Crepe 15",
+  "Castro slatka palačinka": "Castro Sweet Crepe",
+  "Čipi-činka": "Cipi-crepe",
+  "Slatka hladna palačinka 1": "Sweet Cold Crepe 1",
+  "Slatka hladna palačinka 2": "Sweet Cold Crepe 2",
+  "Slatka hladna palačinka 3": "Sweet Cold Crepe 3",
+  "Castro hladna palačinka": "Castro Cold Crepe",
+  "Banana split": "Banana Split",
+  "Voćna salata": "Fruit Salad",
+  "Lava kolač": "Lava Cake",
+  "Sladoled (kugla)": "Ice Cream (scoop)",
+  "Meksiko kup": "Mexico Cup",
+  "Tomato čorba": "Tomato Soup",
+  "Potaž od pečurke": "Mushroom Soup",
+  "Cezar salata": "Caesar Salad",
+  "Biftek salata": "Beef Tenderloin Salad",
+  "Castro salata": "Castro Salad",
+  "Grčka salata": "Greek Salad",
+  "Tuna salata (posno)": "Tuna Salad (Lenten)",
+  "Calamari (lignje) salata": "Calamari Salad",
+  "Mozzarela salata": "Mozzarella Salad",
+  "Mix mini salata": "Mix Mini Salad",
+  "Castro kari sendvič (zapečeni)": "Castro Curry Sandwich (Baked)",
+
+  // Drinks / Pića
+  "Espresso": "Espresso",
+  "Espresso sa mlekom": "Espresso with milk",
+  "Espresso Cappuccino": "Espresso Cappuccino",
+  "Nescafe Classic (topli ili hladni)": "Nescafe Classic (hot or cold)",
+  "Nes cappuccino": "Nes Cappuccino",
+  "Topla Čokolada (crna ili bela)": "Hot Chocolate (dark or white)",
+  "Frappe Shake (jagoda ili vanila)": "Frappe Shake (strawberry or vanilla)",
+  "Plazma Shake": "Plazma Shake",
+  "Oreo Shake": "Oreo Shake",
+  "Kafa - domaća": "Domestic coffee",
+  "Čaj Milford (razni ukusi)": "Milford Tea (various flavors)",
+  "Medić (12g)": "Honey (12g)",
+  "Mleko 0,2 (toplo ili hladno)": "Milk 0.2l (hot or cold)",
+  "Sladoled (kugla 40g)": "Ice cream (40g scoop)",
+  "Šlag": "Whipped cream",
+  "Pepsi Cola 0,25": "Pepsi Cola 0.25l",
+  "Pepsi Max 0,25": "Pepsi Max 0.25l",
+  "7up 0,25": "7up 0.25l",
+  "Mirinda 0,25": "Mirinda 0.25l",
+  "Evervess 0,25 (tonic - bitter)": "Evervess 0.25l (tonic - bitter)",
+  "Ivi sok 0,33 (breskva)": "Ivi Juice 0.33l (peach)",
+  "Knjaz sa limunom 0,33": "Knjaz sparkling water with lemon 0.33l",
+  "Knjaz sa narandžom 0,33": "Knjaz sparkling water with orange 0.33l",
+  "Knjaz remix 0,33": "Knjaz Remix 0.33l",
+  "Knjaz Miloš 0,25": "Knjaz Milos sparkling water 0.25l",
+  "Knjaz Miloš 0,75": "Knjaz Milos sparkling water 0.75l",
+  "Cockta 0,275": "Cockta 0.275l",
+  "Orangina 0,25": "Orangina 0.25l",
+  "Limona 0,25": "Limona 0.25l",
+  "Aqua Viva voda 0,33": "Aqua Viva still water 0.33l",
+  "Aqua Viva voda 0,75": "Aqua Viva still water 0.75l",
+  "Cube sok 0,2 (razni ukusi)": "Cube Juice 0.2l (various flavors)",
+  "Lipton (Ledeni Čaj) 0,33": "Lipton Ice Tea 0.33l",
+  "Bravo sok 0,2 (grožđe, višnja)": "Bravo Juice 0.2l (grape, cherry)",
+  "Cedevita 0,25": "Cedevita 0.25l",
+  "Ceđeni limun 0,3": "Squeezed lemon 0.3l",
+  "Ceđena pomorandža 0,25": "Squeezed orange 0.25l",
+  "Ceđeni grejp 0,25": "Squeezed grapefruit 0.25l",
+  "Ceđeni mix 1 (limun, narandža) 0,3": "Fresh Mix 1 (lemon, orange) 0.3l",
+  "Ceđeni mix 2 (grejp, narandža) 0,3": "Fresh Mix 2 (grapefruit, orange) 0.3l",
+  "Ceđeni mix 3 (limun, narandža, grejp) 0,3": "Fresh Mix 3 (lemon, orange, grapefruit) 0.3l",
+  "Aloe Vera 0,24": "Aloe Vera 0.24l",
+  "Guarana 0,25": "Guarana 0.25l",
+  "Red Bull 0,25": "Red Bull 0.25l",
+  "Carlsberg (točeno) 0,3": "Carlsberg (draft) 0.3l",
+  "Carlsberg (točeno) 0,5": "Carlsberg (draft) 0.5l",
+  "Erdinger 0,33": "Erdinger 0.33l",
+  "San Miguel 0,33": "San Miguel 0.33l",
+  "Budweiser 0,33 (svetlo/tamno)": "Budweiser 0.33l (light/dark)",
+  "Carlsberg 0,25": "Carlsberg 0.25l",
+  "Kronenbourg blanc 0,33": "Kronenbourg Blanc 0.33l",
+  "Tuborg 0,33": "Tuborg 0.33l",
+  "Lav premium 0,33": "Lav Premium 0.33l",
+  "Somersby jabuka 0,33": "Somersby apple 0.33l",
+  "Somersby kruška 0,33": "Somersby pear 0.33l",
+  "Somersby borovnica 0,33": "Somersby blueberry 0.33l",
+  "Somersby mango 0,33": "Somersby mango 0.33l",
+  "Somersby malina 0,33": "Somersby raspberry 0.33l",
+  "Somersby jagoda 0,33 0% alk.": "Somersby strawberry 0.33l 0% alc.",
+  "Somersby zova 0,33 0% alk.": "Somersby elderflower 0.33l 0% alc.",
+  "Chardonay Plantaže 0,187": "Chardonnay Plantaze 0.187l",
+  "Rose Plantaže 0,187": "Rose Plantaze 0.187l",
+  "Vranac Plantaže 0,187": "Vranac Plantaze 0.187l",
+  "Buteljka vina 0,7 Tikveš": "Wine bottle 0.7l Tikves",
+  "Buteljka vina 0,7 Radovanović": "Wine bottle 0.7l Radovanovic",
+  "Curvoisier 0,03": "Courvoisier 0.03l",
+  "Napoleon 0,03": "Napoleon 0.03l",
+  "Stock 0,03": "Stock 0.03l",
+  "Vinjak 0,03": "Vinjak 0.03l",
+  "Bailey's 0,03l": "Bailey's 0.03l",
+  "Meduška 0,03l": "Meduska honey liqueur 0.03l",
+  "Šljivovica 0,03l": "Sljivovica plum brandy 0.03l",
+  "Kajsijevača 0,03l": "Kajsijevaca apricot brandy 0.03l",
+  "Dunjevača 0,03l": "Dunjevaca quince brandy 0.03l",
+  "Lozovača 0,03l": "Lozovaca grape brandy 0.03l",
+  "Viljamovka 0,03l": "Viljamovka pear brandy 0.03l",
+  "Žuta osa 0,03l": "Zuta Osa premium plum brandy 0.03l",
+  "Bacardi 0,03l": "Bacardi 0.03l",
+  "Jagermeister 0,03l": "Jagermeister 0.03l",
+  "Tequila 0,03l": "Tequila 0.03l",
+  "Havana Club 0,05l": "Havana Club 0.05l",
+  "Martini Bianco 0,05l": "Martini Bianco 0.05l",
+  "Gorki List 0,05l": "Gorki List bitter liqueur 0.05l",
+  "Vermouth 0,05l": "Vermouth 0.05l",
+  "Gin Beefeater 0,03l": "Gin Beefeater 0.03l",
+  "Smirnoff 0,03l": "Smirnoff vodka 0.03l",
+  "Vodka Baltik 0,03l": "Vodka Baltik 0.03l",
+  "Chivas Regal 0,03l": "Chivas Regal 0.03l",
+  "Johnnie Walker Black 0,03l": "Johnnie Walker Black 0.03l",
+  "Jack Daniels 0,03l": "Jack Daniels 0.03l",
+  "Jameson 0,03l": "Jameson 0.03l",
+  "Four Roses 0,03l": "Four Roses 0.03l",
+  "Johnnie Walker Red 0,03l": "Johnnie Walker Red 0.03l",
+
+  // Add-ons / Dodaci
+  "Pavlaka 50g": "Sour cream 50g",
+  "Urnebes 50g": "Urnebes spread 50g",
+  "Tartar sos 50g": "Tartar sauce 50g",
+  "Kajmak 40g": "Kajmak 40g",
+  "Feta sir 50g": "Feta cheese 50g",
+  "Pečurke u pavlaci 50g": "Creamy mushrooms 50g",
+  "Ajvar 50g": "Ajvar 50g",
+  "Masline 8 kom.": "Olives 8 pcs",
+  "Feferoni 2 kom.": "Hot peppers 2 pcs",
+  "Kiseli krastavac 50g": "Pickles 50g",
+  "Šunka 30g": "Ham 30g",
+  "Pečenica 30g": "Smoked pork loin 30g",
+  "Kulen 30g": "Kulen (spicy sausage) 30g",
+  "Pančeta 30g": "Pancetta 30g",
+  "Pršuta 30g": "Prosciutto 30g",
+  "Suvi vrat 30g": "Smoked pork neck 30g",
+  "Viršla 1 kom.": "Sausage 1 pc",
+  "Jaje 1 kom.": "Egg 1 pc",
+  "Tunjevina 70g": "Tuna 70g",
+  "Kukuruz 50g": "Corn 50g",
+  "Čeri paradajz 4 kom.": "Cherry tomatoes 4 pcs",
+  "Med ili džem 30g": "Honey or jam 30g",
+  "Orasi 30g": "Walnuts 30g",
+  "Eurokrem 40g": "Eurocrem 40g",
+  "Nutela 40g": "Nutella 40g",
+  "Lešnik, kikiriki ili Plazma 30g": "Hazelnut, peanut or Plazma 30g",
+  "Puding 40g": "Pudding 40g",
+  "Banana, ananas, kivi ili višnja 40g": "Banana, pineapple, kiwi or cherry 40g",
 
   // Doručak
   "Jaja na oko (3 kom.) sa slaninom": "Fried eggs (3 pcs) with bacon",
@@ -1276,6 +1485,7 @@ const addonTranslations = {
 };
 
 const ingredientTranslations = {
+  // Pizze & Specials
   "pelat": "tomato sauce",
   "kačkavalj": "cheese",
   "masline": "olives",
@@ -1341,16 +1551,168 @@ const ingredientTranslations = {
   "med": "honey",
   "puter": "butter",
   "kiseli krastavci": "pickles",
-  "kiseli krastavac": "pickles"
+  "kiseli krastavac": "pickles",
+  
+  // Novi/Nedostajući sastojci i prilozi
+  "maslinovo ulje": "olive oil",
+  "beli luk": "garlic",
+  "sveža ljuta paprika": "fresh hot pepper",
+  "tunjevina ili kulen": "tuna or kulen",
+  "testo 300g": "300g dough",
+  "testo 180g": "180g dough",
+  "baget hleb": "baguette bread",
+  "premaz": "spread",
+  "posni premaz": "lenten spread",
+  "iceberg salata": "iceberg lettuce",
+  "tuna": "tuna",
+  "mix salata": "salad mix",
+  "limun": "lemon",
+  "tost hleb": "toast bread",
+  "3 tosta": "3 toasts",
+  "4 tosta": "4 toasts",
+  "gril piletina 140g": "140g grilled chicken",
+  "gril slanina": "grilled bacon",
+  "zelena salata": "lettuce",
+  "paradajz": "tomato",
+  "ajsberg": "iceberg lettuce",
+  "rukola": "arugula",
+  "slatka pavlaka": "whipped cream",
+  "piškote": "ladyfingers",
+  "toping karamel": "caramel topping",
+  "roler": "wafer roll",
+  "pomfrit 120 gr": "120g french fries",
+  "pomfrit 140g": "140g french fries",
+  "pomfrit 120g": "120g french fries",
+  "pomfrit 100g": "100g french fries",
+  "čeri": "cherry tomatoes",
+  "grill piletina 140g": "140g grilled chicken",
+  "biftek 100g": "100g beef tenderloin",
+  "ela sir": "cream cheese",
+  "suvo grožđe": "raisins",
+  "preliv čoko i karamel šlag": "chocolate and caramel syrup, whipped cream",
+  "pohovane": "fried",
+  "toping": "topping",
+  "gril piletina 150g": "150g grilled chicken",
+  "kari sos": "curry sauce",
+  "gril piletina 280g": "280g grilled chicken",
+  "castro sos": "Castro sauce",
+  "piletina 300g": "300g chicken",
+  "piletina 150g": "150g chicken",
+  "kornfleks": "cornflakes",
+  "piletina 140g": "140g chicken",
+  "sos od pečuraka": "mushroom sauce",
+  "slanina 3 listića gril": "3 slices of grilled bacon",
+  "urnebes 50g": "urnebes 50g",
+  "tartar sos 50g": "tartar sauce 50g",
+  "kajmak 40g": "kajmak 40g",
+  "feta sir 50g": "feta cheese 50g",
+  "pečurke u pavlaci 50g": "creamy mushrooms 50g",
+  "ajvar 50g": "ajvar 50g",
+  "masline 8 kom.": "olives 8 pcs",
+  "feferoni 2 kom.": "hot peppers 2 pcs",
+  "kiseli krastavac 50g": "pickles 50g",
+  "šunka 30g": "ham 30g",
+  "pečenica 30g": "smoked pork loin 30g",
+  "kulen 30g": "kulen 30g",
+  "pančeta 30g": "pancetta 30g",
+  "pršuta 30g": "prosciutto 30g",
+  "suvi vrat 30g": "smoked pork neck 30g",
+  "viršla 1 kom.": "sausage 1 pc",
+  "jaje 1 kom.": "egg 1 pc",
+  "tunjevina 70g": "tuna 70g",
+  "kukuruz 50g": "corn 50g",
+  "čeri paradajz 4 kom.": "cherry tomatoes 4 pcs",
+  "med ili džem 30g": "honey or jam 30g",
+  "orasi 30g": "walnuts 30g",
+  "eurokrem 40g": "eurocrem 40g",
+  "nutela 40g": "nutella 40g",
+  "lešnik, kikiriki ili plazma 30g": "hazelnut, peanut or plazma 30g",
+  "puding 40g": "pudding 40g",
+  "banana, ananas, kivi ili višnja 40g": "banana, pineapple, kiwi or cherry 40g",
+  "2 pržena jaja": "2 fried eggs",
+  "2 gril viršle": "2 grilled sausages",
+  "3 listića gril slanine": "3 slices of grilled bacon",
+  "2 kuvana jaja": "2 boiled eggs",
+  "2 barene viršle": "2 boiled sausages",
+  "2 listića gaude": "2 slices of gouda",
+  "2 kom. zdenka sir": "2 pcs of Zdenka cream cheese",
+  "3 jaja": "3 eggs",
+  "tost hleb (3 komada)": "toast bread (3 pieces)",
+  "hleb štapići": "breadsticks",
+  "3 komada": "3 pieces",
+  "začini": "spices",
+  "jaja": "eggs",
+  "sir": "cheese",
+  "štapići lignje": "squid strips",
+  "novo": "NEW",
+  "džem (šljiva, kajsija, jagoda, šumsko voće)": "jam (plum, apricot, strawberry, wild berries)",
+  "čoko-vanila cipiripi krem, pahuljice, narandža": "chocolate-vanilla Cipiripi cream, cereal flakes, orange",
+  "slatka pavlaka, šlag i kivi": "heavy cream, whipped cream and kiwi",
+  "slatka pavlaka, šlag i ananas": "heavy cream, whipped cream and pineapple",
+  "slatka pavlaka, šlag i višnja": "heavy cream, whipped cream and cherry",
+  "vanila puding, šlag, piškote, toping karamel": "vanilla pudding, whipped cream, ladyfingers, caramel topping",
+  "banana, 2 kugle sladoleda, šlag, piškote, čokoladni preliv": "banana, 2 scoops of ice cream, whipped cream, ladyfingers, chocolate syrup",
+  "banana, ananas, višnja, kivi, šlag, toping": "banana, pineapple, cherry, kiwi, whipped cream, topping",
+  "čokoladni kolač sa kuglom sladoleda": "chocolate cake with a scoop of ice cream",
+  "jagoda, čokolada, vanila, straćatela": "strawberry, chocolate, vanilla, stracciatella",
+  "banane, ananas, kivi, roler, sladoled (2 kugle), šlag": "bananas, pineapple, kiwi, wafer roll, ice cream (2 scoops), whipped cream",
+  "neutralna pavlaka, majonez, šunka, kačkavalj, parmezan, začini": "heavy cream, mayonnaise, ham, cheese, parmesan, spices",
+  "neutralna pavlaka, gauda, gorgonzola, mozzarella, parmezan, začini": "heavy cream, gouda, gorgonzola, mozzarella, parmesan, spices",
+  "biljni kačkavalj, pečurke, kukuruz, masline, začini": "vegan cheese, mushrooms, corn, olives, spices",
+  "pelat, biftek 100g, crni luk, sveža ljuta paprika, začini": "tomato sauce, 100g beef tenderloin, onion, fresh hot pepper, spices",
+  "pavlaka, urnebes, kačkavalj, šunka": "sour cream, urnebes spread, cheese, ham",
+  "pavlaka, kačkavalj, šunka, kulen": "sour cream, cheese, ham, kulen (spicy sausage)",
+  "pavlaka, kačkavalj, šunka, slanina": "sour cream, cheese, ham, bacon",
+  "pavlaka, kačkavalj, pečenica, pečurke": "sour cream, cheese, smoked pork loin, mushrooms",
+  "pavlaka, urnebes, kačkavalj, pečenica": "sour cream, urnebes spread, cheese, smoked pork loin",
+  "pavlaka, kačkavalj, sir, pečenica, susam": "sour cream, cheese, cheese, smoked pork loin, sesame",
+  "kečap, kačkavalj, pečurke, pečenica": "ketchup, cheese, mushrooms, smoked pork loin",
+  "pavlaka, kačkavalj, šunka, pečenica, sir": "sour cream, cheese, ham, smoked pork loin, cheese",
+  "kečap, kačkavalj, pečenica, pečurke, kulen": "ketchup, cheese, smoked pork loin, mushrooms, kulen (spicy sausage)",
+  "pavlaka, feta sir, suvi vrat, kajmak": "sour cream, feta cheese, smoked pork neck, kajmak",
+  "pavlaka, grill piletina 140g, pomfrit 100g, kajmak": "sour cream, 140g grilled chicken, 100g french fries, kajmak",
+  "kečap, šunka, pečenica, kulen, pečurke, kačkavalj": "ketchup, ham, smoked pork loin, kulen (spicy sausage), mushrooms, cheese",
+  "pavlaka, kačkavalj, ajsberg, kulen, majonez, rukola": "sour cream, cheese, iceberg lettuce, kulen (spicy sausage), mayonnaise, arugula",
+  "pavlaka, šunka, kačkavalj, susam, tartar sos": "sour cream, ham, cheese, sesame, tartar sauce",
+  "pavlaka, kačkavalj, šunka, pečurke, kečap": "sour cream, cheese, ham, mushrooms, ketchup",
+  "pavlaka, kačkavalj, kulen, pečurke, majonez": "sour cream, cheese, kulen (spicy sausage), mushrooms, mayonnaise",
+  "pavlaka, suvi vrat, slanina, kačkavalj": "sour cream, smoked pork neck, bacon, cheese",
+  "testo 180g, pavlaka, pečenica ili kulen, kačkavalj": "180g dough, sour cream, smoked pork loin or kulen, cheese",
+  "testo 180g, tunjevina, kukuruz, mix salata": "180g dough, tuna, corn, salad mix",
+  "slatka pavlaka": "sweet cream",
+  "šlag": "whipped cream",
+  "kivi": "kiwi",
+  "orah": "walnut",
+  "lešnik": "hazelnut"
 };
 
 function translateIngredients(text) {
   if (!text) return "";
-  return text.split(',').map(item => {
-    const trimmed = item.trim().toLowerCase();
-    const trans = ingredientTranslations[trimmed];
-    if (trans) return trans;
-    return trimmed;
+  return text.split(/,(?![^(]*\))/).map(item => {
+    let trimmed = item.trim().toLowerCase();
+    
+    // Direct match check
+    if (ingredientTranslations[trimmed]) {
+      return ingredientTranslations[trimmed];
+    }
+    
+    // Split by " ili " (or)
+    if (trimmed.includes(" ili ")) {
+      return trimmed.split(" ili ").map(part => {
+        const p = part.trim();
+        return ingredientTranslations[p] || p;
+      }).join(" or ");
+    }
+    
+    // Split by " i " (and)
+    if (trimmed.includes(" i ")) {
+      return trimmed.split(" i ").map(part => {
+        const p = part.trim();
+        return ingredientTranslations[p] || p;
+      }).join(" and ");
+    }
+    
+    return ingredientTranslations[trimmed] || trimmed;
   }).join(', ');
 }
 
@@ -1409,7 +1771,8 @@ function setLanguage(lang) {
     if (!nameSpan) return;
     const descSpan = nameSpan.querySelector('.item__desc');
     
-    const baseName = el.dataset.name;
+    const baseName = el.dataset.name || (nameSpan.childNodes[0] && nameSpan.childNodes[0].textContent.trim());
+    if (!baseName) return;
     
     if (lang === 'en') {
       if (!nameSpan.dataset.srName) {
@@ -1447,4 +1810,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedLang = localStorage.getItem('castro-lang') || 'sr';
   setLanguage(savedLang);
 });
+
+/* ─── FAB auto-hide on scroll ─── */
+let lastScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+  const currentScrollY = window.scrollY;
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      // Scroll down
+      document.body.classList.add('scroll-down');
+    } else {
+      // Scroll up
+      document.body.classList.remove('scroll-down');
+    }
+  } else {
+    document.body.classList.remove('scroll-down');
+  }
+  lastScrollY = currentScrollY;
+}, { passive: true });
 
