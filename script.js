@@ -221,3 +221,59 @@ if (form) {
     field.addEventListener('input', () => field.classList.remove('error'));
   });
 }
+
+/* ─── Language Translation Logic ─── */
+function setLanguage(lang) {
+  document.body.classList.toggle('lang-sr', lang === 'sr');
+  document.body.classList.toggle('lang-en', lang === 'en');
+  localStorage.setItem('castro-lang', lang);
+
+  // Set active class on language toggle buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Translate elements with data-en attribute
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (lang === 'en') {
+      if (!el.dataset.srText) el.dataset.srText = el.innerHTML;
+      el.innerHTML = el.dataset.en;
+    } else {
+      if (el.dataset.srText) el.innerHTML = el.dataset.srText;
+    }
+  });
+
+  // Translate placeholders
+  document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+    if (lang === 'en') {
+      if (!el.dataset.srPlaceholder) el.dataset.srPlaceholder = el.placeholder;
+      el.placeholder = el.dataset.enPlaceholder;
+    } else {
+      if (el.dataset.srPlaceholder) el.placeholder = el.dataset.srPlaceholder;
+    }
+  });
+
+  // Translate dynamic buttons/inputs
+  document.querySelectorAll('input[type="submit"][data-en-value], button[data-en-value]').forEach(el => {
+    if (lang === 'en') {
+      if (!el.dataset.srValue) el.dataset.srValue = el.value || el.textContent;
+      if (el.value) el.value = el.dataset.enValue;
+      else el.textContent = el.dataset.enValue;
+    } else {
+      if (el.dataset.srValue) {
+        if (el.value) el.value = el.dataset.srValue;
+        else el.textContent = el.dataset.srValue;
+      }
+    }
+  });
+
+  // Fire event for dynamic elements (like happy hour script) to update
+  window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
+}
+
+// Initial set
+document.addEventListener('DOMContentLoaded', () => {
+  const savedLang = localStorage.getItem('castro-lang') || 'sr';
+  setLanguage(savedLang);
+});
+

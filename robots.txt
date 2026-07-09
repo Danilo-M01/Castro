@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin-dostava
 Disallow: /api/
 
-Sitemap: https://castro-restoran.com/sitemap.xml
+Sitemap: https://www.castropizzeria.com/sitemap.xml

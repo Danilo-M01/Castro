@@ -50,7 +50,8 @@ const cart = {
     if (isDodaciSection) {
        const existing = this.items.find(i => i.name === el.dataset.name);
        if (existing && existing.qty >= 2) {
-          alert('Možete poručiti maksimalno 2 ista dodatka zasebno.');
+          const lang = localStorage.getItem('castro-lang') || 'sr';
+          alert(lang === 'en' ? 'You can order a maximum of 2 of the same add-ons separately.' : 'Možete poručiti maksimalno 2 ista dodatka zasebno.');
           return;
        }
     }
@@ -76,8 +77,9 @@ const cart = {
       // Provera za zasebne dodatke
       if (document.getElementById('dodaci')) {
          const dodatakEl = document.querySelector(`#dodaci .item[data-name="${item.name}"]`);
-         if (dodatakEl && item.qty >= 2) {
-            alert('Možete poručiti maksimalno 2 ista dodatka zasebno.');
+         if (document.getElementById('dodaci') && dodatakEl && item.qty >= 2) {
+            const lang = localStorage.getItem('castro-lang') || 'sr';
+            alert(lang === 'en' ? 'You can order a maximum of 2 of the same add-ons separately.' : 'Možete poručiti maksimalno 2 ista dodatka zasebno.');
             return;
          }
       }
@@ -155,15 +157,20 @@ const cart = {
         
         if (item.addons && item.addons.length > 0) {
           itemPrice += item.addons.reduce((as, a) => as + a.price * a.qty, 0);
-          const addonTexts = item.addons.map(a => `${a.name}${a.qty > 1 ? ' x' + a.qty : ''}`);
+          const addonTexts = item.addons.map(a => {
+            const transName = (typeof addonTranslations !== 'undefined' && localStorage.getItem('castro-lang') === 'en' && addonTranslations[a.name]) ? addonTranslations[a.name] : a.name;
+            return `${transName}${a.qty > 1 ? ' x' + a.qty : ''}`;
+          });
           addonsHtml = `<div class="cart-item__addons" style="font-size:12px;color:#aaa;margin-top:2px;">+ ${addonTexts.join(', ')}</div>`;
         }
+
+        const displayName = typeof translateItemName === 'function' ? translateItemName(item.name) : item.name;
 
         const row = document.createElement('div');
         row.className = 'cart-item';
         row.innerHTML = `
           <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
-            <div class="cart-item__name">${item.name}</div>
+            <div class="cart-item__name">${displayName}</div>
             ${addonsHtml}
           </div>
           <div class="qty-ctrl">
@@ -969,9 +976,10 @@ function openAddonPicker(itemEl, baseName, basePrice, type) {
   currentAddons = {};
 
   const addonsList = getAddonsForType(type);
+  const lang = localStorage.getItem('castro-lang') || 'sr';
 
-  document.getElementById('addonPickerTitle').textContent = "Dodaci: " + baseName;
-  document.getElementById('addonPickerDesc').textContent = "Možete izabrati do 4 različita dodatka.";
+  document.getElementById('addonPickerTitle').textContent = lang === 'en' ? "Add-ons: " + (typeof translateItemName === 'function' ? translateItemName(baseName) : baseName) : "Dodaci: " + baseName;
+  document.getElementById('addonPickerDesc').textContent = lang === 'en' ? "You can choose up to 4 different add-ons." : "Možete izabrati do 4 različita dodatka.";
 
   const optsEl = document.getElementById('addonPickerOpts');
   optsEl.innerHTML = addonsList.map(a => `
@@ -1015,19 +1023,20 @@ function updateAddonQty(name, delta) {
   
   // Pravila
   const isFree = price === 0;
+  const lang = localStorage.getItem('castro-lang') || 'sr';
   if (isFree && newQty > 1) {
-    alert("Besplatni dodaci mogu se dodati najviše 1 put.");
+    alert(lang === 'en' ? "Free add-ons can be added at most 1 time." : "Besplatni dodaci mogu se dodati najviše 1 put.");
     return;
   }
   if (!isFree && newQty > 2) {
-    alert("Isti dodatak možete dodati najviše 2 puta.");
+    alert(lang === 'en' ? "The same add-on can be added at most 2 times." : "Isti dodatak možete dodati najviše 2 puta.");
     return;
   }
 
   // Max 4 različita dodatka ukupno
   const selectedTypes = Object.keys(currentAddons).filter(k => (k === name ? newQty : currentAddons[k].qty) > 0);
   if (selectedTypes.length > 4) {
-    alert("Možete izabrati maksimalno 4 različita dodatka po jelu.");
+    alert(lang === 'en' ? "You can choose a maximum of 4 different add-ons per dish." : "Možete izabrati maksimalno 4 različita dodatka po jelu.");
     return;
   }
 
@@ -1133,3 +1142,309 @@ document.getElementById('hhSlideupCta')?.addEventListener('click', (e) => {
 // Run immediately and check every 60 seconds
 checkHappyHour();
 setInterval(checkHappyHour, 60000);
+window.addEventListener('langchange', checkHappyHour);
+
+/* ═════════════════════════════════════════
+   BILINGUAL TRANSLATION LOGIC FOR THE MENU
+   ═════════════════════════════════════════ */
+
+const itemTranslations = {
+  // Pizze
+  "Margarita": "Margarita",
+  "Vesuvio": "Vesuvio",
+  "Capricccosa": "Capricciosa",
+  "Primavera": "Primavera",
+  "Chilli": "Chilli",
+  "Fortuna": "Fortuna",
+  "Hawaii": "Hawaii",
+  "Porto": "Porto",
+  "Posna pica": "Lenten Pizza (Vegan)",
+  "Posna": "Lenten (Vegan)",
+  "Mexicana": "Mexicana",
+  "Cardinale": "Cardinale",
+  "Quatro Stagione": "Quattro Stagioni",
+  "Carpie": "Carpie",
+  "Diavola": "Diavola",
+  "Pizza auf Kubanisch": "Cuban Style Pizza",
+  "Napolitana": "Napoletana",
+  "Castro pica": "Castro Special Pizza",
+  "Castro": "Castro Special",
+  "Quatro Formaggi": "Quattro Formaggi",
+  "Piccante": "Piccante",
+  "Srpska Pica": "Serbian Pizza",
+  "Chicken Pizza": "Chicken Pizza",
+
+  // Doručak
+  "Jaja na oko (3 kom.) sa slaninom": "Fried eggs (3 pcs) with bacon",
+  "Kajgana sa šunkom (3 jaja)": "Scrambled eggs with ham (3 eggs)",
+  "Kajgana sa povrćem": "Scrambled eggs with vegetables",
+  "Castro doručak (3 jaja, kobasica, sir, namaz)": "Castro Breakfast (3 eggs, sausage, cheese, spread)",
+  "Prženice sa sirom i namazom": "French toast with cheese and spread",
+
+  // Obroci / Piletina
+  "Grilovani pileći file 250g": "Grilled chicken fillet 250g",
+  "Pohovani pileći štapići sa susamom 250g": "Fried chicken strips with sesame 250g",
+  "Piletina u kornfleksu 250g": "Cornflake crusted chicken 250g",
+  "Piletina u sosu od pečuraka 250g": "Chicken in mushroom sauce 250g",
+  "Piletina u sosu od 4 vrste sira 250g": "Chicken in 4 cheese sauce 250g",
+  "Piletina gorgonzola 250g": "Chicken gorgonzola 250g",
+  "Karađorđeva šnicla (svinjska/pileća)": "Karadjordjeva schnitzel (pork/chicken)",
+  "Pohovani kačkavalj 200g": "Fried yellow cheese 200g",
+  "Pomfrit 200g": "French fries 200g",
+  "Začinjeni krompirići 200g": "Seasoned potato wedges 200g",
+
+  // Palačinke
+  "Palačinka sa džemom": "Crepe with jam",
+  "Palačinka sa eurokremom": "Crepe with Eurocrem",
+  "Palačinka sa nutelom": "Crepe with Nutella",
+  "Palačinka slana (šunka, sir, pavlaka)": "Savory crepe (ham, cheese, sour cream)",
+  "Palačinka Castro slana (pečenica, kulen, sir, kajmak)": "Castro savory crepe (smoked pork, kulen, cheese, kajmak)",
+
+  // Paste
+  "Spaghetti Bolognese": "Spaghetti Bolognese",
+  "Spaghetti Carbonara": "Spaghetti Carbonara",
+  "Penne Arrabbiata": "Penne Arrabbiata",
+  "Tagliatelle sa piletinom i povrćem": "Tagliatelle with chicken and vegetables",
+  "Tagliatelle sa šumskim pečurkama": "Tagliatelle with wild mushrooms",
+
+  // Tortilje
+  "Tortilja sa piletinom i povrćem": "Chicken and vegetable tortilla",
+  "Tortilja sa svinjskim vratom i kajmakom": "Pork neck and kajmak tortilla",
+  "Castro ljuta tortilja": "Castro spicy tortilla",
+
+  // Salate
+  "Cezar salata 350g": "Caesar salad 350g",
+  "Grčka salata 350g": "Greek salad 350g",
+  "Tuna salata 350g": "Tuna salad 350g",
+  "Šopska salata 250g": "Sopska salad (traditional) 250g",
+  "Sezonska salata": "Seasonal salad",
+
+  // Sendviči
+  "Sendvič sa šunkom": "Ham sandwich",
+  "Sendvič sa pečenicom": "Smoked pork sandwich",
+  "Sendvič sa kulenom": "Kulen (spicy sausage) sandwich",
+  "Castro sendvič (suvi vrat, kajmak, kačkavalj)": "Castro sandwich (smoked pork neck, kajmak, cheese)",
+
+  // Deserti
+  "Tri leće": "Tres Leches (Three milks cake)",
+  "Čokoladni sufle": "Chocolate soufflé",
+  "Voćni kup": "Fruit cup",
+  "Sladoled porcija (3 kugle)": "Ice cream portion (3 scoops)",
+
+  // Čorbe
+  "Domaća pileća čorba": "Homemade chicken soup",
+  "Potaž dana": "Soup potage of the day"
+};
+
+const addonTranslations = {
+  "Pavlaka 50g": "Sour cream 50g",
+  "Urnebes 50g": "Urnebes 50g",
+  "Tartar sos 50g": "Tartar sauce 50g",
+  "Kajmak 40g": "Kajmak 40g",
+  "Feta sir 50g": "Feta cheese 50g",
+  "Pečurke u pavlaci 50g": "Creamy mushrooms 50g",
+  "Ajvar 50g": "Ajvar 50g",
+  "Masline 8 kom.": "Olives 8 pcs",
+  "Feferoni 2 kom.": "Hot peppers 2 pcs",
+  "Kiseli krastavac 50g": "Pickles 50g",
+  "Šunka 30g": "Ham 30g",
+  "Pečenica 30g": "Smoked pork 30g",
+  "Kulen 30g": "Kulen 30g",
+  "Pančeta 30g": "Pancetta 30g",
+  "Pršuta 30g": "Prosciutto 30g",
+  "Suvi vrat 30g": "Smoked pork neck 30g",
+  "Viršla 1 kom.": "Sausage 1 pc",
+  "Jaje 1 kom.": "Egg 1 pc",
+  "Tunjevina 70g": "Tuna 70g",
+  "Kukuruz 50g": "Corn 50g",
+  "Čeri paradajz 4 kom.": "Cherry tomatoes 4 pcs",
+  "Kečap": "Ketchup",
+  "Majonez": "Mayonnaise",
+  "Senf": "Mustard",
+  "Čili": "Chili",
+  "Tabasco": "Tabasco",
+  "Balsamico": "Balsamic",
+  "Maslinovo ulje": "Olive oil",
+  "Vinsko sirće": "Wine vinegar",
+  "Med ili džem 30g": "Honey or jam 30g",
+  "Orasi 30g": "Walnuts 30g",
+  "Eurokrem 40g": "Eurocrem 40g",
+  "Nutela 40g": "Nutella 40g",
+  "Lešnik, kikiriki ili Plazma 30g": "Hazelnut, peanut or Plazma 30g",
+  "Puding 40g": "Pudding 40g",
+  "Banana, ananas, kivi ili višnja 40g": "Banana, pineapple, kiwi or cherry 40g"
+};
+
+const ingredientTranslations = {
+  "pelat": "tomato sauce",
+  "kačkavalj": "cheese",
+  "masline": "olives",
+  "origano": "oregano",
+  "šunka": "ham",
+  "pečurke": "mushrooms",
+  "šampinjoni": "mushrooms",
+  "pečenica": "smoked pork loin",
+  "čeri paradajz": "cherry tomatoes",
+  "mleveno meso": "minced meat",
+  "feferone": "hot peppers",
+  "feferoni": "hot peppers",
+  "slanina": "bacon",
+  "jaje": "egg",
+  "uprženo jaje": "fried egg",
+  "kisela pavlaka": "sour cream",
+  "pavlaka": "sour cream",
+  "ananas": "pineapple",
+  "susam": "sesame",
+  "kulen": "kulen (spicy sausage)",
+  "tunjevina": "tuna",
+  "kukuruz": "corn",
+  "suvi vrat": "smoked pork neck",
+  "blago ljuti sos": "mild spicy sauce",
+  "ljuti sos": "spicy sauce",
+  "mozzarella": "mozzarella",
+  "gorgonzola": "gorgonzola",
+  "gauda": "gouda",
+  "parmezan": "parmesan",
+  "bosiljak": "basil",
+  "kajmak": "kajmak",
+  "feta sir": "feta cheese",
+  "feta": "feta",
+  "gril piletina": "grilled chicken",
+  "grilovani pileći file": "grilled chicken file",
+  "piletina": "chicken",
+  "pomfrit": "french fries",
+  "sos": "sauce",
+  "tartar sos": "tartar sauce",
+  "neutralna pavlaka": "heavy cream",
+  "paprika": "pepper",
+  "crni luk": "onion",
+  "pančeta": "pancetta",
+  "urnebes": "urnebes spread",
+  "suvo vrat": "smoked pork neck",
+  "kečap": "ketchup",
+  "majonez": "mayonnaise",
+  "zelena salata": "lettuce",
+  "dresing": "dressing",
+  "tost": "toast",
+  "eurokrem": "eurocrem",
+  "nutela": "nutella",
+  "plazma": "plazma biscuit",
+  "banana": "banana",
+  "višnja": "cherry",
+  "lešnik": "hazelnut",
+  "kikiriki": "peanut",
+  "džem": "jam",
+  "šlag": "whipped cream",
+  "čokoladni preliv": "chocolate syrup",
+  "voće": "fruit",
+  "sladoled": "ice cream",
+  "med": "honey",
+  "puter": "butter",
+  "kiseli krastavci": "pickles",
+  "kiseli krastavac": "pickles"
+};
+
+function translateIngredients(text) {
+  if (!text) return "";
+  return text.split(',').map(item => {
+    const trimmed = item.trim().toLowerCase();
+    const trans = ingredientTranslations[trimmed];
+    if (trans) return trans;
+    return trimmed;
+  }).join(', ');
+}
+
+function translateItemName(fullName) {
+  if (localStorage.getItem('castro-lang') !== 'en') return fullName;
+  
+  const match = fullName.match(/^([^(]+)\s*\(([^)]+)\)$/);
+  if (match) {
+    const baseName = match[1].trim();
+    let sizeInfo = match[2].trim();
+    
+    if (sizeInfo === 'Porodična') sizeInfo = 'Family size';
+    else if (sizeInfo === 'Standard') sizeInfo = 'Standard';
+    else if (sizeInfo === 'Mini') sizeInfo = 'Mini';
+    
+    const translatedBase = itemTranslations[baseName] || baseName;
+    return `${translatedBase} (${sizeInfo})`;
+  }
+  
+  return itemTranslations[fullName] || fullName;
+}
+
+function setLanguage(lang) {
+  document.body.classList.toggle('lang-sr', lang === 'sr');
+  document.body.classList.toggle('lang-en', lang === 'en');
+  localStorage.setItem('castro-lang', lang);
+
+  // Set active class on language toggle buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Translate elements with data-en attribute
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (lang === 'en') {
+      if (!el.dataset.srText) el.dataset.srText = el.innerHTML;
+      el.innerHTML = el.dataset.en;
+    } else {
+      if (el.dataset.srText) el.innerHTML = el.dataset.srText;
+    }
+  });
+
+  // Translate placeholders
+  document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+    if (lang === 'en') {
+      if (!el.dataset.srPlaceholder) el.dataset.srPlaceholder = el.placeholder;
+      el.placeholder = el.dataset.enPlaceholder;
+    } else {
+      if (el.dataset.srPlaceholder) el.placeholder = el.dataset.srPlaceholder;
+    }
+  });
+
+  // Translate menu items and their descriptions dynamically
+  document.querySelectorAll('.item').forEach(el => {
+    const nameSpan = el.querySelector('.item__name');
+    if (!nameSpan) return;
+    const descSpan = nameSpan.querySelector('.item__desc');
+    
+    const baseName = el.dataset.name;
+    
+    if (lang === 'en') {
+      if (!nameSpan.dataset.srName) {
+        nameSpan.dataset.srName = nameSpan.childNodes[0].textContent;
+      }
+      if (descSpan && !descSpan.dataset.srDesc) {
+        descSpan.dataset.srDesc = descSpan.textContent;
+      }
+      
+      nameSpan.childNodes[0].textContent = itemTranslations[baseName] || baseName;
+      if (descSpan) {
+        descSpan.textContent = translateIngredients(descSpan.dataset.srDesc);
+      }
+    } else {
+      if (nameSpan.dataset.srName) {
+        nameSpan.childNodes[0].textContent = nameSpan.dataset.srName;
+      }
+      if (descSpan && descSpan.dataset.srDesc) {
+        descSpan.textContent = descSpan.dataset.srDesc;
+      }
+    }
+  });
+
+  // Re-render cart with translated names
+  if (typeof cart !== 'undefined' && typeof cart.render === 'function') {
+    cart.render();
+  }
+
+  // Fire event for dynamic elements to update
+  window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
+}
+
+// Initial set
+document.addEventListener('DOMContentLoaded', () => {
+  const savedLang = localStorage.getItem('castro-lang') || 'sr';
+  setLanguage(savedLang);
+});
+

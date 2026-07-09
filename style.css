@@ -1500,3 +1500,68 @@ input, select, textarea { font: inherit; }
     font-size: 10px;
   }
 }
+
+/* ─── Language Switcher ─── */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2px;
+  border-radius: 20px;
+  margin-right: 0;
+}
+.lang-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.lang-btn:hover {
+  color: #fff;
+}
+.lang-btn.active {
+  background: var(--primary, #e8b84b);
+  color: #000;
+}
+
+/* Scrolled state (white header) fixes for home page switcher visibility */
+.nav.scrolled .lang-switch {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+.nav.scrolled .lang-btn {
+  color: rgba(0, 0, 0, 0.6);
+}
+.nav.scrolled .lang-btn:hover {
+  color: #000;
+}
+.nav.scrolled .lang-btn.active {
+  background: var(--primary, #e8b84b);
+  color: #000;
+}
+
+/* Desktop vs Mobile switcher layout visibility rules */
+.nav__links-lang {
+  display: block;
+}
+.mobile-only-lang {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .nav__links-lang {
+    display: none !important;
+  }
+  .mobile-only-lang {
+    display: flex !important;
+    margin-right: 8px;
+  }
+}
+

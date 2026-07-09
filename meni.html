@@ -34,14 +34,14 @@
   <meta name="geo.placename" content="Požarevac, Srbija">
   <meta name="geo.position" content="44.6196;21.1867">
   <meta name="ICBM" content="44.6196, 21.1867">
-  <link rel="canonical" href="https://castro-restoran.com/meni">
+  <link rel="canonical" href="https://www.castropizzeria.com/meni">
 
   <!-- ═══ SEO: Open Graph (WhatsApp, Facebook, Viber deljenje) ═══ -->
   <meta property="og:title" content="Naruči Online — Castro Požarevac | Pizza, Paste, Palačinke">
   <meta property="og:description" content="Pizza od 410 RSD, paste, palačinke i dostava u Požarevcu. Radi od 07:00. Naruči direktno sa sajta — bez telefonskog čekanja!">
   <meta property="og:type" content="restaurant.menu">
-  <meta property="og:url" content="https://castro-restoran.com/meni">
-  <meta property="og:image" content="https://castro-restoran.com/baner1.webp">
+  <meta property="og:url" content="https://www.castropizzeria.com/meni">
+  <meta property="og:image" content="https://www.castropizzeria.com/baner1.webp">
   <meta property="og:locale" content="sr_RS">
   <meta property="og:site_name" content="Castro Restoran Požarevac">
 
@@ -70,11 +70,11 @@
     "name": "Castro Caffe Pizzeria",
     "alternateName": ["Castro Restoran", "Castro Požarevac"],
     "description": "Restoran i pizzerija u Požarevcu sa online narudžbinama i dostavom. Pizza od 410 RSD, paste, palačinke, obroci.",
-    "url": "https://castro-restoran.com",
+    "url": "https://www.castropizzeria.com",
     "telephone": "+381-12-531-010",
     "foundingDate": "2011",
-    "image": "https://castro-restoran.com/baner1.webp",
-    "logo": "https://castro-restoran.com/Logo%20za%20sajt.webp",
+    "image": "https://www.castropizzeria.com/baner1.webp",
+    "logo": "https://www.castropizzeria.com/Logo%20za%20sajt.webp",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Moše Pijade 16, TC Novi Dom",
@@ -110,7 +110,7 @@
     "priceRange": "$$",
     "currenciesAccepted": "RSD",
     "paymentAccepted": "Cash, Card",
-    "menu": "https://castro-restoran.com/meni",
+    "menu": "https://www.castropizzeria.com/meni",
     "hasDeliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet",
     "sameAs": [
       "https://www.instagram.com/castro.pizzeria.caffe/",
@@ -119,7 +119,7 @@
     "hasMenu": {
       "@type": "Menu",
       "name": "Castro Kompletan Meni",
-      "url": "https://castro-restoran.com/meni",
+      "url": "https://www.castropizzeria.com/meni",
       "hasMenuSection": [
         {
           "@type": "MenuSection",
@@ -167,7 +167,7 @@
       "@type": "OrderAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://castro-restoran.com/meni",
+        "urlTemplate": "https://www.castropizzeria.com/meni",
         "inLanguage": "sr",
         "actionPlatform": [
           "http://schema.org/DesktopWebPlatform",
@@ -189,19 +189,23 @@
       <img src="logo.png" alt="Castro" width="46" height="46">
     </a>
     <div class="nav__center">
-      <a href="#dorucak" class="nav__tab">Doručak</a>
-      <a href="#pizze" class="nav__tab">Pizze</a>
-      <a href="#specijal" class="nav__tab">Specijal</a>
-      <a href="#piletina" class="nav__tab">Piletina</a>
-      <a href="#palacinka" class="nav__tab">Palačinke</a>
-      <a href="#paste" class="nav__tab">Paste</a>
-      <a href="#tortilje" class="nav__tab">Tortilje</a>
-      <a href="#salate" class="nav__tab">Salate</a>
-      <a href="#dezerti" class="nav__tab">Deserti</a>
-      <a href="#pica" class="nav__tab">Pića</a>
-      <a href="#happyhour" class="nav__tab nav__tab--hh">Happy Hour ☕</a>
+      <a href="#dorucak" class="nav__tab" data-en="Breakfast">Doručak</a>
+      <a href="#pizze" class="nav__tab" data-en="Pizzas">Pizze</a>
+      <a href="#specijal" class="nav__tab" data-en="Specials">Specijal</a>
+      <a href="#piletina" class="nav__tab" data-en="Chicken">Piletina</a>
+      <a href="#palacinka" class="nav__tab" data-en="Crepes">Palačinke</a>
+      <a href="#paste" class="nav__tab" data-en="Pastas">Paste</a>
+      <a href="#tortilje" class="nav__tab" data-en="Tortillas">Tortilje</a>
+      <a href="#salate" class="nav__tab" data-en="Salads">Salate</a>
+      <a href="#dezerti" class="nav__tab" data-en="Desserts">Deserti</a>
+      <a href="#pica" class="nav__tab" data-en="Drinks">Pića</a>
+      <a href="#happyhour" class="nav__tab nav__tab--hh" data-en="Happy Hour ☕">Happy Hour ☕</a>
     </div>
     <div class="nav__right">
+      <div class="lang-switch" style="margin-right: 10px; margin-left: 0;">
+        <button class="lang-btn active" data-lang="sr" onclick="setLanguage('sr')">SR</button>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+      </div>
       <button class="cart-btn" id="cartBtn" aria-label="Otvori korpu">
         <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
@@ -228,27 +232,27 @@
   <div class="meni-hero__content">
     <h1 class="meni-hero__title" style="margin-bottom: 6px;">CASTRO</h1>
     <p class="meni-hero__subtitle" style="font-size: clamp(18px, 4vw, 28px); font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--primary); margin-bottom: 16px;">Caffe & Pizzeria</p>
-    <p class="meni-hero__sub" style="font-size: clamp(15px, 3.5vw, 18px); text-transform: uppercase; letter-spacing: 0.2em; color: #ffffff; font-weight: 600;">Naša ponuda</p>
+    <p class="meni-hero__sub" style="font-size: clamp(15px, 3.5vw, 18px); text-transform: uppercase; letter-spacing: 0.2em; color: #ffffff; font-weight: 600;" data-en="Our Offer">Naša ponuda</p>
   </div>
 </div>
 
 <!-- ═══ STICKY SUB-NAV ═══ -->
 <nav class="sub-nav" id="subNav" aria-label="Kategorije">
   <div class="sub-nav__inner">
-    <a href="#happyhour" class="sub-nav__item sub-nav__item--hh" data-target="happyhour"><span class="sn-emoji">☕</span><span class="sn-label">Happy Hour</span></a>
-    <a href="#pica" class="sub-nav__item" data-target="pica"><span class="sn-emoji">🍺</span><span class="sn-label">Pića</span></a>
-    <a href="#dorucak" class="sub-nav__item" data-target="dorucak"><span class="sn-emoji">🍳</span><span class="sn-label">Doručak</span></a>
-    <a href="#pizze" class="sub-nav__item" data-target="pizze"><span class="sn-emoji">🍕</span><span class="sn-label">Pizze</span></a>
-    <a href="#specijal" class="sub-nav__item" data-target="specijal"><span class="sn-emoji">⭐</span><span class="sn-label">Specijal</span></a>
-    <a href="#piletina" class="sub-nav__item" data-target="piletina"><span class="sn-emoji">🍗</span><span class="sn-label">Piletina</span></a>
-    <a href="#palacinka" class="sub-nav__item" data-target="palacinka"><span class="sn-emoji">🥞</span><span class="sn-label">Palačinke</span></a>
-    <a href="#paste" class="sub-nav__item" data-target="paste"><span class="sn-emoji">🍝</span><span class="sn-label">Paste</span></a>
-    <a href="#tortilje" class="sub-nav__item" data-target="tortilje"><span class="sn-emoji">🌯</span><span class="sn-label">Tortilje</span></a>
-    <a href="#salate" class="sub-nav__item" data-target="salate"><span class="sn-emoji">🥗</span><span class="sn-label">Salate</span></a>
-    <a href="#sendvici" class="sub-nav__item" data-target="sendvici"><span class="sn-emoji">🥪</span><span class="sn-label">Sendviči</span></a>
-    <a href="#dezerti" class="sub-nav__item" data-target="dezerti"><span class="sn-emoji">🍰</span><span class="sn-label">Deserti</span></a>
-    <a href="#dodaci" class="sub-nav__item" data-target="dodaci"><span class="sn-emoji">🧂</span><span class="sn-label">Dodaci</span></a>
-    <a href="#corbe" class="sub-nav__item" data-target="corbe"><span class="sn-emoji">🍲</span><span class="sn-label">Čorbe</span></a>
+    <a href="#happyhour" class="sub-nav__item sub-nav__item--hh" data-target="happyhour"><span class="sn-emoji">☕</span><span class="sn-label" data-en="Happy Hour">Happy Hour</span></a>
+    <a href="#pica" class="sub-nav__item" data-target="pica"><span class="sn-emoji">🍺</span><span class="sn-label" data-en="Drinks">Pića</span></a>
+    <a href="#dorucak" class="sub-nav__item" data-target="dorucak"><span class="sn-emoji">🍳</span><span class="sn-label" data-en="Breakfast">Doručak</span></a>
+    <a href="#pizze" class="sub-nav__item" data-target="pizze"><span class="sn-emoji">🍕</span><span class="sn-label" data-en="Pizzas">Pizze</span></a>
+    <a href="#specijal" class="sub-nav__item" data-target="specijal"><span class="sn-emoji">⭐</span><span class="sn-label" data-en="Specials">Specijal</span></a>
+    <a href="#piletina" class="sub-nav__item" data-target="piletina"><span class="sn-emoji">🍗</span><span class="sn-label" data-en="Chicken">Piletina</span></a>
+    <a href="#palacinka" class="sub-nav__item" data-target="palacinka"><span class="sn-emoji">🥞</span><span class="sn-label" data-en="Crepes">Palačinke</span></a>
+    <a href="#paste" class="sub-nav__item" data-target="paste"><span class="sn-emoji">🍝</span><span class="sn-label" data-en="Pastas">Paste</span></a>
+    <a href="#tortilje" class="sub-nav__item" data-target="tortilje"><span class="sn-emoji">🌯</span><span class="sn-label" data-en="Tortillas">Tortilje</span></a>
+    <a href="#salate" class="sub-nav__item" data-target="salate"><span class="sn-emoji">🥗</span><span class="sn-label" data-en="Salads">Salate</span></a>
+    <a href="#sendvici" class="sub-nav__item" data-target="sendvici"><span class="sn-emoji">🥪</span><span class="sn-label" data-en="Sandwiches">Sendviči</span></a>
+    <a href="#dezerti" class="sub-nav__item" data-target="dezerti"><span class="sn-emoji">🍰</span><span class="sn-label" data-en="Desserts">Deserti</span></a>
+    <a href="#dodaci" class="sub-nav__item" data-target="dodaci"><span class="sn-emoji">🧂</span><span class="sn-label" data-en="Add-ons">Dodaci</span></a>
+    <a href="#corbe" class="sub-nav__item" data-target="corbe"><span class="sn-emoji">🍲</span><span class="sn-label" data-en="Soups">Čorbe</span></a>
   </div>
 </nav>
 
@@ -261,8 +265,8 @@
       <img src="baner1.webp" alt="Pića" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Digitalni meni pića</span>
-        <h2 class="cat__title">Pića</h2>
+        <span class="cat__label" data-en="Digital drinks menu">Digitalni meni pića</span>
+        <h2 class="cat__title" data-en="Drinks">Pića</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -495,8 +499,8 @@
       <img src="cat-obroci.webp" alt="Doručak" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Jutarnji obrok</span>
-        <h2 class="cat__title">Doručak</h2>
+        <span class="cat__label" data-en="Morning meal">Jutarnji obrok</span>
+        <h2 class="cat__title" data-en="Breakfast">Doručak</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -547,8 +551,8 @@
       <img src="cat-pizze.webp" alt="Pizze" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Naša specijalnost</span>
-        <h2 class="cat__title">Pizze</h2>
+        <span class="cat__label" data-en="Our specialty">Naša specijalnost</span>
+        <h2 class="cat__title" data-en="Pizzas">Pizze</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -584,8 +588,8 @@
       <img src="cat-pizze.webp" alt="Specijal Pizze" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Castro Specijal ★</span>
-        <h2 class="cat__title">Special Pizze</h2>
+        <span class="cat__label" data-en="Castro Special ★">Castro Specijal ★</span>
+        <h2 class="cat__title" data-en="Special Pizzas">Special Pizze</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -633,8 +637,8 @@
       <img src="cat-obroci.webp" alt="Jela od piletine" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Topla kuhinja</span>
-        <h2 class="cat__title">Piletina</h2>
+        <span class="cat__label" data-en="Hot kitchen">Topla kuhinja</span>
+        <h2 class="cat__title" data-en="Chicken">Piletina</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -661,8 +665,8 @@
       <img src="cat-paste.webp" alt="Paste" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Italijanska kuhinja</span>
-        <h2 class="cat__title">Paste</h2>
+        <span class="cat__label" data-en="Italian kitchen">Italijanska kuhinja</span>
+        <h2 class="cat__title" data-en="Pastas">Paste</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -686,8 +690,8 @@
       <img src="cat-tortilje.webp" alt="Tortilje" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Wraps & više</span>
-        <h2 class="cat__title">Tortilje</h2>
+        <span class="cat__label" data-en="Wraps & more">Wraps & više</span>
+        <h2 class="cat__title" data-en="Tortillas">Tortilje</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -712,8 +716,8 @@
       <img src="cat-slana-palacinka.webp" alt="Slane palačinke" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Slano i zasitno</span>
-        <h2 class="cat__title">Palačinke</h2>
+        <span class="cat__label" data-en="Savory & sweet crepes">Slano i zasitno</span>
+        <h2 class="cat__title" data-en="Crepes">Palačinke</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -747,8 +751,8 @@
       <img src="cat-salate.webp" alt="Salate" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Sveže i lagano</span>
-        <h2 class="cat__title">Salate</h2>
+        <span class="cat__label" data-en="Fresh & light">Sveže i lagano</span>
+        <h2 class="cat__title" data-en="Salads">Salate</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -774,8 +778,8 @@
       <img src="cat-sendvici.webp" alt="Sendviči" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Brzo i ukusno</span>
-        <h2 class="cat__title">Sendviči</h2>
+        <span class="cat__label" data-en="Quick & tasty">Brzo i ukusno</span>
+        <h2 class="cat__title" data-en="Sandwiches">Sendviči</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -801,8 +805,8 @@
       <img src="cat-slatka-palacinka.webp" alt="Dezerti" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Slatki završetak</span>
-        <h2 class="cat__title">Dezerti</h2>
+        <span class="cat__label" data-en="Sweet end">Slatki završetak</span>
+        <h2 class="cat__title" data-en="Desserts">Dezerti</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -869,8 +873,8 @@
       <img src="cat-dodaci-new.png" alt="Dodaci" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Napravi po svom ukusu</span>
-        <h2 class="cat__title">Dodaci</h2>
+        <span class="cat__label" data-en="Customize to your taste">Napravi po svom ukusu</span>
+        <h2 class="cat__title" data-en="Add-ons">Dodaci</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -926,8 +930,8 @@
       <img src="cat-salate.webp" alt="Čorbe" loading="lazy">
       <div class="cat__banner-overlay"></div>
       <div class="cat__banner-text">
-        <span class="cat__label">Nešto toplo</span>
-        <h2 class="cat__title">Čorbe i potaži</h2>
+        <span class="cat__label" data-en="Something warm">Nešto toplo</span>
+        <h2 class="cat__title" data-en="Soups">Čorbe i potaži</h2>
       </div>
     </div>
     <div class="cat__body">
@@ -975,7 +979,7 @@
         <a href="index.html#rezervacija">Rezervacija</a>
       </div>
     </div>
-    <p class="footer__copy">&copy; 2026 Castro Restoran · Moše Pijade bb, TC Novi Dom, Požarevac</p>
+    <p class="footer__copy" data-en="&copy; 2026 Castro Restaurant · Moše Pijade bb, TC Novi Dom, Požarevac">&copy; 2026 Castro Restoran · Moše Pijade bb, TC Novi Dom, Požarevac</p>
   </div>
 </footer>
 
@@ -983,21 +987,21 @@
 <div class="cart-overlay" id="cartOverlay"></div>
 <aside class="cart-panel" id="cartPanel">
   <div class="cart-panel__head">
-    <h2>Vaša korpa</h2>
+    <h2 data-en="Your Cart">Vaša korpa</h2>
     <button class="cart-close" id="cartClose">&times;</button>
   </div>
   <div class="cart-panel__items" id="cartItems">
     <div class="cart-empty" id="cartEmpty">
       <svg viewBox="0 0 48 48" fill="none" width="48" height="48"><path d="M6 4L3 12v28a2 2 0 002 2h34a2 2 0 002-2V12L38 4H6z" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="12" x2="45" y2="12" stroke="currentColor" stroke-width="1.5"/><path d="M32 20a8 8 0 01-16 0" stroke="currentColor" stroke-width="1.5"/></svg>
-      <p>Korpa je prazna</p>
+      <p data-en="Your cart is empty">Korpa je prazna</p>
     </div>
   </div>
   <div class="cart-panel__foot">
     <div class="cart-total">
-      <span>Ukupno</span>
+      <span data-en="Total">Ukupno</span>
       <span id="cartTotal">0 RSD</span>
     </div>
-    <button class="order-btn" id="orderBtn" disabled>Naruči &rarr;</button>
+    <button class="order-btn" id="orderBtn" disabled data-en="Order &rarr;">Naruči &rarr;</button>
   </div>
 </aside>
 
@@ -1007,18 +1011,18 @@
   <button class="size-picker__close" onclick="closeAddonPicker()">
     <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   </button>
-  <h3 class="size-picker__title" id="addonPickerTitle">Izaberite dodatke</h3>
+  <h3 class="size-picker__title" id="addonPickerTitle" data-en="Choose Add-ons">Izaberite dodatke</h3>
   <p class="addon-picker__desc" id="addonPickerDesc"></p>
   <div class="addon-picker__list" id="addonPickerOpts">
     <!-- Generiše JS -->
   </div>
-  <button class="btn btn--primary btn--full" style="margin-top:20px; background: rgba(230,57,70,0.1); color: #E63946; border: 1.5px solid #E63946;" onclick="confirmAddonsAndAdd()">Dodaj u korpu</button>
+  <button class="btn btn--primary btn--full" style="margin-top:20px; background: rgba(230,57,70,0.1); color: #E63946; border: 1.5px solid #E63946;" onclick="confirmAddonsAndAdd()" data-en="Add to Cart">Dodaj u korpu</button>
 </div>
 
 <div class="overlay" id="sizePickerOverlay" onclick="closeSizePicker()"></div>
 <div class="size-picker" id="sizePicker">
   <div class="size-picker__head">
-    <span class="size-picker__title" id="sizePickerTitle">Izaberi veličinu</span>
+    <span class="size-picker__title" id="sizePickerTitle" data-en="Choose Size">Izaberi veličinu</span>
     <button class="size-picker__close" id="sizePickerClose">&times;</button>
   </div>
   <div class="size-picker__opts" id="sizePickerOpts"></div>
@@ -1028,40 +1032,40 @@
 <div class="modal-overlay" id="modalOverlay"></div>
 <div class="modal" id="orderModal">
   <button class="modal-close" id="modalClose">&times;</button>
-  <h2 class="modal__title">Potvrdi narudžbinu</h2>
-  <p class="modal__sub">Popuni podatke — narudžbina stiže direktno na naš WhatsApp.</p>
+  <h2 class="modal__title" data-en="Confirm Order">Potvrdi narudžbinu</h2>
+  <p class="modal__sub" data-en="Fill in your details — the order goes directly to our team.">Popuni podatke — narudžbina stiže direktno na naš WhatsApp.</p>
   <form class="modal__form" id="orderForm" novalidate>
     <div class="field">
-      <label for="oName">Ime i prezime</label>
-      <input type="text" id="oName" placeholder="Vaše ime" required>
+      <label for="oName" data-en="Full Name">Ime i prezime</label>
+      <input type="text" id="oName" placeholder="Vaše ime" data-en-placeholder="Your name" required>
     </div>
     <div class="field">
-      <label for="oPhone">Telefon</label>
-      <input type="tel" id="oPhone" value="+381" placeholder="+3816XXXXXXXX" inputmode="tel" required>
+      <label for="oPhone" data-en="Phone">Telefon</label>
+      <input type="tel" id="oPhone" value="+381" placeholder="+3816XXXXXXXX" data-en-placeholder="+3816XXXXXXXX" inputmode="tel" required>
     </div>
     <div class="field">
-      <label>Tip narudžbine</label>
+      <label data-en="Order Type">Tip narudžbine</label>
       <div class="radio-group">
-        <label class="radio"><input type="radio" name="type" value="Preuzimanje" checked><span>Preuzimanje</span></label>
-        <label class="radio"><input type="radio" name="type" value="Dostava"><span>Dostava</span></label>
+        <label class="radio"><input type="radio" name="type" value="Preuzimanje" checked><span data-en="Pickup">Preuzimanje</span></label>
+        <label class="radio"><input type="radio" name="type" value="Dostava"><span data-en="Delivery">Dostava</span></label>
       </div>
     </div>
     <div class="field" id="addrField" style="display:none">
-      <label for="oAddr">Adresa dostave</label>
-      <input type="text" id="oAddr" placeholder="Ulica i broj">
+      <label for="oAddr" data-en="Delivery Address">Adresa dostave</label>
+      <input type="text" id="oAddr" placeholder="Ulica i broj" data-en-placeholder="Street and number">
     </div>
     <div class="field">
-      <label for="oNote">Napomena <span style="font-weight:400;color:#888">(opciono)</span></label>
-      <textarea id="oNote" rows="2" placeholder="Alergije, posebni zahtevi..."></textarea>
+      <label for="oNote" data-en="Note <span style='font-weight:400;color:#888'>(optional)</span>">Napomena <span style="font-weight:400;color:#888">(opciono)</span></label>
+      <textarea id="oNote" rows="2" placeholder="Alergije, posebni zahtevi..." data-en-placeholder="Allergies, special requests..."></textarea>
     </div>
     <button type="submit" class="order-submit">
       <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="currentColor" stroke-width="1.8"/></svg>
-      Pošalji narudžbinu
+      <span data-en="Send Order">Pošalji narudžbinu</span>
     </button>
   </form>
   <a href="tel:012531010" class="call-alt">
     <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.5"/></svg>
-    Ili pozovite: 012 531010
+    <span data-en="Or call: 012 531010">Ili pozovite: 012 531010</span>
   </a>
 </div>
 
@@ -1081,18 +1085,18 @@
     <span class="hh-slideup__avail" id="hhSlideupAvail"></span>
   </div>
   <div class="hh-slideup__items">
-    <div style="font-size: 11px; text-transform: uppercase; color: #d4a373; letter-spacing: 0.05em; margin-bottom: 4px; font-weight: 700; text-align: left;">Pon–Pet (07–10h)</div>
+    <div style="font-size: 11px; text-transform: uppercase; color: #d4a373; letter-spacing: 0.05em; margin-bottom: 4px; font-weight: 700; text-align: left;" data-en="Mon–Fri (07–10h)">Pon–Pet (07–10h)</div>
     <div class="hh-slideup__item">
-      <span>Espresso / Espresso sa mlekom + čaša kisele vode</span>
+      <span data-en="Espresso / Espresso with milk + glass of sparkling water">Espresso / Espresso sa mlekom + čaša kisele vode</span>
       <strong>120 RSD</strong>
     </div>
-    <div style="font-size: 11px; text-transform: uppercase; color: #d4a373; letter-spacing: 0.05em; margin-top: 12px; margin-bottom: 4px; font-weight: 700; text-align: left;">Sub–Ned (07–12h)</div>
+    <div style="font-size: 11px; text-transform: uppercase; color: #d4a373; letter-spacing: 0.05em; margin-top: 12px; margin-bottom: 4px; font-weight: 700; text-align: left;" data-en="Sat–Sun (07–12h)">Sub–Ned (07–12h)</div>
     <div class="hh-slideup__item">
-      <span>Espresso / Espresso sa mlekom + čaša kisele vode</span>
+      <span data-en="Espresso / Espresso with milk + glass of sparkling water">Espresso / Espresso sa mlekom + čaša kisele vode</span>
       <strong>120 RSD</strong>
     </div>
     <div class="hh-slideup__item">
-      <span>Domaća kafa + čaša kisele vode</span>
+      <span data-en="Serbian coffee + glass of sparkling water">Domaća kafa + čaša kisele vode</span>
       <strong>120 RSD</strong>
     </div>
   </div>
@@ -1100,7 +1104,7 @@
     <div>🕒 Pon–Pet: 07:00–10:00h</div>
     <div>🕒 Sub–Ned: 07:00–12:00h</div>
   </div>
-  <a href="#happyhour" class="hh-slideup__cta" id="hhSlideupCta">Pogledaj ponudu</a>
+  <a href="#happyhour" class="hh-slideup__cta" id="hhSlideupCta" data-en="View Offer">Pogledaj ponudu</a>
 </div>
 
 <!-- ═══ FLOATING CART BTN (mobile) ═══ -->
@@ -1111,7 +1115,7 @@
 
 <!-- ═══ MOBILNI CHECKOUT FAB ═══ -->
 <button class="checkout-fab" id="checkoutFab" aria-label="Završi kupovinu">
-  <span class="checkout-fab__text">Završi kupovinu</span>
+  <span class="checkout-fab__text" data-en="Checkout">Završi kupovinu</span>
   <span class="checkout-fab__total"></span>
   <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
@@ -1124,21 +1128,21 @@
 <div class="order-detail-popup" id="orderDetailPopup">
   <div class="odp-head">
     <div>
-      <span class="odp-label">Vaša porudžbina</span>
+      <span class="odp-label" data-en="Your Order">Vaša porudžbina</span>
       <span class="odp-id" id="odpOrderId"></span>
     </div>
     <button class="odp-close" id="odpClose">&times;</button>
   </div>
-  <div class="odp-status" id="odpStatus">Čeka se potvrda...</div>
+  <div class="odp-status" id="odpStatus" data-en="Waiting for confirmation...">Čeka se potvrda...</div>
   <div class="odp-msg" id="odpMsg"></div>
   <div class="odp-timer" id="odpTimer" style="display:none">
-    <div class="odp-timer-label">Preostalo vreme:</div>
+    <div class="odp-timer-label" data-en="Time remaining:">Preostalo vreme:</div>
     <div class="odp-timer-val" id="odpTimerVal">--:--</div>
   </div>
 </div>
 <button class="order-status-pill" id="orderStatusPill" style="display:none">
   <span class="osp-pulse"></span>
-  <span id="osPillText">Porudžbina</span>
+  <span id="osPillText" data-en="Order">Porudžbina</span>
   <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </button>
 

@@ -20,27 +20,136 @@
     <h1>🍕 Castro Restaurant</h1>
     <div class="card">
       <div id="orderId" class="muted"></div>
-      <div id="status" class="status">Učitavanje...</div>
+      <div id="status" class="status" data-en="Loading...">Učitavanje...</div>
       <div class="muted" id="eta"></div>
       <div class="progress"><div id="bar"></div></div>
-      <div class="muted">Stanje se ažurira u realnom vremenu</div>
-      <h3>Stavke</h3>
+      <div class="muted" data-en="Status updates in real-time">Stanje se ažurira u realnom vremenu</div>
+      <h3 data-en="Items">Stavke</h3>
       <ul id="items"></ul>
     </div>
   </div>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
+    const lang = localStorage.getItem("castro-lang") || "sr";
+
     const statusLabels = {
-      new: "Na čekanju",
-      accepted: "Prihvaćena",
-      preparing: "U pripremi",
-      almost_ready: "Skoro spremna",
-      ready: "Spremna za preuzimanje",
-      completed: "Završena",
-      rejected: "Odbijena",
-      missed: "Propuštena"
+      sr: {
+        new: "Na čekanju",
+        accepted: "Prihvaćena",
+        preparing: "U pripremi",
+        almost_ready: "Skoro spremna",
+        ready: "Spremna za preuzimanje",
+        completed: "Završena",
+        rejected: "Odbijena",
+        missed: "Propuštena"
+      },
+      en: {
+        new: "Pending",
+        accepted: "Accepted",
+        preparing: "Preparing",
+        almost_ready: "Almost ready",
+        ready: "Ready for pickup",
+        completed: "Completed",
+        rejected: "Rejected",
+        missed: "Missed"
+      }
     };
+
+    const itemTranslations = {
+      "Margarita": "Margarita",
+      "Vesuvio": "Vesuvio",
+      "Capricccosa": "Capricciosa",
+      "Primavera": "Primavera",
+      "Chilli": "Chilli",
+      "Fortuna": "Fortuna",
+      "Hawaii": "Hawaii",
+      "Porto": "Porto",
+      "Posna pica": "Lenten Pizza (Vegan)",
+      "Posna": "Lenten (Vegan)",
+      "Mexicana": "Mexicana",
+      "Cardinale": "Cardinale",
+      "Quatro Stagione": "Quattro Stagioni",
+      "Carpie": "Carpie",
+      "Diavola": "Diavola",
+      "Pizza auf Kubanisch": "Cuban Style Pizza",
+      "Napolitana": "Napoletana",
+      "Castro pica": "Castro Special Pizza",
+      "Castro": "Castro Special",
+      "Quatro Formaggi": "Quattro Formaggi",
+      "Piccante": "Piccante",
+      "Srpska Pica": "Serbian Pizza",
+      "Chicken Pizza": "Chicken Pizza",
+      "Jaja na oko (3 kom.) sa slaninom": "Fried eggs (3 pcs) with bacon",
+      "Kajgana sa šunkom (3 jaja)": "Scrambled eggs with ham (3 eggs)",
+      "Kajgana sa povrćem": "Scrambled eggs with vegetables",
+      "Castro doručak (3 jaja, kobasica, sir, namaz)": "Castro Breakfast (3 eggs, sausage, cheese, spread)",
+      "Prženice sa sirom i namazom": "French toast with cheese and spread",
+      "Grilovani pileći file 250g": "Grilled chicken fillet 250g",
+      "Pohovani pileći štapići sa susamom 250g": "Fried chicken strips with sesame 250g",
+      "Piletina u kornfleksu 250g": "Cornflake crusted chicken 250g",
+      "Piletina u sosu od pečuraka 250g": "Chicken in mushroom sauce 250g",
+      "Piletina u sosu od 4 vrste sira 250g": "Chicken in 4 cheese sauce 250g",
+      "Piletina gorgonzola 250g": "Chicken gorgonzola 250g",
+      "Karađorđeva šnicla (svinjska/pileća)": "Karadjordjeva schnitzel (pork/chicken)",
+      "Pohovani kačkavalj 200g": "Fried yellow cheese 200g",
+      "Pomfrit 200g": "French fries 200g",
+      "Začinjeni krompirići 200g": "Seasoned potato wedges 200g",
+      "Palačinka sa džemom": "Crepe with jam",
+      "Palačinka sa eurokremom": "Crepe with Eurocrem",
+      "Palačinka sa nutelom": "Crepe with Nutella",
+      "Palačinka slana (šunka, sir, pavlaka)": "Savory crepe (ham, cheese, sour cream)",
+      "Palačinka Castro slana (pečenica, kulen, sir, kajmak)": "Castro savory crepe (smoked pork, kulen, cheese, kajmak)",
+      "Spaghetti Bolognese": "Spaghetti Bolognese",
+      "Spaghetti Carbonara": "Spaghetti Carbonara",
+      "Penne Arrabbiata": "Penne Arrabbiata",
+      "Tagliatelle sa piletinom i povrćem": "Tagliatelle with chicken and vegetables",
+      "Tagliatelle sa šumskim pečurkama": "Tagliatelle with wild mushrooms",
+      "Tortilja sa piletinom i povrćem": "Chicken and vegetable tortilla",
+      "Tortilja sa svinjskim vratom i kajmakom": "Pork neck and kajmak tortilla",
+      "Castro ljuta tortilja": "Castro spicy tortilla",
+      "Cezar salata 350g": "Caesar salad 350g",
+      "Grčka salata 350g": "Greek salad 350g",
+      "Tuna salata 350g": "Tuna salad 350g",
+      "Šopska salata 250g": "Sopska salad (traditional) 250g",
+      "Sezonska salata": "Seasonal salad",
+      "Sendvič sa šunkom": "Ham sandwich",
+      "Sendvič sa pečenicom": "Smoked pork sandwich",
+      "Sendvič sa kulenom": "Kulen (spicy sausage) sandwich",
+      "Castro sendvič (suvi vrat, kajmak, kačkavalj)": "Castro sandwich (smoked pork neck, kajmak, cheese)",
+      "Tri leće": "Tres Leches (Three milks cake)",
+      "Čokoladni sufle": "Chocolate soufflé",
+      "Voćni kup": "Fruit cup",
+      "Sladoled porcija (3 kugle)": "Ice cream portion (3 scoops)",
+      "Domaća pileća čorba": "Homemade chicken soup",
+      "Potaž dana": "Soup potage of the day"
+    };
+
+    function translateItemName(fullName) {
+      if (lang !== "en") return fullName;
+      const match = fullName.match(/^([^(]+)\s*\(([^)]+)\)$/);
+      if (match) {
+        const baseName = match[1].trim();
+        let sizeInfo = match[2].trim();
+        if (sizeInfo === "Porodična") sizeInfo = "Family size";
+        else if (sizeInfo === "Standard") sizeInfo = "Standard";
+        else if (sizeInfo === "Mini") sizeInfo = "Mini";
+        const translatedBase = itemTranslations[baseName] || baseName;
+        return `${translatedBase} (${sizeInfo})`;
+      }
+      return itemTranslations[fullName] || fullName;
+    }
+
+    // Set page language on load
+    document.querySelectorAll("[data-en]").forEach(el => {
+      if (lang === "en") {
+        el.textContent = el.dataset.en;
+      }
+    });
+    if (lang === "en") {
+      document.title = "Track Order";
+    }
+
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
     const orderId = window.location.pathname.split("/").pop();
@@ -53,14 +162,14 @@
 
     function render(order) {
       orderData = order;
-      document.getElementById("orderId").textContent = "Porudžbina " + order.id;
-      document.getElementById("status").textContent = statusLabels[order.status] || order.status;
+      document.getElementById("orderId").textContent = (lang === "en" ? "Order " : "Porudžbina ") + order.id;
+      document.getElementById("status").textContent = statusLabels[lang][order.status] || order.status;
       document.getElementById("bar").style.width = progressForStatus(order.status) + "%";
       const eta = order.acceptedAt
-        ? new Date(new Date(order.acceptedAt).getTime() + order.prepMinutes * 60000).toLocaleTimeString("sr-RS", { hour: "2-digit", minute: "2-digit" })
+        ? new Date(new Date(order.acceptedAt).getTime() + order.prepMinutes * 60000).toLocaleTimeString(lang === "en" ? "en-US" : "sr-RS", { hour: "2-digit", minute: "2-digit" })
         : "-";
-      document.getElementById("eta").textContent = "Procenjeno vreme: " + eta;
-      document.getElementById("items").innerHTML = order.items.map((item) => `<li>${item.qty}x ${item.name}</li>`).join("");
+      document.getElementById("eta").textContent = (lang === "en" ? "Estimated time: " : "Procenjeno vreme: ") + eta;
+      document.getElementById("items").innerHTML = order.items.map((item) => `<li>${item.qty}x ${translateItemName(item.name)}</li>`).join("");
     }
 
     fetch(`/api/track/${orderId}?token=${encodeURIComponent(token || "")}`)
