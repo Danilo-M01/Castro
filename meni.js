@@ -1740,6 +1740,44 @@ function setLanguage(lang) {
   document.body.classList.toggle('lang-en', lang === 'en');
   localStorage.setItem('castro-lang', lang);
 
+  // Dynamic SEO Translations (World-class multilingual indexing)
+  const seoTranslations = {
+    sr: {
+      title: "Naruči Hranu Online Požarevac | Castro Meni — Pizza, Paste, Palačinke",
+      desc: "Naruči iz Castro restorana u Požarevcu — pizza od 410 RSD, paste, palačinke, gril piletina, salate. Dostava i preuzimanje. Radi od 07:00. Pozovi: 012 531010.",
+      keywords: "naruči hranu Požarevac, dostava hrane Požarevac, pizza narudžbina online Požarevac, pizza dostava Požarevac, meni restoran Požarevac, pasta Požarevac narudžbina, palačinke dostava Požarevac, obroci na dostavu Požarevac, Castro meni, Castro dostava, šta da poručim Požarevac, brza hrana dostava Požarevac, gril piletina Požarevac, pizzerija Požarevac meni, sendviči Požarevac",
+      ogTitle: "Naruči Online — Castro Požarevac | Pizza, Paste, Palačinke",
+      ogDesc: "Pizza od 410 RSD, paste, palačinke i dostava u Požarevcu. Radi od 07:00. Naruči direktno sa sajta — bez telefonskog čekanja!"
+    },
+    en: {
+      title: "Order Food Online Pozarevac | Castro Menu — Pizza, Pasta, Crepes",
+      desc: "Order online from Castro Požarevac — pizzas from 410 RSD, pasta, crepes, grilled chicken, fresh salads. Home delivery & pickup. Open from 07:00. Call: 012 531010.",
+      keywords: "order food online Pozarevac, food delivery Pozarevac, pizza online order Pozarevac, pizza delivery Pozarevac, menu restaurant Pozarevac, pasta Pozarevac order, crepes delivery Pozarevac, food delivery Pozarevac, Castro menu, Castro delivery, fast food delivery Pozarevac, grilled chicken Pozarevac, pizzeria Pozarevac menu, sandwiches Pozarevac",
+      ogTitle: "Order Online — Castro Pozarevac | Pizza, Pasta, Crepes",
+      ogDesc: "Pizzas from 410 RSD, pasta, crepes, and fast delivery in Pozarevac. Open from 07:00. Order directly online — skip the phone queue!"
+    }
+  };
+
+  const seo = seoTranslations[lang];
+  if (seo) {
+    document.title = seo.title;
+    
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', seo.desc);
+    
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) metaKeywords.setAttribute('content', seo.keywords);
+    
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', seo.ogTitle);
+    
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', seo.ogDesc);
+    
+    const ogLocale = document.querySelector('meta[property="og:locale"]');
+    if (ogLocale) ogLocale.setAttribute('content', lang === 'en' ? 'en_US' : 'sr_RS');
+  }
+
   // Set active class on language toggle buttons
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
@@ -1807,7 +1845,16 @@ function setLanguage(lang) {
 
 // Initial set
 document.addEventListener('DOMContentLoaded', () => {
-  const savedLang = localStorage.getItem('castro-lang') || 'sr';
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlLang = urlParams.get('lang');
+  
+  let savedLang = localStorage.getItem('castro-lang');
+  if (urlLang === 'en' || urlLang === 'sr') {
+    savedLang = urlLang;
+  }
+  if (!savedLang) {
+    savedLang = 'sr';
+  }
   setLanguage(savedLang);
 });
 

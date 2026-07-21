@@ -16,6 +16,8 @@ let menuAvailability = {};
 let menuItems    = [];
 let menuSearch   = "";
 let beepInterval = null;
+let continuousBeepCtx = null;
+let continuousBeepGain = null;
 let muted        = false;
 let selectedAcceptOrderId = null;
 let selectedRejectOrderId = null;
@@ -44,22 +46,55 @@ function openModal(id)  { document.getElementById(id)?.classList.remove("hidden"
 function closeModal(id) { document.getElementById(id)?.classList.add("hidden"); }
 function closeAllModals(){ ["menuModal","acceptModal","rejectModal"].forEach(closeModal); }
 
-/* ── Audio ── */
-function playAlert(leftMs) {
+/* ── Audio — ULTRA LOUD alarm (probija muziku) ── */
+let continuousBeepOscillators = []; // multiple stacked oscillators
+
+function startContinuousBeep() {
+  if (continuousBeepOscillators.length) return; // vec pisti
   if (muted) return;
   const Ctx = globalThis.AudioContext || globalThis.webkitAudioContext;
   if (!Ctx) return;
-  const ctx = new Ctx();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = "sine";
-  // Povecan intenzitet i volumen kako vreme istice
-  if (leftMs > 120000)      { osc.frequency.value = 520;  gain.gain.value = 0.15; }
-  else if (leftMs > 60000)  { osc.frequency.value = 700;  gain.gain.value = 0.35; }
-  else if (leftMs > 30000)  { osc.frequency.value = 880;  gain.gain.value = 0.60; }
-  else                      { osc.frequency.value = 1020; gain.gain.value = 0.95; }
-  osc.connect(gain); gain.connect(ctx.destination);
-  osc.start(); osc.stop(ctx.currentTime + 0.25);
+  continuousBeepCtx = new Ctx();
+
+  // Compressor - maksimizuje percipiranu glasnocu
+  const compressor = continuousBeepCtx.createDynamicsCompressor();
+  compressor.threshold.value = -50;
+  compressor.knee.value = 0;
+  compressor.ratio.value = 20;
+  compressor.attack.value = 0;
+  compressor.release.value = 0.01;
+  compressor.connect(continuousBeepCtx.destination);
+
+  // Master gain - cranked DALEKO iznad maksimuma
+  continuousBeepGain = continuousBeepCtx.createGain();
+  continuousBeepGain.gain.value = 5.0; // 5x iznad normalnog maksimuma
+  continuousBeepGain.connect(compressor);
+
+  // Stack 3 oscilatora na razlicitim frekvencijama za probijajuci zvuk
+  const freqs = [1000, 2000, 3000]; // visoke prodorne frekvencije
+  freqs.forEach(freq => {
+    const osc = continuousBeepCtx.createOscillator();
+    const oscGain = continuousBeepCtx.createGain();
+    osc.type = "square"; // najostiji talas
+    osc.frequency.value = freq;
+    oscGain.gain.value = 3.0; // svaki oscilator na 3x
+    osc.connect(oscGain);
+    oscGain.connect(continuousBeepGain);
+    osc.start();
+    continuousBeepOscillators.push(osc);
+  });
+}
+
+function stopContinuousBeep() {
+  continuousBeepOscillators.forEach(osc => {
+    try { osc.stop(); } catch(_){}
+  });
+  continuousBeepOscillators = [];
+  if (continuousBeepCtx) {
+    try { continuousBeepCtx.close(); } catch(_){}
+    continuousBeepCtx = null;
+  }
+  continuousBeepGain = null;
 }
 
 function fmtTime(ms) {
@@ -145,6 +180,7 @@ function renderIncoming() {
     incomingOrdersEl.innerHTML = `<p class="empty-msg">Nema novih porudžbina</p>`;
     document.title = "Castro Dashboard";
     if (beepInterval) { clearInterval(beepInterval); beepInterval = null; }
+    stopContinuousBeep();
     return;
   }
   document.title = `🔔 ${incoming.length} novih`;
@@ -187,14 +223,8 @@ function renderIncoming() {
     </article>`;
   }).join("");
 
-  if (!beepInterval) {
-    beepInterval = setInterval(() => {
-      const cur = orders.filter(o => o.status === "new");
-      if (!cur.length) return;
-      const minLeft = Math.min(...cur.map(o => Math.max(3*60000-(Date.now()-new Date(o.createdAt).getTime()),0)));
-      playAlert(minLeft);
-    }, 3000);
-  }
+  // Konstantno pistanje dok ima novih porudzbina
+  startContinuousBeep();
 }
 
 /* ── Active ── */
@@ -437,6 +467,11 @@ document.body.addEventListener("click", async e => {
 
   if (t.id === "muteBtn") {
     muted = !muted;
+    if (muted) {
+      stopContinuousBeep();
+    } else if (orders.some(o => o.status === "new")) {
+      startContinuousBeep();
+    }
     t.innerHTML = muted
       ? `<svg viewBox="0 0 24 24" fill="none" width="15" height="15"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Bez zvuka`
       : `<svg viewBox="0 0 24 24" fill="none" width="15" height="15"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Zvuk`;
